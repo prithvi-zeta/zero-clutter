@@ -107,9 +107,14 @@ the source owner asks. Improvements become proposals.
 **Rule:** Text is never small. The only exception is the terms and
 conditions. Labels, helper text, errors, timestamps, badges, captions,
 footnotes, disclaimers, rates and fees sit at or above the small-type floor.
-**Check:** at the default text size, measure every text run in the code
-(font size, text style, token) and on the screenshot against the body.
-Flag each run that is small type. A run passes only when it is the terms
-and conditions. The fix is to raise it to the floor or larger; if it no
-longer fits, cut words rather than shrink the type.
+**Check:** on a screenshot, mock or Figma frame, with no code required.
+List every text run you can see. The body is the main sentence, row title
+or button label. Flag each run whose letters are a distinct smaller step
+(helper, caption, timestamp, footnote, badge, disclaimer). A lighter weight
+at the same size is not small. When the shot's pixel width is a known
+device width, also measure pixels ÷ scale against the floor (glossary:
+small type). Unknown scale does not make this pending. In code, the same
+rule is the font size, text style or token. A run passes only when it is
+the terms and conditions. The fix is to raise it to the floor or larger;
+if it no longer fits, cut words rather than shrink the type.
 **Gate:** G2, G3, G4. **Items:** HIER-11, CLUT-04. **From:** D-015.

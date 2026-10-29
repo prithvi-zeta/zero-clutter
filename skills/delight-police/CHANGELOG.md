@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.2 — 2026-10-29
+
+- On a screenshot, flag text that is a distinct step smaller than the body.
+  The only exception is the terms and conditions.
+
 ## 0.1.1 — 2026-10-28
 
 - Renamed the skill to **Delight Police** (`delight-police`, `/delight-police`)

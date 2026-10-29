@@ -8,7 +8,7 @@ description: >-
   screenshot, or mentions delight police, cognitive load, zero clutter, or
   design for delight.
 metadata:
-  version: "0.1.1"
+  version: "0.1.2"
 ---
 
 # Delight Police
@@ -52,7 +52,7 @@ order below. Be direct: if it fails Zero Cognitive Load, say so.
 2. **Use fewer words** — one word where one word works; scan, don't read; no repeats
 3. **Smart Defaults and Auto completes** — do not ask for what the product can do
 4. **Progressive Disclosure / One page, One context** — reveal complexity only as needed
-5. **Strong and Logical Visual Hierarchy** — eye finds what matters; avoid multi-column scan traps
+5. **Strong and Logical Visual Hierarchy** — eye finds what matters; avoid multi-column scan traps. On the screenshot, compare every text run to the body text on that screen (the main sentence, row title or button label). Flag a run whose letters are a distinct smaller step. The only exception is the terms and conditions. Do not skip this because a still has no font token. A lighter weight at the same size is not small type.
 6. **Instant Feedback** — every interaction gives immediate, intuitive feedback (under 100ms when measurable)
 7. **Consistency** — repeat design elements and patterns
 8. **Familiar Mental Models** — map to patterns users already know

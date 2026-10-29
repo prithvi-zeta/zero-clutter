@@ -2,6 +2,13 @@
 
 Versions of the Zero Clutter system. Each skill also keeps its own changelog.
 
+## 0.4.5 — 2026-10-29
+
+- **Small type is judged from the screenshot.** A still, mock or Figma frame
+  is enough for HIER-11. Compare each text run to the body on that screen
+  and flag every smaller step. Lack of a font token does not make it pending.
+  The only exception is the terms and conditions.
+
 ## 0.4.4 — 2026-10-29
 
 - **No small type except the terms.** Text under the floor (14pt on iOS,

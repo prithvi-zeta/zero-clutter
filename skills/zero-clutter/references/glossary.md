@@ -66,14 +66,22 @@ which tool produces each kind of evidence on its stack.
   project lists them in its adapter. They don't change unless the owner asks.
 - **T0**: the moment an action really happens (after authentication returns,
   or on release of the tap or slide). No success cue before T0.
-- **Small type** (HIER-11, HR-15): at the platform's default text size (not
-  an enlarged accessibility size), text is small when its rendered size is
+- **Small type** (HIER-11, HR-15): text is small when its rendered size is
   under the floor, or it uses a caption, footnote, fine-print, micro,
   overline or extra-small style. Floor: 14pt on iOS, 14sp on Android, 14px
   on web and Flutter. Under that is small: iOS Footnote and Caption, Material
   `bodySmall` and `labelSmall`, and web sizes such as 13px, 12px, 11px and
-  `text-xs`. 14 and above is not small. The only text that may be small is
-  the terms and conditions: the legal agreement itself, and the one sentence
-  whose only job is to point at it. Helper text, errors, timestamps, badges,
-  captions, footnotes, disclaimers, rates and fees are not the terms, even
-  when they sit next to them.
+  `text-xs`. 14 and above is not small. Judge it at the default text size,
+  not an enlarged accessibility size.
+  A SHOT, mock or Figma frame is enough evidence. Do not mark this pending
+  because the font token is unknown. On the picture: list every text run,
+  take the body as the main sentence, row title or button label (a lighter
+  weight at that same size is still body), and flag every run whose letters
+  are a distinct smaller step. When the image width is a known device width,
+  also convert: points = pixels ÷ scale (iPhone widths 1170, 1179, 1206 and
+  1290 are @3x, so 14pt is 42px; 750 and 640 are @2x, so 14pt is 28px).
+  Unknown scale does not defer the call; the smaller step is the finding.
+  The only text that may be small is the terms and conditions: the legal
+  agreement itself, and the one sentence whose only job is to point at it.
+  Helper text, errors, timestamps, badges, captions, footnotes, disclaimers,
+  rates and fees are not the terms, even when they sit next to them.

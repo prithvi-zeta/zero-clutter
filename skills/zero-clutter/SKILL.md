@@ -10,7 +10,7 @@ description: >-
   check this, review this screen or spec, is this ready, before saying done,
   before a PR merges, or when they share review feedback.
 metadata:
-  version: "0.4.4"
+  version: "0.4.5"
 ---
 
 # Zero Clutter
@@ -68,8 +68,11 @@ Always read these; the mode guide adds what else to read.
 - Judge only what is on screen, in the code or stated. Never invent UI.
 - Measure what can be measured (padding, size, contrast, timing, asset
   resolution). From a still, say haptics, sound and speed can't be judged.
-- Flag small type. Text under the small-type floor is a fix (HIER-11,
-  HR-15). The only text allowed to be small is the terms and conditions.
+- Flag small type on a screenshot, mock or Figma frame, not only in code
+  (HIER-11, HR-15). A still is enough: compare each text run to the body
+  text on that screen and flag every smaller step. Do not mark it pending
+  for lack of a font token. The only text allowed to be small is the terms
+  and conditions.
 - Something the spec asks for that a principle forbids is a **spec conflict**:
   don't change it; it goes to the approver as a question with a proposal.
 - Changes to existing UI that nobody asked for are suggestions, not fixes.

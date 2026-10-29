@@ -59,7 +59,8 @@ Verdict: PASS / FAIL (0 blocking issues, nothing pending on a blocker, every R-r
 - **Measure.** Padding, sizes, contrast, timing and asset resolution are
   numbers; use the project's tools.
 - **Stills can't prove motion, haptics or sound.** Use a recording, a frame
-  sheet or a device check, or mark it `pending`.
+  sheet or a device check, or mark it `pending`. A still does prove type
+  size: judge HIER-11 from the screenshot.
 - **Spec and frozen screens win.** A principle violation in the spec is a
   `question` for the approver, not a silent change.
 - **No skipped items.** Every in-scope item gets a result.

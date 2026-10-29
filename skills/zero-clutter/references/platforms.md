@@ -33,7 +33,8 @@ own platform.
 | Haptics and sound | device | device | device | n/a for websites; vibration only if the web app uses it |
 
 When you can't run anything (only a picture), mark the capture-based checks
-`pending` and name the capture needed.
+`pending` and name the capture needed. Small type is not one of those:
+judge HIER-11 from the picture (glossary: small type).
 
 ## Checks that change by platform
 
