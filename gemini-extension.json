@@ -1,0 +1,6 @@
+{
+  "name": "zero-clutter",
+  "version": "0.3.0",
+  "description": "Quality gates against Bhavin's Design for Delight principles.",
+  "contextFileName": "GEMINI.md"
+}

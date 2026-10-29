@@ -31,11 +31,12 @@ alone, designer changes, and product calls.
 
 ## Install
 
-Clone [zero-clutter](https://github.com/prithvi-zeta/zero-clutter), then from
-this skill folder:
+Delight Police ships inside the [Zero Clutter](https://github.com/prithvi-zeta/zero-clutter)
+plugin (installing Zero Clutter installs it too). To install it on its own,
+clone the repo, then from this skill folder:
 
 ```bash
-cd delight-police
+cd skills/delight-police
 python3 scripts/install.py
 ```
 
