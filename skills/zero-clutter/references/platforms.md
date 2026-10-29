@@ -28,7 +28,6 @@ own platform.
 | Smallest size (COMPACT) | 375×667 | iPhone SE (375×667) | 360×640 | 320px wide, and 200% zoom |
 | Large text | text scaler 1.3+ | Dynamic Type XXL and an accessibility size | font scale 1.3+ | browser zoom 200%, text-only zoom |
 | Motion (FRAMES) | widget-test frames or a recording | Simulator recording | `adb shell screenrecord` | browser recording or a trace |
-| Contrast, accessibility | measure from the SHOT | Accessibility Inspector | Accessibility Scanner | axe or Lighthouse accessibility |
 | Speed (FB, under 100ms) | widget test or a profile build | Instruments | Profiler | Lighthouse / Web Vitals (INP under 200ms, LCP under 2.5s) |
 | Haptics and sound | device | device | device | n/a for websites; vibration only if the web app uses it |
 
@@ -51,10 +50,9 @@ judge HIER-11 from the picture (glossary: small type).
   block the content; pages load fast (FB items via Web Vitals); copy checked
   as hard as in the app (WORD items). Senses items apply to motion and
   completion moments only (sign-up done, form sent).
-- **Everything:** contrast against the worst real background, in light and
-  dark themes (HIER-05); no small type except the terms and conditions
-  (HIER-11, HR-15); one value per fact everywhere (CONS-07); copy word
-  for word from the source (HR-04).
+- **Everything:** no small type except the terms and conditions (HIER-11,
+  HR-15); one value per fact everywhere (CONS-07); copy word for word from
+  the source (HR-04). Contrast is not checked.
 
 When an item doesn't apply to the platform, it's `n/a` with the reason
 ("website: no haptics").

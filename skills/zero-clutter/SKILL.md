@@ -4,13 +4,14 @@ description: >-
   Quality gate for anything with a UI (native iOS and Android, Flutter, web
   apps, websites): checks a spec, design, screen, change or PR against Bhavin's
   Design for Delight principles (Zero Cognitive Load, Engage the Senses,
-  Purpose-built Unique Design, The Science behind Delight), the 135-item
+  Purpose-built Unique Design, The Science behind Delight), the 133-item
   checklist and the house rules, and returns short tables of what to fix,
   decide and keep. Use when someone says zero clutter, gate this,
   check this, review this screen or spec, is this ready, before saying done,
-  before a PR merges, or when they share review feedback.
+  before a PR merges, or when they share review feedback. Chat tables always
+  use the scan emoji from report-format.
 metadata:
-  version: "0.4.5"
+  version: "0.4.7"
 ---
 
 # Zero Clutter
@@ -62,12 +63,13 @@ Always read these; the mode guide adds what else to read.
 - The principles, word for word: [design-for-delight-principles](references/principles/design-for-delight-principles.md),
   [the-science-behind-delight](references/principles/the-science-behind-delight.md). Their order is the priority.
 - The checks: [checklist](references/checklist.md) (15 questions) and
-  [checklist-items](references/checklist-items.md) (135 items with IDs);
+  [checklist-items](references/checklist-items.md) (133 items with IDs);
   terms in [glossary](references/glossary.md).
 - The rules: [house-rules](references/house-rules.md), plus the project's.
 - Judge only what is on screen, in the code or stated. Never invent UI.
-- Measure what can be measured (padding, size, contrast, timing, asset
-  resolution). From a still, say haptics, sound and speed can't be judged.
+- Measure what can be measured (padding, size, timing, asset resolution).
+  Do not measure or flag contrast. From a still, say haptics, sound and
+  speed can't be judged.
 - Flag small type on a screenshot, mock or Figma frame, not only in code
   (HIER-11, HR-15). A still is enough: compare each text run to the body
   text on that screen and flag every smaller step. Do not mark it pending
@@ -90,27 +92,30 @@ findings. Full rules: [report-format](references/report-format.md).
 ```markdown
 | Gate | Subject | Verdict | Blocking | Major | Minor | Pending | Passed | N/A |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| <mode> (G<n>) | <what was checked> | <VERDICT> | <n> | <n> | <n> | <n> | <passed>/<checked> | <n> |
+| <mode> (G<n>) | <what was checked> | <emoji VERDICT> | 🔴 <n> | 🟠 <n> | 🟡 <n> | ⏳ <n> | ✅ <passed>/<checked> | ➖ <n> |
 
 | # | Kind | ID | Principle | Severity | What's wrong | Where | Fix |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | Fix | <ID> | <Principle> | blocking | <what's wrong> | <where> | <the fix> |
-| 2 | Decide | <ID> | <Principle> | <severity> | <the decision> | <where> | <proposal> (recommend: <x>) |
-| | Check | <ID> | <Principle> | pending | <what can't be judged yet> | <where> | <who or what resolves it> |
+| 1 | 🔧 Fix | <ID> | <Principle> | 🔴 blocking | <what's wrong> | <where> | <the fix> |
+| 2 | 🤔 Decide | <ID> | <Principle> | <emoji severity> | <the decision> | <where> | <proposal> (recommend: <x>) |
+| | ⏳ Check | <ID> | <Principle> | ⏳ pending | <what can't be judged yet> | <where> | <who or what resolves it> |
 
 | | |
 | --- | --- |
-| Keep | <what works, 1 to 3 things, separated by ·> |
-| Next | <the one thing to do now> |
+| ✅ Keep | <what works, 1 to 3 things, separated by ·> |
+| 👉 Next | <the one thing to do now> |
 ```
 
 - **Three tables, in this order.** The verdict table is always first. The
   findings table only when there is a Fix, Decide, Suggest or Check row. The
   Keep / Next table is always last. Nothing before or after them except, at
   most, one line offering setup.
-- **Kind** is `Fix` (the team fixes it), `Decide` (only the approver: a spec
-  conflict, a taste call, a missing fact), `Suggest` (optional; nobody asked),
-  or `Check` (pending: a device, a person, a capture).
+- **Emoji on every label.** Chat and `gate.py` always prefix Kind, Severity,
+  Verdict, Keep and Next, and the count cells, with the scan emoji in
+  [report-format](references/report-format.md). SARIF stays plain (no emoji).
+- **Kind** is `🔧 Fix` (the team fixes it), `🤔 Decide` (only the approver: a
+  spec conflict, a taste call, a missing fact), `💡 Suggest` (optional;
+  nobody asked), or `⏳ Check` (pending: a device, a person, a capture).
 - **Number** Fix, Decide and Suggest down the `#` column (1, 2, 3…) so people
   can say "fix 1, decide 2". Leave `#` empty on Check rows.
 - **Where** is `file:line`, `screen › element` or `R#`. First two places, then
@@ -120,10 +125,10 @@ findings. Full rules: [report-format](references/report-format.md).
   and Suggest: blocking, then major, then minor, and within each, principle
   order. At most 10 finding rows, then one line under the table:
   `+<n> more — say "details"`.
-- **Verdict:** `PASS` or `FAIL` for design, build, pr and first-use (`PASS`
-  only with 0 blocking and nothing pending on a blocker). For spec: `READY` or
-  `OPEN`, and Passed and N/A are `—`. Feedback mode answers with the table in
-  [feedback-intake](references/feedback-intake.md).
+- **Verdict:** `✅ PASS` or `❌ FAIL` for design, build, pr and first-use
+  (`PASS` only with 0 blocking and nothing pending on a blocker). For spec:
+  `🟢 READY` or `🟡 OPEN`, and Passed and N/A are `➖ —`. Feedback mode
+  answers with the table in [feedback-intake](references/feedback-intake.md).
 - **Nothing else:** no preamble, no praise beyond the Keep row, no recap of
   the principles. A clean pass is the verdict table and the Keep / Next table.
 - **Plain-text tools:** still emit these Markdown tables.

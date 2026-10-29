@@ -15,8 +15,6 @@ which tool produces each kind of evidence on its stack.
   100ms) and laid out as a sheet, so timing and flashes can be seen.
 - **EDGES**: measured distances from content to the screen and card edges,
   in points, from a SHOT.
-- **CONTRAST**: the WCAG contrast ratio of each text run against what's
-  behind it (on gradients or glass, against the lightest part behind it).
 - **PRESS-TEST**: a check that a tappable shows a pressed state within one
   frame and fires its haptic.
 - **LATENCY-TEST**: a check that the result of a tap is on screen within

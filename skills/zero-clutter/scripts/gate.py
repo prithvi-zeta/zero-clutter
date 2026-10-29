@@ -17,11 +17,21 @@ import pathlib
 import re
 import sys
 
-SEVERITY = {"error": "blocking", "warning": "major", "note": "minor"}
+SEVERITY = {"error": "🔴 blocking", "warning": "🟠 major", "note": "🟡 minor"}
+VERDICT = {
+    "PASS": "✅ PASS",
+    "FAIL": "❌ FAIL",
+    "READY": "🟢 READY",
+    "OPEN": "🟡 OPEN",
+}
 
 
 def cell(value) -> str:
     return str(value).replace("|", "\\|").replace("\n", " ").strip()
+
+
+def count_cell(emoji: str, n) -> str:
+    return f"{emoji} {n}"
 
 
 def reports(paths: list[str]) -> list[pathlib.Path]:
@@ -87,35 +97,37 @@ def main(argv=None) -> int:
             sev = lambda s: sum(1 for r in results if r.get("kind") in ("fail", "review") and r.get("level") == s)
             # Everything that was judged, i.e. all but n/a and suggestions.
             checked = len(results) - count("notApplicable") - count("informational")
-            verdict = props.get("verdict", "?")
+            verdict = VERDICT.get(props.get("verdict", ""), props.get("verdict", "?"))
+            passed = f"{count('pass')}/{checked}"
             print("| Gate | Subject | Verdict | Blocking | Major | Minor | Pending | Passed | N/A |")
             print("| --- | --- | --- | --- | --- | --- | --- | --- | --- |")
             print(
                 f"| {cell(props.get('mode', '?'))} ({cell(props.get('gate', '?'))}) | "
                 f"{cell(props.get('subject', path.name))} | {cell(verdict)} | "
-                f"{sev('error')} | {sev('warning')} | {sev('note')} | {count('open')} | "
-                f"{count('pass')}/{checked} | {count('notApplicable')} |"
+                f"{count_cell('🔴', sev('error'))} | {count_cell('🟠', sev('warning'))} | "
+                f"{count_cell('🟡', sev('note'))} | {count_cell('⏳', count('open'))} | "
+                f"{count_cell('✅', passed)} | {count_cell('➖', count('notApplicable'))} |"
             )
             order = {"error": 0, "warning": 1, "note": 2, "none": 3}
             ranked = sorted(results, key=lambda r: order.get(r.get("level", "none"), 3))
             rows = []
             number = 0
-            for kind_name, kind in (("Fix", "fail"), ("Decide", "review"), ("Suggest", "informational")):
+            for kind, kind_label in (("fail", "🔧 Fix"), ("review", "🤔 Decide"), ("informational", "💡 Suggest")):
                 for r in [item for item in ranked if item.get("kind") == kind]:
                     number += 1
                     rule = rules.get(r.get("ruleId"), {})
                     what, fix = split(r.get("message", {}).get("text", ""))
                     rows.append((
-                        str(number), kind_name, r.get("ruleId", ""), rule.get("name", ""),
-                        SEVERITY.get(r.get("level"), "minor"), what, where(r), fix,
+                        str(number), kind_label, r.get("ruleId", ""), rule.get("name", ""),
+                        SEVERITY.get(r.get("level"), "🟡 minor"), what, where(r), fix,
                     ))
                     annotate(r, args.github)
             for r in [item for item in ranked if item.get("kind") == "open"]:
                 rule = rules.get(r.get("ruleId"), {})
                 what, fix = split(r.get("message", {}).get("text", ""))
                 rows.append((
-                    "", "Check", r.get("ruleId", ""), rule.get("name", ""),
-                    "pending", what, where(r), fix,
+                    "", "⏳ Check", r.get("ruleId", ""), rule.get("name", ""),
+                    "⏳ pending", what, where(r), fix,
                 ))
             if rows:
                 print()

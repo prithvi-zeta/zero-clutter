@@ -2,6 +2,20 @@
 
 Versions of the Zero Clutter system. Each skill also keeps its own changelog.
 
+## 0.4.7 — 2026-10-29
+
+- **Contrast is not checked.** Removed the measured-contrast item and the
+  contrast-rank item. Reviews measure padding, size, timing and asset
+  resolution, and do not flag contrast. 133 checklist items.
+
+## 0.4.6 — 2026-10-29
+
+- **Scan emoji in every chat table.** Kind, Severity, Verdict, Keep, Next and
+  the count cells always carry their emoji (🔧 Fix, 🤔 Decide, 💡 Suggest,
+  ⏳ Check, 🔴/🟠/🟡 severity, ✅ PASS / ❌ FAIL / 🟢 READY / 🟡 OPEN,
+  ✅ Keep, 👉 Next). SARIF stays plain. `gate.py` prints the same emoji
+  tables. See `references/report-format.md`.
+
 ## 0.4.5 — 2026-10-29
 
 - **Small type is judged from the screenshot.** A still, mock or Figma frame

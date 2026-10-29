@@ -119,8 +119,6 @@ Severity: **blocker** (cannot ship), **major** (fix before review), **minor**
   - Enforces: Zero Cognitive Load > 5. Visual Hierarchy through font weight (type budget). Source: "a. Use font weight, contrast, indentation as required to creating a logical visual hierarchy."
 - **HIER-04** · major · Does the content read as one vertical column, with no grid, no side-by-side blocks of independent content and no horizontal scroller that makes the eye zig-zag?
   - Enforces: Zero Cognitive Load > 5. Visual Hierarchy > b. no multi-column scanning. Source: "b. Do not use multiple columns that require scanning top to bottom and left to right."
-- **HIER-05** · major · Does every text run and meaningful glyph meet measured contrast against its worst real background, in every theme and product mode the screen runs in?
-  - Enforces: Zero Cognitive Load > 5. Visual Hierarchy through contrast (legibility floor). Source: "a. Use font weight, contrast, indentation as required to creating a logical visual hierarchy."
 - **HIER-06** · major · Does every fact sit in a named slot of its component's anatomy (title, secondary line, inside a pill, value column, caption under the amount), with no loose text beside a pill, badge or icon, groups set by spacing, one weight per chip or line and separators in the secondary colour?
   - Enforces: Zero Cognitive Load > 5. Visual Hierarchy + 2b. Scanning (grouping and slots). Source: "Let the eye naturally find what's important" + "b. Design for Scanning, Not Reading."
 - **HIER-07** · minor · Does the top-to-bottom order follow the order the user decides (what, how much, from/to, when/cost, act), with the action after every fact it commits to?
@@ -129,8 +127,6 @@ Severity: **blocker** (cannot ship), **major** (fix before review), **minor**
   - Enforces: Zero Cognitive Load > 5. Visual Hierarchy through indentation + 7. Consistency (alignment and padding). Source: "a. Use font weight, contrast, indentation as required to creating a logical visual hierarchy." + "a. Repeat design elements and patterns"
 - **HIER-09** · major · Does indentation express hierarchy and only hierarchy: content text starts on the column's leading edge, subordinate content sits one fixed step in from its parent, and centred text appears only on the allowlist?
   - Enforces: Zero Cognitive Load > 5. Visual Hierarchy through indentation (levels and one reading edge). Source: "a. Use font weight, contrast, indentation as required to creating a logical visual hierarchy."
-- **HIER-10** · minor · Does text contrast follow importance: hero and titles highest, secondary lower, tertiary lowest, with no supporting text at higher contrast than what it supports?
-  - Enforces: Zero Cognitive Load > 5. Visual Hierarchy through contrast (rank). Source: "a. Use font weight, contrast, indentation as required to creating a logical visual hierarchy." + "Let the eye naturally find what's important"
 - **HIER-11** · major · On the SHOT as well as in code, is every text run at or above the small-type floor, with the terms and conditions as the only text allowed to be small?
   - Enforces: Zero Cognitive Load > 5. Visual Hierarchy (no fine print except the terms). Source: "a. Use font weight, contrast, indentation as required to creating a logical visual hierarchy." + "Let the eye naturally find what's important"
 

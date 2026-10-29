@@ -55,7 +55,7 @@ values and components of the nearest existing screen of the same kind. Equal
 sides are equal. A new value needs a reason.
 **Check:** measure edges in the screenshot (left = right, top and bottom as
 the reference screen); compare transitions side by side with the reference.
-**Gate:** G3. **Items:** CONS-01, CONS-02, HIER-05. **From:** D-004, D-005, D-006.
+**Gate:** G3. **Items:** CONS-01, CONS-02, HIER-08. **From:** D-004, D-005, D-006.
 
 ### HR-08 · Sharp at every size
 **Rule:** Icons and illustrations are vectors, or raster art at least the

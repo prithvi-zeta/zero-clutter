@@ -14,34 +14,48 @@ findings as a file machines parse. It borrows from two standards:
 
 Always three Markdown tables, in this order: the verdict, the findings (omit
 when empty), then Keep and Next. No framed block and no bulleted findings.
+Every Kind, Severity, Verdict, Keep, Next and count cell carries its scan
+emoji (below). SARIF and machine fields stay plain text with no emoji.
 
 | Gate | Subject | Verdict | Blocking | Major | Minor | Pending | Passed | N/A |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| design (G2) | Onboarding Option 3 | FAIL | 2 | 1 | 1 | 2 | 7/13 | 2 |
+| design (G2) | Onboarding Option 3 | ❌ FAIL | 🔴 2 | 🟠 1 | 🟡 1 | ⏳ 2 | ✅ 7/13 | ➖ 2 |
 
 | # | Kind | ID | Principle | Severity | What's wrong | Where | Fix |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | Fix | CONS-07 | Consistency | blocking | "3%" hard-coded in 6 places | `pitch_v3.dart:46` +5 | One APY constant, used everywhere |
-| 2 | Fix | HIER-05 | Hierarchy | major | White text 2.6:1 on amber, needs 3:1 | story 3 › statement | Darker base behind the text |
-| 3 | Decide | PROC-07 | Process | blocking | Frames have 8 screens; we show 5 | | Keep 5? (recommend: yes) |
-| 4 | Decide | WORD-05 | Words | minor | "upto" in the frames' copy | | Change to "up to"? (recommend: yes) |
-| | Check | SENSE-02 | Senses | pending | haptics and feel | | on a device |
-| | Check | ZCL-01 | Zero Cognitive Load | pending | first-run screens | | first-use test with a person (G5) |
+| 1 | 🔧 Fix | CONS-07 | Consistency | 🔴 blocking | "3%" hard-coded in 6 places | `pitch_v3.dart:46` +5 | One APY constant, used everywhere |
+| 2 | 🔧 Fix | HIER-11 | Hierarchy | 🟠 major | Caption under the amount is smaller than the body | story 3 › statement | Use the body size |
+| 3 | 🤔 Decide | PROC-07 | Process | 🔴 blocking | Frames have 8 screens; we show 5 | | Keep 5? (recommend: yes) |
+| 4 | 🤔 Decide | WORD-05 | Words | 🟡 minor | "upto" in the frames' copy | | Change to "up to"? (recommend: yes) |
+| | ⏳ Check | SENSE-02 | Senses | ⏳ pending | haptics and feel | | on a device |
+| | ⏳ Check | ZCL-01 | Zero Cognitive Load | ⏳ pending | first-run screens | | first-use test with a person (G5) |
 
 | | |
 | --- | --- |
-| Keep | one statement per screen · sharp vector glyphs · a colour per guarantee |
-| Next | One APY constant and a darker text base, then send 3 and 4 to the approver |
+| ✅ Keep | one statement per screen · sharp vector glyphs · a colour per guarantee |
+| 👉 Next | One APY constant and body-size type on story 3, then send 3 and 4 to the approver |
+
+### Scan emoji
+
+Use these exact symbols (colour by default; never ones that need U+FE0F).
+
+| Slot | Emoji | Values |
+| --- | --- | --- |
+| Verdict | ✅ ❌ 🟢 🟡 | `✅ PASS` · `❌ FAIL` · `🟢 READY` · `🟡 OPEN` |
+| Counts | 🔴 🟠 🟡 ⏳ ✅ ➖ | `🔴 <n>` blocking · `🟠 <n>` major · `🟡 <n>` minor · `⏳ <n>` pending · `✅ <passed>/<checked>` · `➖ <n>` N/A (spec Passed/N/A use `➖ —`) |
+| Kind | 🔧 🤔 💡 ⏳ | `🔧 Fix` · `🤔 Decide` · `💡 Suggest` · `⏳ Check` |
+| Severity | 🔴 🟠 🟡 ⏳ | `🔴 blocking` · `🟠 major` · `🟡 minor` · `⏳ pending` |
+| Keep / Next | ✅ 👉 | `✅ Keep` · `👉 Next` |
 
 ### Kinds
 
 | Kind | Holds | Label (SARIF `properties.label`) |
 | --- | --- | --- |
-| Fix | Problems the team fixes | `issue` |
-| Decide | Spec conflicts, taste calls, missing facts: the approver decides | `question` |
-| Suggest | Optional improvements nobody asked for | `suggestion` |
-| Check | Still pending: a device, a person, a capture | `pending` |
-| Keep | What works (1 to 3 things), in the last table | `keep` |
+| 🔧 Fix | Problems the team fixes | `issue` |
+| 🤔 Decide | Spec conflicts, taste calls, missing facts: the approver decides | `question` |
+| 💡 Suggest | Optional improvements nobody asked for | `suggestion` |
+| ⏳ Check | Still pending: a device, a person, a capture | `pending` |
+| ✅ Keep | What works (1 to 3 things), in the last table | `keep` |
 
 Fix, Decide and Suggest rows are numbered down the `#` column. Check rows
 leave `#` empty. Where is `file:line`, `screen › element` or `R#` for a spec
@@ -82,21 +96,21 @@ asked. One run, one tool, one result per finding and per pass. Minimal shape:
   "runs": [{
     "tool": { "driver": {
       "name": "zero-clutter",
-      "version": "0.4.5",
+      "version": "0.4.7",
       "informationUri": "https://github.com/prithvi-zeta/zero-clutter",
       "rules": [{
-        "id": "HIER-05",
+        "id": "HIER-11",
         "name": "Hierarchy",
-        "shortDescription": { "text": "Every text run meets measured contrast against its worst real background" },
+        "shortDescription": { "text": "Every text run is at or above the small-type floor, except the terms and conditions" },
         "defaultConfiguration": { "level": "warning" }
       }]
     }},
     "properties": { "mode": "design", "gate": "G2", "verdict": "FAIL", "subject": "Onboarding Option 3" },
     "results": [{
-      "ruleId": "HIER-05",
+      "ruleId": "HIER-11",
       "kind": "fail",
       "level": "warning",
-      "message": { "text": "White text 2.6:1 on amber (needs 3:1). Fix: darker base behind text." },
+      "message": { "text": "Caption under the amount is smaller than the body. Fix: use the body size." },
       "locations": [{
         "physicalLocation": { "artifactLocation": { "uri": "lib/features/onboarding_app/widgets/pitch_v3.dart" }, "region": { "startLine": 120 } },
         "logicalLocations": [{ "name": "story 3 › statement" }]
@@ -127,4 +141,4 @@ asked. One run, one tool, one result per finding and per pass. Minimal shape:
   `<what>. Next: <step>` for pending. Add SARIF `fixes` only for an exact text change.
 - A UI finding without a file uses `logicalLocations` only.
 - The CI gate (`scripts/gate.py`) fails the build on any `error` with kind
-  `fail` or `review`, and prints the same tables.
+  `fail` or `review`, and prints the same tables (with scan emoji).

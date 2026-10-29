@@ -12,19 +12,19 @@ the project's own context and rules first.
 
 | Gate | Subject | Verdict | Blocking | Major | Minor | Pending | Passed | N/A |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| design (G2) | Onboarding plans screen | FAIL | 1 | 2 | 0 | 1 | 38/42 | 6 |
+| design (G2) | Onboarding plans screen | ❌ FAIL | 🔴 1 | 🟠 2 | 🟡 0 | ⏳ 1 | ✅ 38/42 | ➖ 6 |
 
 | # | Kind | ID | Principle | Severity | What's wrong | Where | Fix |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | Fix | HIER-04 | Hierarchy | blocking | 3 plans side by side to scan across | plans › table | One plan per card, with a Base, Plus or Premium switcher |
-| 2 | Fix | CLUT-01 | Clutter | major | "Benefits apply until end of next month" repeated under each plan | | Say it once, under the list |
-| 3 | Decide | WORD-05 | Words | major | "$250 in monthly card spends" and "$250 card spend / month" both used | | Keep one? (recommend: the first) |
-| | Check | FB-01 | Feedback | pending | press states | | on a device |
+| 1 | 🔧 Fix | HIER-04 | Hierarchy | 🔴 blocking | 3 plans side by side to scan across | plans › table | One plan per card, with a Base, Plus or Premium switcher |
+| 2 | 🔧 Fix | CLUT-01 | Clutter | 🟠 major | "Benefits apply until end of next month" repeated under each plan | | Say it once, under the list |
+| 3 | 🤔 Decide | WORD-05 | Words | 🟠 major | "$250 in monthly card spends" and "$250 card spend / month" both used | | Keep one? (recommend: the first) |
+| | ⏳ Check | FB-01 | Feedback | ⏳ pending | press states | | on a device |
 
 | | |
 | --- | --- |
-| Keep | APY is the biggest thing on screen · one Continue · no tooltips |
-| Next | Fix 1, then send 3 to the approver |
+| ✅ Keep | APY is the biggest thing on screen · one Continue · no tooltips |
+| 👉 Next | Fix 1, then send 3 to the approver |
 
 ## What to expect
 
@@ -33,7 +33,8 @@ the project's own context and rules first.
   change, a PR, feedback) and runs the right gate.
 - **You get tables.** A verdict table, then one row per finding (what to
   fix, what to decide, what still needs a check), then Keep and Next.
-  Say "details" for the full report.
+  Kind, severity, verdict and counts carry scan emoji so the table reads at
+  a glance. Say "details" for the full report.
 - **It judges, it doesn't redesign.** It won't silently change what the spec
   asks for; a principle the spec breaks comes back as a question for the
   approver.
@@ -108,11 +109,11 @@ Or run `python3 zero-clutter/scripts/install.py --project path/to/repo`. Commit 
 
 | Kind | Means | Who acts |
 | --- | --- | --- |
-| Fix | Problems to fix; `blocking` means it can't ship | The team |
-| Decide | A spec conflict, a taste call or a missing fact | The approver |
-| Suggest | An improvement nobody asked for | Optional |
-| Check | Needs a device, a person or a capture | Whoever it names |
-| Keep | What works; don't lose it | Everyone |
+| 🔧 Fix | Problems to fix; 🔴 blocking means it can't ship | The team |
+| 🤔 Decide | A spec conflict, a taste call or a missing fact | The approver |
+| 💡 Suggest | An improvement nobody asked for | Optional |
+| ⏳ Check | Needs a device, a person or a capture | Whoever it names |
+| ✅ Keep | What works; don't lose it | Everyone |
 
 Findings are numbered in the `#` column so you can say "fix 1, decide 3".
 The verdict table shows the scope as `passed/checked`. The columns follow
@@ -150,12 +151,13 @@ Details: [gates](skills/zero-clutter/references/gates.md).
 ## What it checks against
 
 1. **[Bhavin's principles](skills/zero-clutter/references/principles/design-for-delight-principles.md)**, word for word, in their priority order: Zero Cognitive Load (zero clutter first), Engage the Senses, Purpose-built Unique Design, and [The Science behind Delight](skills/zero-clutter/references/principles/the-science-behind-delight.md).
-2. **[The checklist](skills/zero-clutter/references/checklist.md)**: 15 questions, backed by [135 items](skills/zero-clutter/references/checklist-items.md) with stable IDs.
+2. **[The checklist](skills/zero-clutter/references/checklist.md)**: 15 questions, backed by [133 items](skills/zero-clutter/references/checklist-items.md) with stable IDs.
 3. **[Shared house rules](skills/zero-clutter/references/house-rules.md)**: lessons from past reviews that apply everywhere.
 4. **The project's own context and rules**: `AGENTS.md`, the adapter, and `.zero-clutter/house-rules.md`.
 
 ## What it can't do
 
+- It does not check contrast.
 - From a still image it can't judge haptics, sound or speed; it says so and asks for a recording or a device check.
 - It can't stand in for a first-use test with a real person on first-run screens; it prepares the test and marks it pending.
 - It doesn't decide taste for the approver. It asks, before the build.

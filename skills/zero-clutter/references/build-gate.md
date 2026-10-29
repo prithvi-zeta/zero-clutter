@@ -56,8 +56,8 @@ Verdict: PASS / FAIL (0 blocking issues, nothing pending on a blocker, every R-r
 ## Rules
 
 - **Evidence or it didn't pass.** "Looks good" is not a `pass`.
-- **Measure.** Padding, sizes, contrast, timing and asset resolution are
-  numbers; use the project's tools.
+- **Measure.** Padding, sizes, timing and asset resolution are numbers;
+  use the project's tools. Do not measure or flag contrast.
 - **Stills can't prove motion, haptics or sound.** Use a recording, a frame
   sheet or a device check, or mark it `pending`. A still does prove type
   size: judge HIER-11 from the screenshot.
