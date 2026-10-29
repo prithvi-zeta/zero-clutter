@@ -2,7 +2,7 @@
 
 Source: BCR "The Science behind Delight" (PDF, Oct 2026). Copied verbatim
 (PDF line breaks repaired). Do not edit the wording; the checklist in
-`checklist.md` turns each component into checks.
+`checklist/items.md` turns each component into checks.
 
 Here are some key neurological components and processes that contribute to the sensation of delight:
 

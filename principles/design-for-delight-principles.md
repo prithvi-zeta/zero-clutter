@@ -2,7 +2,7 @@
 
 Source: BCR "Design for Delight Principles" (PDF, Oct 2026). Copied verbatim
 (PDF line breaks repaired) so the repo has the source of truth. Do not edit the
-wording; the checklist in `checklist.md` enforces it.
+wording; the checklist in `checklist/items.md` enforces it.
 
 Sections, in priority order: **Zero Cognitive Load**, **Engage the Senses**,
 **Purpose-built Unique Design**.
