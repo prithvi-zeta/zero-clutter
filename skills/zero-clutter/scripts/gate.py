@@ -18,7 +18,26 @@ import re
 import sys
 
 DOT = {"error": "🔴", "warning": "🟠", "note": "🟡"}
-RULE = "─" * 48
+WIDTH = 64
+
+
+class Frame:
+    """The chat answer's frame: a left border and labelled dividers."""
+
+    def top(self, title: str) -> None:
+        print(f"╭─ {title} " + "─" * max(4, WIDTH - len(title) - 4))
+
+    def divider(self, title: str) -> None:
+        print(f"├─ {title} " + "─" * max(4, WIDTH - len(title) - 4))
+
+    def line(self, text: str) -> None:
+        print(f"│  {text}")
+
+    def blank(self) -> None:
+        print("│")
+
+    def bottom(self) -> None:
+        print("╰" + "─" * WIDTH)
 
 
 def reports(paths: list[str]) -> list[pathlib.Path]:
@@ -86,38 +105,44 @@ def main(argv=None) -> int:
             checked = len(results) - count("notApplicable") - count("informational")
             verdict = props.get("verdict", "?")
             badge = {"PASS": "✅ PASS", "FAIL": "❌ FAIL", "READY": "🟢 READY", "OPEN": "🟡 OPEN"}.get(verdict, verdict)
-            print(f"🧹 Zero Clutter · {props.get('subject', path.name)}")
-            print(f"{props.get('mode', '?')} ({props.get('gate', '?')})")
-            print()
-            print(f"{badge} · 🔴 {sev('error')} blocking · 🟠 {sev('warning')} major · 🟡 {sev('note')} minor · "
-                  f"⏳ {count('open')} to check · ✅ {count('pass')}/{checked} passed")
-            print()
+            out = Frame()
+            out.top("🧹 Zero Clutter")
+            out.line(f"{props.get('subject', path.name)} · {props.get('mode', '?')} ({props.get('gate', '?')})")
+            out.blank()
+            out.line(f"{badge}   🔴 {sev('error')} blocking   🟠 {sev('warning')} major   🟡 {sev('note')} minor   "
+                     f"⏳ {count('open')} to check   ✅ {count('pass')}/{checked} passed")
+            out.blank()
             order = {"error": 0, "warning": 1, "note": 2, "none": 3}
             ranked = sorted(results, key=lambda r: order.get(r.get("level", "none"), 3))
-            sections = (("🔧 Fix", "fail", "F", "✏️"), ("🤔 Decide", "review", "D", "💬"), ("💡 Suggest", "informational", "S", "💡"))
+            sections = (("🔧 Fix", "fail", "F", "✏️ "), ("🤔 Decide", "review", "D", "💬"), ("💡 Suggest", "informational", "S", "💡"))
             for heading, kind, prefix, mark in sections:
                 group = [r for r in ranked if r.get("kind") == kind]
                 if not group:
                     continue
-                print(f"{RULE}\n{heading}\n")
+                out.divider(heading)
+                out.blank()
                 for n, r in enumerate(group, 1):
                     rule = rules.get(r.get("ruleId"), {})
                     what, fix = split(r.get("message", {}).get("text", ""))
-                    print(f"{DOT.get(r.get('level'), '🟡')} {prefix}{n} · {r.get('ruleId', '')} {rule.get('name', '')}")
-                    print(f"   📍 {what}{where(r)}")
+                    out.line(f"{DOT.get(r.get('level'), '🟡')} {prefix}{n}  {r.get('ruleId', '')} {rule.get('name', '')}")
+                    out.line(f"       📍 {what}")
+                    place = where(r).lstrip(" ·")
+                    if place:
+                        out.line(f"          {place}")
                     if fix:
-                        print(f"   {mark} {fix}")
-                    print()
+                        out.line(f"       {mark} {fix}")
+                    out.blank()
                     annotate(r, args.github)
             pending = [r for r in ranked if r.get("kind") == "open"]
             if pending:
-                print(f"{RULE}\n⏳ Check\n")
+                out.divider("⏳ Check")
+                out.blank()
                 for r in pending:
                     rule = rules.get(r.get("ruleId"), {})
                     what, fix = split(r.get("message", {}).get("text", ""))
-                    print(f"   • {r.get('ruleId', '')} {rule.get('name', '')} · {what}" + (f" → {fix}" if fix else ""))
-                print()
-            print(RULE)
+                    out.line(f"•  {r.get('ruleId', '')} {rule.get('name', '')} · {what}" + (f" → {fix}" if fix else ""))
+                out.blank()
+            out.bottom()
             blocking += sev("error")
             major += sev("warning")
 

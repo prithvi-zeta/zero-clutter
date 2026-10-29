@@ -12,52 +12,49 @@ findings as a file machines parse. It borrows from two standards:
 
 ## The chat answer
 
-```markdown
-### 🧹 Zero Clutter · App Onboarding Option 3
-design (G2) · Flutter · 5 stories
+One framed block in a `text` code block:
 
-**❌ FAIL** · 🔴 2 blocking · 🟠 1 major · 🟡 1 minor · ⏳ 2 to check · ✅ 7/13 passed
-
----
-
-### 🔧 Fix
-
-**🔴 F1 · CONS-07 Consistency**
-- 📍 "3%" hard-coded in 6 places · `pitch_v3.dart`, `onboarding_pitch_screen.dart:56` +4
-- ✏️ One APY constant, used everywhere
-
-**🟠 F2 · HIER-05 Hierarchy**
-- 📍 White text 2.6:1 on amber, needs 3:1 · story 3 › statement
-- ✏️ Darker stripes base behind the text
-
----
-
-### 🤔 Decide · Bhavin
-
-**🔴 D1 · PROC-07 Process**
-- 📍 The frames have 8 screens; Option 3 shows 5
-- 💬 Keep 5? · recommend: yes
-
-**🟡 D2 · WORD-05 Words**
-- 📍 "upto" in the frames' copy
-- 💬 Change to "up to"? · recommend: yes
-
----
-
-### ⏳ Check
-
-- **SENSE-02 Senses** · haptics and feel → on a device
-- **ZCL-01 Zero Cognitive Load** · first-run screens → first-use test with a person (G5)
-
----
-
-### ✅ Keep
-
-One statement per screen · sharp vector glyphs · a colour per guarantee
-
-### 👉 Next
-
-Fix F1 and F2, then send D1 and D2 to Bhavin.
+```text
+╭─ 🧹 Zero Clutter ──────────────────────────────────────────────────────
+│  App Onboarding Option 3 · design (G2) · Flutter · 5 stories
+│
+│  ❌ FAIL   🔴 2 blocking   🟠 1 major   🟡 1 minor   ⏳ 2 to check   ✅ 7/13 passed
+│
+├─ 🔧 Fix ───────────────────────────────────────────────────────────────
+│
+│  🔴 F1  CONS-07 Consistency
+│         📍 "3%" hard-coded in 6 places
+│            pitch_v3.dart, onboarding_pitch_screen.dart:56 +4
+│         ✏️  One APY constant, used everywhere
+│
+│  🟠 F2  HIER-05 Hierarchy
+│         📍 White text 2.6:1 on amber, 1.9:1 where trails cross "APY" (needs 3:1)
+│            stories 1 and 3 › statement
+│         ✏️  Darker stripes base behind the text
+│
+├─ 🤔 Decide · Bhavin ───────────────────────────────────────────────────
+│
+│  🔴 D1  PROC-07 Process
+│         📍 The frames have 8 screens; Option 3 shows 5
+│         💬 Keep 5? · recommend: yes
+│
+│  🟡 D2  WORD-05 Words
+│         📍 "upto" in the frames' copy
+│         💬 Change to "up to"? · recommend: yes
+│
+├─ ⏳ Check ─────────────────────────────────────────────────────────────
+│
+│  •  SENSE-02 Senses · haptics and feel → on the sim
+│  •  ZCL-01 Zero Cognitive Load · first-run screens → first-use test (G5)
+│
+├─ ✅ Keep ──────────────────────────────────────────────────────────────
+│
+│  One statement per screen · sharp vector glyphs · a colour per guarantee
+│
+├─ 👉 Next ──────────────────────────────────────────────────────────────
+│
+│  Fix F1 and F2, then send D1 and D2 to Bhavin.
+╰────────────────────────────────────────────────────────────────────────
 ```
 
 ### Key
@@ -77,12 +74,12 @@ Fix F1 and F2, then send D1 and D2 to Bhavin.
 
 ### Why it's built this way
 
-- **Dividers and headings** give each section its own block, so the eye jumps
-  straight to Fix or Decide.
-- **Per-section numbers (F1, D1)**, not Markdown numbered lists: those break
-  in some renderers when a list starts past 1.
-- **A bold title, then two bullets** renders identically in Claude Code,
-  Cursor, chat and GitHub; bare line breaks don't.
+- **A code block** looks the same in every terminal, IDE, chat and on GitHub,
+  and keeps the indentation, so the eye can run down the dots and numbers.
+- **Labelled dividers** (`├─ 🔧 Fix ──`) give each section its own block.
+- **A left border only:** emoji and long paths have uneven widths, so a right
+  border would never line up.
+- **Per-section numbers (F1, D1)** let people answer "fix F1, send D1".
 - **One emoji per role**, used the same way every time, so they work as icons,
   not decoration.
 

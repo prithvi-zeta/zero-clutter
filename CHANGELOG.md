@@ -4,15 +4,17 @@ Versions of the Zero Clutter system. Each skill also keeps its own changelog.
 
 ## 0.4.1 — 2026-10-29
 
-- **Easier to read.** A divider between sections and an emoji per section
-  (🔧 Fix, 🤔 Decide, 💡 Suggest, ⏳ Check, ✅ Keep, 👉 Next), a severity dot on
-  every finding (🔴 blocking, 🟠 major, 🟡 minor) and on the totals, and a
-  verdict badge (✅ PASS, ❌ FAIL, 🟢 READY, 🟡 OPEN).
-- **Renders the same everywhere.** Findings are numbered per section (F1, D1,
-  S1) instead of Markdown numbered lists, which broke when a section started
-  past 1. Each finding is a bold title plus two bullets (📍 what and where,
-  ✏️ the fix), so lines never run together.
-- `gate.py` prints the same layout with text dividers.
+- **One framed block.** The answer is a `text` code block with a left border
+  (`╭─ ├─ │ ╰─`) and a labelled divider per section, so it looks the same in
+  every terminal, IDE, chat and on GitHub, and keeps its alignment.
+- **Easy to scan.** An emoji per section (🔧 Fix, 🤔 Decide, 💡 Suggest, ⏳ Check,
+  ✅ Keep, 👉 Next), a severity dot on every finding and on the totals
+  (🔴 blocking, 🟠 major, 🟡 minor), and a verdict badge (✅ PASS, ❌ FAIL,
+  🟢 READY, 🟡 OPEN).
+- **Findings numbered per section** (F1, D1, S1): 📍 what's wrong, the where
+  under it, ✏️ the fix (💬 the question in Decide). Lines wrap at about 90
+  characters.
+- `gate.py` prints the same frame.
 
 ## 0.4.0 — 2026-10-29
 

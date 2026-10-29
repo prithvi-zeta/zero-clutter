@@ -10,54 +10,51 @@ Figma frame. Works for designers, PMs and engineers, in Claude Code, Cursor,
 Codex, GitHub Copilot, Gemini CLI, or plain chat, and in any repo: it reads
 the project's own context and rules first.
 
-> ### 🧹 Zero Clutter · Onboarding plans screen
-> design (G2) · iOS
->
-> **❌ FAIL** · 🔴 1 blocking · 🟠 2 major · 🟡 0 minor · ⏳ 1 to check · ✅ 38/42 passed
->
-> ---
->
-> ### 🔧 Fix
->
-> **🔴 F1 · HIER-04 Hierarchy**
-> - 📍 3 plans side by side to scan across · plans › table
-> - ✏️ One plan per card, with a Base | Plus | Premium switcher
->
-> **🟠 F2 · CLUT-01 Clutter**
-> - 📍 "Benefits apply until end of next month" repeated under each plan
-> - ✏️ Say it once, under the list
->
-> ---
->
-> ### 🤔 Decide · Bhavin
->
-> **🟠 D1 · WORD-05 Words**
-> - 📍 "$250 in monthly card spends" and "$250 card spend / month" both used
-> - 💬 Keep one? · recommend: the first
->
-> ---
->
-> ### ⏳ Check
->
-> - **FB-01 Feedback** · press states → on a device
->
-> ---
->
-> ### ✅ Keep
->
-> APY is the biggest thing on screen · one Continue · no tooltips
->
-> ### 👉 Next
->
-> Fix F1, then send D1 to Bhavin.
+```text
+╭─ 🧹 Zero Clutter ─────────────────────────────────────────────
+│  Onboarding plans screen · design (G2) · iOS
+│
+│  ❌ FAIL   🔴 1 blocking   🟠 2 major   🟡 0 minor   ⏳ 1 to check   ✅ 38/42 passed
+│
+├─ 🔧 Fix ──────────────────────────────────────────────────────
+│
+│  🔴 F1  HIER-04 Hierarchy
+│         📍 3 plans side by side to scan across
+│            plans › table
+│         ✏️  One plan per card, with a Base | Plus | Premium switcher
+│
+│  🟠 F2  CLUT-01 Clutter
+│         📍 "Benefits apply until end of next month" repeated under each plan
+│         ✏️  Say it once, under the list
+│
+├─ 🤔 Decide · Bhavin ──────────────────────────────────────────
+│
+│  🟠 D1  WORD-05 Words
+│         📍 "$250 in monthly card spends" and "$250 card spend / month"
+│         💬 Keep one? · recommend: the first
+│
+├─ ⏳ Check ────────────────────────────────────────────────────
+│
+│  •  FB-01 Feedback · press states → on a device
+│
+├─ ✅ Keep ─────────────────────────────────────────────────────
+│
+│  APY is the biggest thing on screen · one Continue · no tooltips
+│
+├─ 👉 Next ─────────────────────────────────────────────────────
+│
+│  Fix F1, then send D1 to Bhavin.
+╰───────────────────────────────────────────────────────────────
+```
 
 ## What to expect
 
 - **You type one thing.** `/zero-clutter`, or just "zero clutter this", "gate
   this", "is this ready?". It works out what you gave it (a spec, a design, a
   change, a PR, feedback) and runs the right gate.
-- **You get a short, clean answer.** A verdict line, then sections split by
-  dividers: 🔧 **Fix**, 🤔 **Decide**, ⏳ **Check**, ✅ **Keep**, 👉 **Next**. A dot
+- **You get a short, clean answer** in one framed block: a verdict line, then
+  sections split by labelled dividers: 🔧 **Fix**, 🤔 **Decide**, ⏳ **Check**,
+  ✅ **Keep**, 👉 **Next**. A dot
   shows how much each finding matters (🔴 blocking, 🟠 major, 🟡 minor), and
   each finding is a title plus two bullets: 📍 what's wrong and where, ✏️ the
   fix. Say "details" for the full report.
