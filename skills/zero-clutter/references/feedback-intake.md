@@ -30,14 +30,16 @@ gates would have caught it.
 
 ## Output
 
-```text
-Entry: F-0xx / D-0xx
-Said: "<quote>" — <who>, <date>, <where>
-Should have caught it: G<n>, because <root cause>
-Rule: P-xx (new / sharpened): <rule> — check: <how>
-Test: <what was added>
-Fix: <what changed in the work>
-```
+One table, nothing else:
+
+| Field | |
+| --- | --- |
+| Entry | F-0xx / D-0xx |
+| Said | "<quote>" — <who>, <date>, <where> |
+| Should have caught it | G<n>, because <root cause> |
+| Rule | P-xx (new / sharpened): <rule> — check: <how> |
+| Test | <what was added> |
+| Fix | <what changed in the work> |
 
 ## Rules
 

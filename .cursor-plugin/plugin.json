@@ -1,6 +1,6 @@
 {
   "name": "zero-clutter",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Quality gates for everything a team designs and builds: specs, designs, changes and PRs checked against Bhavin's Design for Delight principles, with a short pass/fail list of what to fix.",
   "author": {
     "name": "Zero Clutter maintainers"

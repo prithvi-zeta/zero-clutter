@@ -17,27 +17,11 @@ import pathlib
 import re
 import sys
 
-DOT = {"error": "🔴", "warning": "🟠", "note": "🟡"}
-WIDTH = 64
+SEVERITY = {"error": "blocking", "warning": "major", "note": "minor"}
 
 
-class Frame:
-    """The chat answer's frame: a left border and labelled dividers."""
-
-    def top(self, title: str) -> None:
-        print(f"╭─ {title} " + "─" * max(4, WIDTH - len(title) - 4))
-
-    def divider(self, title: str) -> None:
-        print(f"├─ {title} " + "─" * max(4, WIDTH - len(title) - 4))
-
-    def line(self, text: str) -> None:
-        print(f"│  {text}")
-
-    def blank(self) -> None:
-        print("│")
-
-    def bottom(self) -> None:
-        print("╰" + "─" * WIDTH)
+def cell(value) -> str:
+    return str(value).replace("|", "\\|").replace("\n", " ").strip()
 
 
 def reports(paths: list[str]) -> list[pathlib.Path]:
@@ -60,7 +44,7 @@ def where(result: dict) -> str:
     if not places:
         return ""
     more = f" +{len(places) - 2}" if len(places) > 2 else ""
-    return " · " + ", ".join(places[:2]) + more
+    return ", ".join(places[:2]) + more
 
 
 def split(text: str) -> tuple[str, str]:
@@ -104,45 +88,42 @@ def main(argv=None) -> int:
             # Everything that was judged, i.e. all but n/a and suggestions.
             checked = len(results) - count("notApplicable") - count("informational")
             verdict = props.get("verdict", "?")
-            badge = {"PASS": "✅ PASS", "FAIL": "❌ FAIL", "READY": "🟢 READY", "OPEN": "🟡 OPEN"}.get(verdict, verdict)
-            out = Frame()
-            out.top("🧹 Zero Clutter")
-            out.line(f"{props.get('subject', path.name)} · {props.get('mode', '?')} ({props.get('gate', '?')})")
-            out.blank()
-            out.line(f"{badge}   🔴 {sev('error')} blocking   🟠 {sev('warning')} major   🟡 {sev('note')} minor   "
-                     f"⏳ {count('open')} to check   ✅ {count('pass')}/{checked} passed")
-            out.blank()
+            print("| Gate | Subject | Verdict | Blocking | Major | Minor | Pending | Passed | N/A |")
+            print("| --- | --- | --- | --- | --- | --- | --- | --- | --- |")
+            print(
+                f"| {cell(props.get('mode', '?'))} ({cell(props.get('gate', '?'))}) | "
+                f"{cell(props.get('subject', path.name))} | {cell(verdict)} | "
+                f"{sev('error')} | {sev('warning')} | {sev('note')} | {count('open')} | "
+                f"{count('pass')}/{checked} | {count('notApplicable')} |"
+            )
             order = {"error": 0, "warning": 1, "note": 2, "none": 3}
             ranked = sorted(results, key=lambda r: order.get(r.get("level", "none"), 3))
-            sections = (("🔧 Fix", "fail", "F", "🎯"), ("🤔 Decide", "review", "D", "❓"), ("💡 Suggest", "informational", "S", "💡"))
-            for heading, kind, prefix, mark in sections:
-                group = [r for r in ranked if r.get("kind") == kind]
-                if not group:
-                    continue
-                out.divider(heading)
-                out.blank()
-                for n, r in enumerate(group, 1):
+            rows = []
+            number = 0
+            for kind_name, kind in (("Fix", "fail"), ("Decide", "review"), ("Suggest", "informational")):
+                for r in [item for item in ranked if item.get("kind") == kind]:
+                    number += 1
                     rule = rules.get(r.get("ruleId"), {})
                     what, fix = split(r.get("message", {}).get("text", ""))
-                    out.line(f"{DOT.get(r.get('level'), '🟡')} {prefix}{n}  {r.get('ruleId', '')} {rule.get('name', '')}")
-                    out.line(f"       📍 {what}")
-                    place = where(r).lstrip(" ·")
-                    if place:
-                        out.line(f"          {place}")
-                    if fix:
-                        out.line(f"       {mark} {fix}")
-                    out.blank()
+                    rows.append((
+                        str(number), kind_name, r.get("ruleId", ""), rule.get("name", ""),
+                        SEVERITY.get(r.get("level"), "minor"), what, where(r), fix,
+                    ))
                     annotate(r, args.github)
-            pending = [r for r in ranked if r.get("kind") == "open"]
-            if pending:
-                out.divider("⏳ Check")
-                out.blank()
-                for r in pending:
-                    rule = rules.get(r.get("ruleId"), {})
-                    what, fix = split(r.get("message", {}).get("text", ""))
-                    out.line(f"•  {r.get('ruleId', '')} {rule.get('name', '')} · {what}" + (f" → {fix}" if fix else ""))
-                out.blank()
-            out.bottom()
+            for r in [item for item in ranked if item.get("kind") == "open"]:
+                rule = rules.get(r.get("ruleId"), {})
+                what, fix = split(r.get("message", {}).get("text", ""))
+                rows.append((
+                    "", "Check", r.get("ruleId", ""), rule.get("name", ""),
+                    "pending", what, where(r), fix,
+                ))
+            if rows:
+                print()
+                print("| # | Kind | ID | Principle | Severity | What's wrong | Where | Fix |")
+                print("| --- | --- | --- | --- | --- | --- | --- | --- |")
+                for row in rows:
+                    print("| " + " | ".join(cell(part) for part in row) + " |")
+            print()
             blocking += sev("error")
             major += sev("warning")
 

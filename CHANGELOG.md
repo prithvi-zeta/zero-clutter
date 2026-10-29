@@ -2,6 +2,12 @@
 
 Versions of the Zero Clutter system. Each skill also keeps its own changelog.
 
+## 0.4.3 — 2026-10-29
+
+- **Answers are tables.** The chat verdict, every finding, Keep and Next, and
+  the feedback-mode entry are Markdown tables. The CI gate prints the same
+  tables. See `references/report-format.md`.
+
 ## 0.4.2 — 2026-10-29
 
 - **Every symbol renders as colour emoji.** The fix line now uses 🎯 (was a

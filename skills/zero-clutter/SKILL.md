@@ -5,12 +5,12 @@ description: >-
   apps, websites): checks a spec, design, screen, change or PR against Bhavin's
   Design for Delight principles (Zero Cognitive Load, Engage the Senses,
   Purpose-built Unique Design, The Science behind Delight), the 134-item
-  checklist and the house rules, and returns a short, neatly grouped list of
-  what to fix, decide and keep. Use when someone says zero clutter, gate this,
+  checklist and the house rules, and returns short tables of what to fix,
+  decide and keep. Use when someone says zero clutter, gate this,
   check this, review this screen or spec, is this ready, before saying done,
   before a PR merges, or when they share review feedback.
 metadata:
-  version: "0.4.2"
+  version: "0.4.3"
 ---
 
 # Zero Clutter
@@ -38,7 +38,7 @@ The **approver** is Bhavin unless the adapter names someone else.
 
 ## 2. Pick the mode
 
-Pick from what the person gave you. Say which mode in the first line of the answer.
+Pick from what the person gave you. Name the mode in the first table of the answer.
 
 | They gave you | Mode | Gate | Read |
 | --- | --- | --- | --- |
@@ -77,76 +77,56 @@ Always read these; the mode guide adds what else to read.
 For a long `pr` review, hand the work to the `zero-clutter-reviewer` agent if
 the tool has agents, so the main thread stays short.
 
-## 4. Answer (short, every time)
+## 4. Answer (tables, every time)
 
-One framed block inside a ```` ```text ```` code block: a left border, a labelled
-divider per section, an emoji per section and per severity. Code blocks look
-the same in every terminal, IDE and chat, and keep the alignment. Full rules
-and an example: [report-format](references/report-format.md).
+Always Markdown tables. No framed block, no prose verdict, no bullets for
+findings. Full rules: [report-format](references/report-format.md).
 
-```text
-╭─ 🧹 Zero Clutter ─────────────────────────────────────────────
-│  <what was checked> · <mode> (G<n>) · <platform>
-│
-│  <❌ FAIL|✅ PASS|🟡 OPEN|🟢 READY>   🔴 <n> blocking   🟠 <n> major   🟡 <n> minor   ⏳ <n> to check   ✅ <p>/<c> passed
-│
-├─ 🔧 Fix ──────────────────────────────────────────────────────
-│
-│  🔴 F1  <ID> <Principle>
-│         📍 <what's wrong>
-│            <where: file:line or screen › element, first two, then +n>
-│         🎯 <the fix>
-│
-├─ 🤔 Decide · <approver> ──────────────────────────────────────
-│
-│  🔴 D1  <ID> <Principle>
-│         📍 <the decision and why it's needed>
-│         ❓ <the question> · recommend: <x>
-│
-├─ ⏳ Check ────────────────────────────────────────────────────
-│
-│  •  <ID> <Principle> · <what can't be judged yet> → <who or what resolves it>
-│
-├─ ✅ Keep ─────────────────────────────────────────────────────
-│
-│  <what works, 1 to 3 things, separated by ·>
-│
-├─ 👉 Next ─────────────────────────────────────────────────────
-│
-│  <the one thing to do now, naming findings: "Fix F1, send D1">
-╰───────────────────────────────────────────────────────────────
+```markdown
+| Gate | Subject | Verdict | Blocking | Major | Minor | Pending | Passed | N/A |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| <mode> (G<n>) | <what was checked> | <VERDICT> | <n> | <n> | <n> | <n> | <passed>/<checked> | <n> |
+
+| # | Kind | ID | Principle | Severity | What's wrong | Where | Fix |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | Fix | <ID> | <Principle> | blocking | <what's wrong> | <where> | <the fix> |
+| 2 | Decide | <ID> | <Principle> | <severity> | <the decision> | <where> | <proposal> (recommend: <x>) |
+| | Check | <ID> | <Principle> | pending | <what can't be judged yet> | <where> | <who or what resolves it> |
+
+| | |
+| --- | --- |
+| Keep | <what works, 1 to 3 things, separated by ·> |
+| Next | <the one thing to do now> |
 ```
 
-- **One code block, fenced as `text`,** for the whole answer. Nothing before
-  or after it except, at most, one line offering setup.
-- **Frame:** `╭─` opens it with the title, `├─` starts each section with its
-  emoji and name, `│` runs down the left, `╰─` closes it. Dividers are about
-  64 characters long. No right border (emoji and long paths would break it).
-- **Sections, in this order, only when they have something:** 🔧 Fix (the
-  team fixes it), 🤔 Decide (only the approver can: spec conflicts, taste
-  calls, missing facts), 💡 Suggest (optional, nobody asked), ⏳ Check (a
-  device, a person, a capture), ✅ Keep, 👉 Next.
-- **Severity dot** on every finding and on the totals: 🔴 blocking, 🟠 major,
-  🟡 minor. Numbering per section: F1, F2 · D1 · S1.
-- **Each finding:** dot, number and `ID Principle` on the first line; then,
-  indented, 📍 what's wrong (and the where on its own line under it, also
-  indented), and 🎯 the fix (❓ the question in Decide, 💡 the idea in Suggest).
-- **Line length:** wrap at about 90 characters; continue under the text it
-  belongs to, never past the left border. A blank `│` line between findings
-  and after each divider.
-- **Order:** blocking, then major, then minor; within each, principle order.
-  At most 10 findings, then `│  +<n> more · say "details"`.
-- **Verdict:** ✅ PASS or ❌ FAIL for design, build, pr and first-use (PASS only
-  with 0 blocking and nothing pending on a blocker). Spec: 🟢 READY or 🟡 OPEN,
-  without the passed count. A clean pass is the title, verdict, Keep and Next.
-  Feedback mode puts its five-line entry in the same frame.
-- **Nothing else:** no preamble, no praise beyond Keep, no recap of the
-  principles.
+- **Three tables, in this order.** The verdict table is always first. The
+  findings table only when there is a Fix, Decide, Suggest or Check row. The
+  Keep / Next table is always last. Nothing before or after them except, at
+  most, one line offering setup.
+- **Kind** is `Fix` (the team fixes it), `Decide` (only the approver: a spec
+  conflict, a taste call, a missing fact), `Suggest` (optional; nobody asked),
+  or `Check` (pending: a device, a person, a capture).
+- **Number** Fix, Decide and Suggest down the `#` column (1, 2, 3…) so people
+  can say "fix 1, decide 2". Leave `#` empty on Check rows.
+- **Where** is `file:line`, `screen › element` or `R#`. First two places, then
+  `+n`. One row per finding. Keep each cell to one line. Escape a literal `|`
+  in a cell as `\|`.
+- **Order:** Fix, then Decide, then Suggest, then Check. Within Fix, Decide
+  and Suggest: blocking, then major, then minor, and within each, principle
+  order. At most 10 finding rows, then one line under the table:
+  `+<n> more — say "details"`.
+- **Verdict:** `PASS` or `FAIL` for design, build, pr and first-use (`PASS`
+  only with 0 blocking and nothing pending on a blocker). For spec: `READY` or
+  `OPEN`, and Passed and N/A are `—`. Feedback mode answers with the table in
+  [feedback-intake](references/feedback-intake.md).
+- **Nothing else:** no preamble, no praise beyond the Keep row, no recap of
+  the principles. A clean pass is the verdict table and the Keep / Next table.
+- **Plain-text tools:** still emit these Markdown tables.
 - **Files:** pr mode always writes the full report (Markdown) and a SARIF file
   to `.zero-clutter/reports/<date>-<name>.md` and `.sarif`; other modes when
   asked ("details", "sarif"). The spec plan goes where the adapter says, else
-  `.zero-clutter/plans/`. If you can't write files, add under Check:
-  `full report → say "details"`.
+  `.zero-clutter/plans/`. If you can't write files, add a Check row:
+  `full report` → `say "details"`.
 
 ## 5. Setup (`zero-clutter setup`)
 

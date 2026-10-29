@@ -12,76 +12,40 @@ findings as a file machines parse. It borrows from two standards:
 
 ## The chat answer
 
-One framed block in a `text` code block:
+Always three Markdown tables, in this order: the verdict, the findings (omit
+when empty), then Keep and Next. No framed block and no bulleted findings.
 
-```text
-╭─ 🧹 Zero Clutter ──────────────────────────────────────────────────────
-│  App Onboarding Option 3 · design (G2) · Flutter · 5 stories
-│
-│  ❌ FAIL   🔴 2 blocking   🟠 1 major   🟡 1 minor   ⏳ 2 to check   ✅ 7/13 passed
-│
-├─ 🔧 Fix ───────────────────────────────────────────────────────────────
-│
-│  🔴 F1  CONS-07 Consistency
-│         📍 "3%" hard-coded in 6 places
-│            pitch_v3.dart, onboarding_pitch_screen.dart:56 +4
-│         🎯 One APY constant, used everywhere
-│
-│  🟠 F2  HIER-05 Hierarchy
-│         📍 White text 2.6:1 on amber, 1.9:1 where trails cross "APY" (needs 3:1)
-│            stories 1 and 3 › statement
-│         🎯 Darker stripes base behind the text
-│
-├─ 🤔 Decide · Bhavin ───────────────────────────────────────────────────
-│
-│  🔴 D1  PROC-07 Process
-│         📍 The frames have 8 screens; Option 3 shows 5
-│         ❓ Keep 5? · recommend: yes
-│
-│  🟡 D2  WORD-05 Words
-│         📍 "upto" in the frames' copy
-│         ❓ Change to "up to"? · recommend: yes
-│
-├─ ⏳ Check ─────────────────────────────────────────────────────────────
-│
-│  •  SENSE-02 Senses · haptics and feel → on the sim
-│  •  ZCL-01 Zero Cognitive Load · first-run screens → first-use test (G5)
-│
-├─ ✅ Keep ──────────────────────────────────────────────────────────────
-│
-│  One statement per screen · sharp vector glyphs · a colour per guarantee
-│
-├─ 👉 Next ──────────────────────────────────────────────────────────────
-│
-│  Fix F1 and F2, then send D1 and D2 to Bhavin.
-╰────────────────────────────────────────────────────────────────────────
-```
+| Gate | Subject | Verdict | Blocking | Major | Minor | Pending | Passed | N/A |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| design (G2) | Onboarding Option 3 | FAIL | 2 | 1 | 1 | 2 | 7/13 | 2 |
 
-### Key
+| # | Kind | ID | Principle | Severity | What's wrong | Where | Fix |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | Fix | CONS-07 | Consistency | blocking | "3%" hard-coded in 6 places | `pitch_v3.dart:46` +5 | One APY constant, used everywhere |
+| 2 | Fix | HIER-05 | Hierarchy | major | White text 2.6:1 on amber, needs 3:1 | story 3 › statement | Darker base behind the text |
+| 3 | Decide | PROC-07 | Process | blocking | Frames have 8 screens; we show 5 | | Keep 5? (recommend: yes) |
+| 4 | Decide | WORD-05 | Words | minor | "upto" in the frames' copy | | Change to "up to"? (recommend: yes) |
+| | Check | SENSE-02 | Senses | pending | haptics and feel | | on a device |
+| | Check | ZCL-01 | Zero Cognitive Load | pending | first-run screens | | first-use test with a person (G5) |
 
-| Symbol | Means |
+| | |
 | --- | --- |
-| ✅ PASS · ❌ FAIL | Verdict for design, build, pr, first-use |
-| 🟢 READY · 🟡 OPEN | Verdict for spec |
-| 🔴 · 🟠 · 🟡 | blocking · major · minor |
-| 🔧 Fix | The team fixes it (SARIF `issue`) |
-| 🤔 Decide | The approver decides (`question`) |
-| 💡 Suggest | Optional, nobody asked (`suggestion`) |
-| ⏳ Check | Pending: a device, a person, a capture (`pending`) |
-| ✅ Keep | What works (`keep`) |
-| 👉 Next | The one thing to do now |
-| 📍 · 🎯 · ❓ | what and where · the fix · the question |
+| Keep | one statement per screen · sharp vector glyphs · a colour per guarantee |
+| Next | One APY constant and a darker text base, then send 3 and 4 to the approver |
 
-### Why it's built this way
+### Kinds
 
-- **A code block** looks the same in every terminal, IDE, chat and on GitHub,
-  and keeps the indentation, so the eye can run down the dots and numbers.
-- **Labelled dividers** (`├─ 🔧 Fix ──`) give each section its own block.
-- **A left border only:** emoji and long paths have uneven widths, so a right
-  border would never line up.
-- **Per-section numbers (F1, D1)** let people answer "fix F1, send D1".
-- **One emoji per role**, used the same way every time, so they work as icons,
-  not decoration.
+| Kind | Holds | Label (SARIF `properties.label`) |
+| --- | --- | --- |
+| Fix | Problems the team fixes | `issue` |
+| Decide | Spec conflicts, taste calls, missing facts: the approver decides | `question` |
+| Suggest | Optional improvements nobody asked for | `suggestion` |
+| Check | Still pending: a device, a person, a capture | `pending` |
+| Keep | What works (1 to 3 things), in the last table | `keep` |
+
+Fix, Decide and Suggest rows are numbered down the `#` column. Check rows
+leave `#` empty. Where is `file:line`, `screen › element` or `R#` for a spec
+row. Escape a literal `|` in a cell as `\|`.
 
 ### Principle names
 
@@ -118,7 +82,7 @@ asked. One run, one tool, one result per finding and per pass. Minimal shape:
   "runs": [{
     "tool": { "driver": {
       "name": "zero-clutter",
-      "version": "0.4.0",
+      "version": "0.4.3",
       "informationUri": "https://github.com/prithvi-zeta/zero-clutter",
       "rules": [{
         "id": "HIER-05",
@@ -145,14 +109,14 @@ asked. One run, one tool, one result per finding and per pass. Minimal shape:
 
 ### Mapping
 
-| Chat section · dot | SARIF `kind` | SARIF `level` |
+| Kind · severity | SARIF `kind` | SARIF `level` |
 | --- | --- | --- |
-| 🔧 Fix · 🔴 | `fail` | `error` |
-| 🔧 Fix · 🟠 | `fail` | `warning` |
-| 🔧 Fix · 🟡 | `fail` | `note` |
-| 🤔 Decide | `review` | from the dot, as above |
-| 💡 Suggest | `informational` | `note` |
-| ⏳ Check | `open` | `none` |
+| Fix · blocking | `fail` | `error` |
+| Fix · major | `fail` | `warning` |
+| Fix · minor | `fail` | `note` |
+| Decide | `review` | from severity, as above |
+| Suggest | `informational` | `note` |
+| Check | `open` | `none` |
 | a passed check | `pass` | `none` |
 | n/a | `notApplicable` | `none` |
 
@@ -163,4 +127,4 @@ asked. One run, one tool, one result per finding and per pass. Minimal shape:
   `<what>. Next: <step>` for pending. Add SARIF `fixes` only for an exact text change.
 - A UI finding without a file uses `logicalLocations` only.
 - The CI gate (`scripts/gate.py`) fails the build on any `error` with kind
-  `fail` or `review`, and prints the same grouped layout as plain text.
+  `fail` or `review`, and prints the same tables.
