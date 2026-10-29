@@ -1,0 +1,14 @@
+{
+  "name": "zero-clutter",
+  "description": "Zero Clutter: quality gates for everything a team designs and builds.",
+  "owner": {
+    "name": "Zero Clutter maintainers"
+  },
+  "plugins": [
+    {
+      "name": "zero-clutter",
+      "source": "./",
+      "description": "Quality gates for specs, designs, changes and PRs against Bhavin's Design for Delight principles."
+    }
+  ]
+}

@@ -1,23 +1,26 @@
 #!/usr/bin/env python3
-"""Install Zero Clutter: every skill for your agent tools, and optionally a repo.
+"""Install Zero Clutter where there's no plugin marketplace, or set up a repo.
 
-  python3 scripts/install.py                         # all skills, every tool found
-  python3 scripts/install.py --link                  # link instead of copy (maintainers)
-  python3 scripts/install.py --tools claude,cursor
-  python3 scripts/install.py --project ~/code/app    # also adopt Zero Clutter in a repo
+  python3 scripts/install.py                       # every agent tool found
+  python3 scripts/install.py --tools codex,copilot
+  python3 scripts/install.py --link                # link to this clone (maintainers)
+  python3 scripts/install.py --project ~/code/app  # set up a repo (project-level skills too)
   python3 scripts/install.py --uninstall
 
-Skills: delight-police and everything under skills/. A copied skill gets a
-`shared/` folder (principles, checklist, feedback log, templates) so its
-paths work outside this repo; a linked skill reads them from the repo.
+Claude Code and Cursor users should prefer the plugin (see README). This script
+copies the skills (zero-clutter, delight-police) and the reviewer agent into:
 
-Adopting a repo writes, only if absent or written by this script before:
-  .github/pull_request_template.md   the gates and the 15 checks
-  zero-clutter.md                    the project's adapter (fill it in)
-  AGENTS.md                          a marked Zero Clutter section, appended
+  Claude Code   ~/.claude/skills, ~/.claude/agents
+  Cursor        ~/.cursor/skills, ~/.cursor/agents
+  Codex         ~/.agents/skills
+  Copilot       ~/.copilot/skills
 
-It never replaces a skill, command or file it didn't write; --uninstall removes
-only what it marked. Python 3.9 or later, standard library only.
+--project also writes, only where absent (never overwriting):
+  .zero-clutter/adapter.md, house-rules.md, feedback-log.md
+  .github/pull_request_template.md
+  a marked Zero Clutter section in AGENTS.md
+
+It only removes what it marked. Python 3.9+, standard library only.
 """
 from __future__ import annotations
 
@@ -32,67 +35,36 @@ import sys
 HOME = pathlib.Path(os.environ.get("ZC_HOME") or pathlib.Path.home())
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 MARK_FILE = ".installed-by-zero-clutter"
-OTHER_MARKS = [".installed-by-delight-police"]  # delight-police's own installer
+OTHER_MARKS = [".installed-by-delight-police"]
 MARK_LINE = "<!-- zero-clutter -->"
-SHARED = ["principles", "checklist", "feedback-log", "templates"]
 SKIP = shutil.ignore_patterns("__pycache__", "*.pyc", ".DS_Store", MARK_FILE, *OTHER_MARKS)
-AGENTS_START = "<!-- zero-clutter:start -->"
-AGENTS_END = "<!-- zero-clutter:end -->"
+START, END = "<!-- zero-clutter:start -->", "<!-- zero-clutter:end -->"
+TEMPLATES = ROOT / "skills" / "zero-clutter" / "references" / "templates"
+
+TOOLS = {
+    "claude": ("Claude Code", HOME / ".claude", HOME / ".claude" / "skills", HOME / ".claude" / "agents"),
+    "cursor": ("Cursor", HOME / ".cursor", HOME / ".cursor" / "skills", HOME / ".cursor" / "agents"),
+    "codex": ("Codex", HOME / ".codex", HOME / ".agents" / "skills", None),
+    "copilot": ("GitHub Copilot", HOME / ".copilot", HOME / ".copilot" / "skills", None),
+}
 
 
-def skills() -> dict:
-    found = {"delight-police": ROOT / "delight-police"}
-    for path in sorted((ROOT / "skills").iterdir()):
-        if (path / "SKILL.md").is_file():
-            found[path.name] = path
-    return found
+def skills() -> list[pathlib.Path]:
+    return sorted(p for p in (ROOT / "skills").iterdir() if (p / "SKILL.md").is_file())
 
 
-def description(skill: pathlib.Path) -> str:
-    head = (skill / "SKILL.md").read_text(encoding="utf-8").split("---")[1]
-    m = re.search(r"description:\s*>-?\s*\n((?:\s+.+\n)+)", head) or re.search(
-        r"description:\s*(.+)", head
-    )
-    text = " ".join(m.group(1).split()) if m else skill.name
-    return text.split(". ")[0].rstrip(".") + "."
+def agents() -> list[pathlib.Path]:
+    return sorted((ROOT / "agents").glob("*.md"))
 
 
-def vscode_prompts() -> pathlib.Path | None:
-    for base in [
-        HOME / "Library" / "Application Support" / "Code" / "User",
-        HOME / ".config" / "Code" / "User",
-        HOME / "AppData" / "Roaming" / "Code" / "User",
-    ]:
-        if base.is_dir():
-            return base / "prompts"
-    return None
-
-
-def tools() -> dict:
-    found = {
-        "claude": {"label": "Claude Code", "home": HOME / ".claude",
-                   "commands": HOME / ".claude" / "commands", "suffix": ".md"},
-        "cursor": {"label": "Cursor", "home": HOME / ".cursor",
-                   "commands": HOME / ".cursor" / "commands", "suffix": ".md"},
-        "codex": {"label": "Codex", "home": HOME / ".codex", "commands": None, "suffix": ""},
-        "copilot": {"label": "GitHub Copilot", "home": HOME / ".copilot",
-                    "commands": vscode_prompts(), "suffix": ".prompt.md"},
-    }
-    for key, tool in found.items():
-        tool["present"] = tool["home"].is_dir() or (key == "copilot" and (HOME / ".copilot").is_dir())
-    return found
-
-
-def ours(dest: pathlib.Path) -> bool:
-    if dest.is_symlink():
+def ours(path: pathlib.Path) -> bool:
+    if path.is_symlink():
         try:
-            return dest.resolve().is_relative_to(ROOT)
-        except (OSError, AttributeError):
+            return ROOT in path.resolve().parents or path.resolve() == ROOT
+        except OSError:
             return False
-    return any((dest / m).is_file() for m in [MARK_FILE, *OTHER_MARKS])
-
-
-def marked(path: pathlib.Path) -> bool:
+    if path.is_dir():
+        return any((path / m).is_file() for m in [MARK_FILE, *OTHER_MARKS])
     try:
         return MARK_LINE in path.read_text(encoding="utf-8", errors="replace")
     except OSError:
@@ -106,141 +78,125 @@ def remove(path: pathlib.Path) -> None:
         shutil.rmtree(path)
 
 
-def command_text(name: str, skill_dir: pathlib.Path, about: str) -> str:
-    return (
-        f"---\ndescription: {about}\nargument-hint: \"[what to check]\"\n---\n{MARK_LINE}\n\n"
-        f"Read `{skill_dir}/SKILL.md` completely and follow it.\n\n"
-        f"What the person typed after the command: $ARGUMENTS\n"
-    )
-
-
-def install_skill(tool: dict, name: str, src: pathlib.Path, link: bool, force: bool) -> list:
-    notes = []
-    dest = tool["home"] / "skills" / name
+def place(src: pathlib.Path, dest: pathlib.Path, link: bool, force: bool) -> str | None:
+    """Copy or link src to dest. Returns a note when it leaves something alone."""
     if (dest.exists() or dest.is_symlink()) and not ours(dest) and not force:
-        return [f"{tool['label']}: {dest} exists and isn't ours. Left alone (use --force)."]
+        return f"{dest} exists and isn't ours. Left alone (use --force)."
     remove(dest)
     dest.parent.mkdir(parents=True, exist_ok=True)
     if link:
-        dest.symlink_to(src, target_is_directory=True)
-    else:
+        dest.symlink_to(src, target_is_directory=src.is_dir())
+    elif src.is_dir():
         shutil.copytree(src, dest, ignore=SKIP)
-        for folder in SHARED:
-            shutil.copytree(ROOT / folder, dest / "shared" / folder, ignore=SKIP)
-        (dest / MARK_FILE).write_text(
-            f"Installed from {ROOT} on {dt.date.today().isoformat()}.\n", encoding="utf-8"
-        )
-    notes.append(f"{tool['label']}: {name} {'linked' if link else 'copied'}")
-    if tool["commands"]:
-        cmd = tool["commands"] / f"{name}{tool['suffix']}"
-        if cmd.exists() and not marked(cmd) and not force:
-            notes.append(f"{tool['label']}: {cmd} exists and isn't ours. Left alone.")
-        else:
-            cmd.parent.mkdir(parents=True, exist_ok=True)
-            cmd.write_text(command_text(name, dest, description(src)), encoding="utf-8")
-    return notes
+        (dest / MARK_FILE).write_text(f"From {ROOT}, {dt.date.today().isoformat()}.\n", encoding="utf-8")
+    else:
+        text = src.read_text(encoding="utf-8")
+        dest.write_text(text if MARK_LINE in text else text + f"\n{MARK_LINE}\n", encoding="utf-8")
+    return None
 
 
-def uninstall_skill(tool: dict, name: str) -> list:
+def install(key: str, link: bool, force: bool, undo: bool) -> list[str]:
+    label, home, skill_dir, agent_dir = TOOLS[key]
     notes = []
-    dest = tool["home"] / "skills" / name
-    if (dest.exists() or dest.is_symlink()) and ours(dest):
-        remove(dest)
-        notes.append(f"{tool['label']}: removed {name}")
-    if tool["commands"]:
-        cmd = tool["commands"] / f"{name}{tool['suffix']}"
-        if cmd.is_file() and marked(cmd):
-            cmd.unlink()
+    targets = [(s, skill_dir / s.name) for s in skills()]
+    if agent_dir:
+        targets += [(a, agent_dir / a.name) for a in agents()]
+    for src, dest in targets:
+        if undo:
+            if (dest.exists() or dest.is_symlink()) and ours(dest):
+                remove(dest)
+        else:
+            note = place(src, dest, link, force)
+            if note:
+                notes.append(f"{label}: {note}")
+    notes.append(f"{label}: {'removed' if undo else ('linked' if link else 'installed')} "
+                 f"{', '.join(s.name for s in skills())}{' + reviewer agent' if agent_dir else ''}")
     return notes
 
 
 def agents_section() -> str:
     return (
-        f"{AGENTS_START}\n"
-        "## Zero Clutter (quality gates)\n\n"
-        "Everything built here follows [Zero Clutter](https://github.com/prithvi-zeta/zero-clutter): "
-        "Bhavin's Design for Delight principles, the checklist, the six gates (G1 spec, G2 design, "
-        "G3 build, G4 PR, G5 first use, G6 release) and the house rules. "
-        "How each gate runs in this repo is in [zero-clutter.md](zero-clutter.md).\n\n"
-        "- New work from a ticket, doc or Loom: run `spec-check` first; build nothing until "
-        "Bhavin's blocker questions are answered.\n"
-        "- Every change: run `build-gate` (quick) before showing anyone.\n"
-        "- Before merge: `build-gate` (full); attach the report to the PR.\n"
-        "- Any review feedback: run `feedback-intake` so it becomes a house rule.\n"
-        f"{AGENTS_END}\n"
+        f"{START}\n## Zero Clutter\n\n"
+        "Every user-facing change here passes [Zero Clutter](https://github.com/prithvi-zeta/zero-clutter) "
+        "(Bhavin's Design for Delight principles, the checklist and the house rules). "
+        "How this project runs it: [.zero-clutter/adapter.md](.zero-clutter/adapter.md).\n\n"
+        "- New work from a ticket, doc or Loom: run `zero-clutter` on it first (spec mode).\n"
+        "- Before showing or calling anything done: run `zero-clutter` (build mode); fix every blocker.\n"
+        "- Before merge: `zero-clutter` (pr mode); put the verdict in the PR.\n"
+        "- Review feedback: run `zero-clutter` with it (feedback mode).\n"
+        f"{END}\n"
     )
 
 
-def adopt(project: pathlib.Path, undo: bool) -> list:
-    notes = []
+def adopt(project: pathlib.Path, undo: bool) -> list[str]:
     if not project.is_dir():
         return [f"{project} is not a folder."]
+    notes = []
     files = {
-        project / ".github" / "pull_request_template.md": (ROOT / "templates" / "pull_request_template.md").read_text(encoding="utf-8"),
-        project / "zero-clutter.md": (ROOT / "templates" / "project-adapter.md").read_text(encoding="utf-8"),
+        project / ".zero-clutter" / "adapter.md": (TEMPLATES / "project-adapter.md").read_text(encoding="utf-8"),
+        project / ".zero-clutter" / "house-rules.md": f"{MARK_LINE}\n# House rules (this project)\n\nRules learned here, IDs P-01, P-02, … Same format as the shared house rules.\n",
+        project / ".zero-clutter" / "feedback-log.md": f"{MARK_LINE}\n# Feedback log (this project)\n\n| ID | Date | Source | Feature | What was said (quoted) | Should have caught it | Root cause | Rule |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n",
+        project / ".github" / "pull_request_template.md": (TEMPLATES / "pull_request_template.md").read_text(encoding="utf-8"),
     }
     for path, text in files.items():
+        rel = path.relative_to(project)
         if undo:
-            if path.is_file() and marked(path):
+            if path.is_file() and ours(path) and path.name != "feedback-log.md" and path.name != "house-rules.md":
                 path.unlink()
-                notes.append(f"removed {path}")
-        elif path.exists() and not marked(path):
-            notes.append(f"{path} exists and isn't ours. Left alone; add the Zero Clutter parts by hand.")
+                notes.append(f"removed {rel}")
         elif path.exists():
-            notes.append(f"{path} kept (already ours; edit it freely)")
+            notes.append(f"kept {rel}" if ours(path) else f"left {rel} alone (not ours)")
         else:
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text(text, encoding="utf-8")
-            notes.append(f"wrote {path}")
-    agents = project / "AGENTS.md"
-    current = agents.read_text(encoding="utf-8") if agents.is_file() else ""
-    block = re.compile(re.escape(AGENTS_START) + r".*?" + re.escape(AGENTS_END) + r"\n?", re.S)
+            notes.append(f"wrote {rel}")
+    agents_md = project / "AGENTS.md"
+    current = agents_md.read_text(encoding="utf-8") if agents_md.is_file() else ""
+    block = re.compile(re.escape(START) + r".*?" + re.escape(END) + r"\n?", re.S)
     if undo:
         if block.search(current):
-            agents.write_text(block.sub("", current), encoding="utf-8")
-            notes.append(f"removed the Zero Clutter section from {agents}")
+            agents_md.write_text(block.sub("", current), encoding="utf-8")
+            notes.append("removed the Zero Clutter section from AGENTS.md")
     else:
-        updated = block.sub(agents_section(), current) if block.search(current) else (
-            current + ("\n" if current and not current.endswith("\n\n") else "") + agents_section()
-        )
+        sep = "" if not current or current.endswith("\n\n") else ("\n" if current.endswith("\n") else "\n\n")
+        updated = block.sub(agents_section(), current) if block.search(current) else current + sep + agents_section()
         if updated != current:
-            agents.write_text(updated, encoding="utf-8")
-            notes.append(f"updated {agents}")
+            agents_md.write_text(updated, encoding="utf-8")
+            notes.append("updated AGENTS.md")
+    if not undo:
+        notes.append("next: open .zero-clutter/adapter.md and fill it in (or ask your agent: \"zero-clutter setup\")")
     return notes
 
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument("--tools", help="comma-separated: claude, cursor, codex, copilot (default: all found)")
-    parser.add_argument("--link", action="store_true", help="link skills to this repo instead of copying")
-    parser.add_argument("--force", action="store_true", help="replace skills or commands this script didn't write")
-    parser.add_argument("--project", type=pathlib.Path, help="also adopt Zero Clutter in this repo")
+    parser.add_argument("--link", action="store_true", help="link to this clone instead of copying")
+    parser.add_argument("--force", action="store_true", help="replace files this script didn't write")
+    parser.add_argument("--project", type=pathlib.Path, help="also set up Zero Clutter in this repo")
     parser.add_argument("--uninstall", action="store_true", help="remove what this script installed")
     args = parser.parse_args(argv)
 
-    known = tools()
-    wanted = [t.strip() for t in args.tools.split(",")] if args.tools else list(known)
-    unknown = [t for t in wanted if t not in known]
+    wanted = [t.strip() for t in args.tools.split(",")] if args.tools else list(TOOLS)
+    unknown = [t for t in wanted if t not in TOOLS]
     if unknown:
         parser.error("unknown tool: " + ", ".join(unknown))
     notes, found = [], 0
     for key in wanted:
-        tool = known[key]
-        if not tool["present"]:
+        if not TOOLS[key][1].is_dir():
             if args.tools:
-                notes.append(f"{tool['label']}: not found on this machine. Skipped.")
+                notes.append(f"{TOOLS[key][0]}: not found on this machine. Skipped.")
             continue
         found += 1
-        for name, src in skills().items():
-            notes += uninstall_skill(tool, name) if args.uninstall else install_skill(tool, name, src, args.link, args.force)
+        notes += install(key, args.link, args.force, args.uninstall)
     if args.project:
         notes += adopt(args.project.expanduser().resolve(), args.uninstall)
     if not found and not args.project:
-        print("No supported agent tool found (Claude Code, Cursor, Codex, GitHub Copilot).")
+        print("No agent tool found (Claude Code, Cursor, Codex, GitHub Copilot).")
         return 1
-    print("\n".join(notes) if notes else "Nothing to do.")
-    if not args.uninstall and found:
-        print("\nRestart your agent. Commands: /spec-check /build-gate /first-use /feedback-intake /delight-police")
+    print("\n".join(notes))
+    if found and not args.uninstall:
+        print('\nRestart your agent, then type /zero-clutter or say "zero clutter this".')
     return 0
 
 

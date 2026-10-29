@@ -1,77 +1,147 @@
 # Zero Clutter
 
-The quality system for everything we design and build: one set of
-principles, one checklist, six gates, and a feedback loop that learns from
-every review. It works in any project and any agent tool (Claude Code, Cursor,
-Codex, Copilot), and for people without one.
+One command that checks anything you design or build against Bhavin's
+**Design for Delight** principles and tells you, in a few lines, what passed,
+what failed and how to fix it.
 
-**The goal:** when work reaches Bhavin, it has already passed his principles,
-his past feedback and a first-use test. Anything he still flags is an
-*escape*: we find why the gates missed it and add a rule, so the same miss
-can't happen twice. We track escapes per release, and the target is zero.
+Works for designers, PMs and engineers, in Claude Code, Cursor, Codex,
+GitHub Copilot, Gemini CLI, or plain chat. Works in any repo: it reads the
+project's own context and rules first.
 
-## The pieces
+```text
+Zero Clutter · design (G2) · Onboarding plans screen
+FAIL · 1 blocker · 2 majors · 0 minors
 
-| Folder | What it is |
-| --- | --- |
-| [principles/](principles/) | Bhavin's two documents, word for word: *Design for Delight Principles* and *The Science behind Delight*. The one source of truth. |
-| [checklist/](checklist/) | The [15-question checklist](checklist/README.md) for people and the [134 items](checklist/items.md) behind it, each with a stable ID. |
-| [gates/](gates/) | The six gates from spec to release: who runs each, and what passes it. |
-| [feedback-log/](feedback-log/) | Every piece of review feedback, its root cause, and the house rule it became. |
-| [skills/](skills/) | Agent skills for each gate. |
-| [delight-police/](delight-police/) | Screen and Figma review against the principles (G1, G2). |
-| [templates/](templates/) | PR template, review report, ticket checklist, first-use test, escape report. |
-| [scripts/](scripts/) | Installer and the consistency check. |
+✗ HIER-04 Plans shown as 3 columns to scan across → one plan per card, Base | Plus | Premium switcher
+✗ CLUT-01 "Benefits apply until end of next month" repeated under each plan → once, under the list
+✗ WORD-05 "$250 in monthly card spends" and "$250 card spend / month" both used → one term
+? HR-03 Which number leads: 4% APY or the plan name? → propose 4% at headline size
 
-## The loop
-
-```
- Bhavin's spec ──► G1 Spec ──► G2 Design ──► G3 Build ──► G4 PR ──► G5 First use ──► G6 Release ──► Bhavin
-                     ▲                                                                              │
-                     └──────────── feedback-intake: escape → root cause → house rule → test ◄───────┘
+✓ 38 checks passed
+Next: send the HR-03 question to the approver, then fix the 3 ✗
 ```
 
-| Gate | When | Who | Passes when |
-| --- | --- | --- | --- |
-| [G1 Spec](gates/README.md#g1-spec) | Before design | PM, with `spec-check` | Every requirement numbered; every open question answered by Bhavin |
-| [G2 Design](gates/README.md#g2-design) | Before build | Designer, with `delight-police` | No open Zero Cognitive Load findings |
-| [G3 Build](gates/README.md#g3-build) | Every change | Developer or agent, with `build-gate` | The quick checks pass |
-| [G4 PR](gates/README.md#g4-pr) | Before merge | `build-gate` report + one person | 0 blocker FAILs; report attached; CI green |
-| [G5 First use](gates/README.md#g5-first-use) | Before sign-off | Someone who hasn't seen it, with `first-use` | Finishes it unaided |
-| [G6 Release](gates/README.md#g6-release) | Before shipping or showing Bhavin | Release owner | All gates passed; demo + report ready |
+## What to expect
 
-## Use it in a project
+- **You type one thing.** `/zero-clutter`, or just "zero clutter this", "gate
+  this", "is this ready?". It works out what you gave it (a spec, a design, a
+  change, a PR, feedback) and runs the right gate.
+- **You get a short answer.** One line per problem: the rule it breaks, what's
+  wrong and where, and the fix. Questions only the approver can answer are
+  marked `?`. Passes are a count. Say "details" for the full report.
+- **It judges, it doesn't redesign.** It won't silently change what the spec
+  asks for; a principle the spec breaks comes back as a question for the
+  approver.
+- **The goal:** by the time Bhavin sees the work, it already passes his
+  principles, his past feedback and a first-use test. Anything he still flags
+  is logged as an *escape* and becomes a new rule, so it can't happen twice.
 
+## Install
+
+Pick your tool. You only do this once.
+
+**Claude Code**
+```text
+/plugin marketplace add prithvi-zeta/zero-clutter
+/plugin install zero-clutter@zero-clutter
+```
+(Claude Code 2.1.275 or later also takes `/plugin install zero-clutter --marketplace prithvi-zeta/zero-clutter`.)
+
+**Cursor**: install **Zero Clutter** from the plugin marketplace once it's
+listed. Until then, run the script below with `--tools cursor`.
+
+**Codex, GitHub Copilot, or no marketplace**
 ```bash
 git clone https://github.com/prithvi-zeta/zero-clutter
-cd zero-clutter
-python3 scripts/install.py                          # skills for your agent tools
-python3 scripts/install.py --project ~/path/to/repo # adopt in a repo
+python3 zero-clutter/scripts/install.py            # every tool it finds
+python3 zero-clutter/scripts/install.py --tools codex,copilot
 ```
 
-Adopting a repo adds a PR template, an `AGENTS.md` section that points every
-agent at the principles and gates, and a `zero-clutter.md` file for that
-project's **adapter**: how each checklist item is verified on its stack. The
-installer only writes what it marks as its own and never replaces anything
-else.
+**Gemini CLI**
+```bash
+gemini extensions install https://github.com/prithvi-zeta/zero-clutter
+```
 
-Projects using it:
+**Claude.ai, ChatGPT or any chat**: upload the `skills/zero-clutter` folder
+(Claude: Settings → Capabilities → Skills), or attach its `SKILL.md` and the
+`references/` folder, then say "run zero clutter on this".
 
-| Project | Adapter |
+Restart the tool after installing.
+
+## Set up a repo (once per project)
+
+In the repo, ask your agent:
+
+```text
+zero-clutter setup
+```
+
+It reads the project and creates:
+
+| File | What it's for |
 | --- | --- |
-| RyzeDesign (Flutter app + web funnels) | `docs/delight/checklist.md` (134 items, with Flutter and web verify steps) |
+| `.zero-clutter/adapter.md` | How this project produces evidence: screenshot tool, smallest screen, tests, who approves |
+| `.zero-clutter/house-rules.md` | Rules learned in this project (`P-01`, `P-02`, …) |
+| `.zero-clutter/feedback-log.md` | Every review comment and what it taught us |
+| `.github/pull_request_template.md` | The gates and the 15 checks on every PR (only if the repo has none) |
+| A section in `AGENTS.md` | Tells every agent in the repo to run Zero Clutter at each gate |
 
-## Rules for the system itself
+Or run `python3 zero-clutter/scripts/install.py --project path/to/repo`. Commit these files so the whole team shares them.
 
-1. **Principles are verbatim.** Nobody edits `principles/`. A new version of
-   Bhavin's docs replaces the files and bumps the version.
-2. **Checklist IDs are stable.** Never renumber or reuse an ID. Retire an item
-   by marking it retired.
-3. **Every escape becomes a rule.** Use `feedback-intake` within 48 hours of the
-   feedback.
-4. **Taste calls go to Bhavin as questions, before the build.** A gate never
-   guesses his taste; it asks at G1 and records the answer.
-5. **Check before you release a change here:** `python3 scripts/check.py` must
-   pass (copies in sync, every ID resolvable, every rule traced).
+## Use it
 
-See [CHANGELOG.md](CHANGELOG.md) for versions.
+| When | Say | It runs |
+| --- | --- | --- |
+| A ticket, doc or Loom arrives | `zero-clutter` + the link or file | **spec** (G1): every requirement numbered, conflicts with the principles, questions for the approver |
+| You have a design or screenshot | `zero-clutter` + the frame | **design** (G2): Delight Police plus the house rules |
+| You changed something | `zero-clutter` | **build** (G3): the 15 checks on what changed |
+| Before merging | `zero-clutter pr` | **pr** (G4): every checklist item with evidence, in its own reviewer agent |
+| A new flow is ready | `zero-clutter first-use` | **first-use** (G5): a step-by-step test for someone who hasn't seen it |
+| Feedback comes in | `zero-clutter` + the feedback | **feedback**: logs it, finds the gate that missed it, adds a rule |
+
+## The gates
+
+| Gate | When | Passes when |
+| --- | --- | --- |
+| G1 Spec | Before design | Every requirement numbered; the approver answered every blocker question |
+| G2 Design | Before build | No open Zero Cognitive Load findings |
+| G3 Build | Every change | The 15 checks pass |
+| G4 PR | Before merge | 0 blockers; every requirement proven with a screenshot |
+| G5 First use | Before sign-off | Someone new finishes it unaided |
+| G6 Release | Before shipping or showing the approver | All of the above; demo and report ready |
+
+Details: [gates](skills/zero-clutter/references/gates.md).
+
+## What it checks against
+
+1. **[Bhavin's principles](skills/zero-clutter/references/principles/design-for-delight-principles.md)**, word for word, in their priority order: Zero Cognitive Load (zero clutter first), Engage the Senses, Purpose-built Unique Design, and [The Science behind Delight](skills/zero-clutter/references/principles/the-science-behind-delight.md).
+2. **[The checklist](skills/zero-clutter/references/checklist.md)**: 15 questions, backed by [134 items](skills/zero-clutter/references/checklist-items.md) with stable IDs.
+3. **[Shared house rules](skills/zero-clutter/references/house-rules.md)**: lessons from past reviews that apply everywhere.
+4. **The project's own context and rules**: `AGENTS.md`, the adapter, and `.zero-clutter/house-rules.md`.
+
+## What it can't do
+
+- From a still image it can't judge haptics, sound or speed; it says so and asks for a recording or a device check.
+- It can't stand in for a first-use test with a real person on first-run screens; it prepares the test and marks it pending.
+- It doesn't decide taste for the approver. It asks, before the build.
+
+## Inside the repo
+
+| Path | What |
+| --- | --- |
+| `skills/zero-clutter/` | The skill: `SKILL.md` plus `references/` (principles, checklist, gates, house rules, mode guides, templates) |
+| `skills/delight-police/` | Screen and Figma review, used by design mode |
+| `agents/zero-clutter-reviewer.md` | Reviewer that runs the full PR review in its own context |
+| `cursor/` | Cursor command and rule |
+| `.claude-plugin/`, `.cursor-plugin/`, `gemini-extension.json` | Plugin manifests |
+| `examples/ryzedesign/` | A worked example: a real project's feedback log |
+| `scripts/` | `install.py`, and `check.py`, which CI runs |
+
+## Change Zero Clutter
+
+1. Edit, then bump the version in `skills/zero-clutter/SKILL.md`, both plugin manifests and `gemini-extension.json` (they must match).
+2. Add a line to [CHANGELOG.md](CHANGELOG.md).
+3. Run `python3 scripts/check.py`: principles in sync, every ID, rule and link resolves, versions match.
+4. Open a PR. Never edit the principles' wording; a new version of Bhavin's docs replaces the files.
+
+A project rule that would help everyone: add it to the shared house rules in a PR, with the log entry it came from.

@@ -1,0 +1,9 @@
+---
+description: Zero Clutter quality gates. Apply when designing or building user-facing screens, flows or copy, before saying work is done, and when someone shares review feedback.
+alwaysApply: false
+---
+
+This project follows Zero Clutter. Before showing or calling any user-facing
+work done, run the `zero-clutter` skill on it (build mode), and fix every
+blocker it reports. New work from a ticket or doc starts with `zero-clutter`
+in spec mode. Review feedback goes through `zero-clutter` in feedback mode.
