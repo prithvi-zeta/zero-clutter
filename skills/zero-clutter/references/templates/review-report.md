@@ -1,5 +1,6 @@
 # Review report: <change>
 
+**Format:** [report-format](../report-format.md) · **SARIF:** `<same name>.sarif`
 **Gate:** G3 quick / G4 full · **Date:** <date> · **Reviewer:** <agent or person>
 **Plan:** <link to the G1 plan> · **Adapter:** <project adapter used>
 
@@ -17,7 +18,7 @@
 
 | Item | Result | Evidence |
 | --- | --- | --- |
-| ZCL-01 | PASS / FAIL / N-A / SPEC-CONFLICT / PENDING-* | <measured: screenshot, test, numbers> |
+| ZCL-01 Zero Cognitive Load | pass / issue (blocking·major·minor) / question / pending / n/a | <measured: screenshot, test, numbers> |
 
 ## House rules
 

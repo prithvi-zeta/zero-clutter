@@ -9,7 +9,7 @@ description: >-
   gate this, check this, review this screen or spec, is this ready, before
   saying done, before a PR merges, or when they share review feedback.
 metadata:
-  version: "0.3.0"
+  version: "0.4.0"
 ---
 
 # Zero Clutter
@@ -74,37 +74,49 @@ the tool has agents, so the main thread stays short.
 
 ## 4. Answer (short, every time)
 
+The format follows Conventional Comments (labels people and parsers both
+read) and SARIF (rule ID, level, location, fix). Full rules:
+[report-format](references/report-format.md).
+
 ```text
-Zero Clutter · <mode> (G<n>) · <what was checked>
-<verdict> · <n> blockers · <n> majors · <n> minors · <n> questions
+Zero Clutter · <mode> (G<n>) · <what was checked> · <verdict>
+<n> blocking · <n> major · <n> minor · <n> pending · <passed>/<checked> passed · <n> n/a
 
-✗ <ID> <what's wrong, where> → <the fix>
-? <ID> <spec conflict or taste call> → <question for the approver, with a proposal>
-… <pending: device, person, capture, or a file you couldn't write>
+issue (blocking) <ID> <Principle> · <what's wrong> at <where> → <the fix>
+question (major) <ID> <Principle> · <the decision> → <proposal> (recommend: <x>)
+suggestion (minor) <ID> <Principle> · <optional improvement nobody asked for> → <idea>
+pending <ID> <Principle> · <what can't be judged yet> → <who or what resolves it>
+keep: <what works, 1 to 3 things>
 
-✓ <n> checks passed
 Next: <the one thing to do now>
 ```
 
-- **Symbols:** `✗` a problem the team fixes itself. `?` anything only the
-  approver can decide (a spec conflict, a taste call, a missing fact). `…`
-  something still pending. Counts of blockers, majors and minors use the
-  item's severity, for `✗` and `?` alike.
+- **Labels** start every line, as plain words: `issue` (the team fixes it),
+  `question` (only the approver can decide: a spec conflict, a taste call, a
+  missing fact), `suggestion` (an improvement to existing UI nobody asked
+  for), `pending` (needs a device, a person or a capture), `keep` (what works).
+- **Severity** goes in brackets on every `issue`, `question` and `suggestion`:
+  `(blocking)`, `(major)` or `(minor)`, from the item's severity.
+- **ID and principle name** come next: `HIER-05 Hierarchy`, `HR-03 House rule`,
+  `P-02 Project rule`. Names are in [report-format](references/report-format.md).
+- **Where:** `file:line` for code, `screen › element` for UI, `R#` for a spec
+  row. Several places: the first two, then `+<n>`.
 - **Verdict:** `PASS` or `FAIL` for design, build, pr and first-use (`PASS`
-  only with 0 blockers and nothing pending on a blocker). For spec: `READY`
-  (no blocker `?` left) or `OPEN`. Feedback mode answers with its own
+  only with 0 blocking and nothing pending on a blocker). For spec: `READY`
+  (no blocking question left) or `OPEN`. Feedback mode answers with its own
   five-line entry instead.
-- **One line per finding,** under about 140 characters: the ID, what's wrong
-  and where (screen, file:line, element), an arrow, the fix. Blockers first,
-  then by principle order.
-- **At most 10 lines of findings in chat,** then `+<n> more: say "details"`.
-  The full report lists everything.
-- No praise, no preamble, no recap of the principles, no tables unless asked.
-  Omit the `✓` line in spec mode.
-- **Where the full version goes:** the spec plan and the PR report are files.
-  Save them where the adapter says, else in `.zero-clutter/plans/` or
-  `.zero-clutter/reports/`. If you can't write files, end with
-  `… full plan: say "details"` and show it when asked.
+- **Totals** on line 2: passed out of checked (everything judged, not counting
+  n/a or suggestions), and n/a, so the reader knows the scope. In spec mode, drop the passed count.
+- **Order:** blocking, then major, then minor; within each, principle order.
+  At most 10 finding lines in chat, then `+<n> more: say "details"`.
+- **One `keep:` line**, 1 to 3 short things worth protecting. No other praise,
+  no preamble, no recap of the principles.
+- Each line under about 140 characters.
+- **Files:** pr mode always writes the full report (Markdown) and a SARIF file
+  to `.zero-clutter/reports/<date>-<name>.md` and `.sarif`; other modes write
+  them when asked ("details", "sarif"). The spec plan goes where the adapter
+  says, else `.zero-clutter/plans/`. If you can't write files, end with
+  `pending · full report: say "details"`.
 
 ## 5. Setup (`zero-clutter setup`)
 

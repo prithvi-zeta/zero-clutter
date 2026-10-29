@@ -2,6 +2,23 @@
 
 Versions of the Zero Clutter system. Each skill also keeps its own changelog.
 
+## 0.4.0 — 2026-10-29
+
+- **Answer format people and machines both read.** Every finding starts with
+  a label (`issue`, `question`, `suggestion`, `pending`) and its severity
+  (`blocking`, `major`, `minor`), then the rule ID with its principle name,
+  where (file:line or screen › element) and the fix. A `keep:` line names what
+  works. Line 2 shows `passed/checked` and `n/a`. Follows Conventional
+  Comments and SARIF; see `references/report-format.md`.
+- **SARIF reports.** pr mode writes `.zero-clutter/reports/<date>-<name>.sarif`
+  next to the Markdown report; other modes on request.
+- **CI gate.** `skills/zero-clutter/scripts/gate.py` reads the reports,
+  prints the short summary, annotates the PR and fails on blocking findings.
+  Example workflow: `examples/ci/zero-clutter-gate.yml`. Sample report:
+  `examples/reports/onboarding-option-3.sarif`.
+- Result words unified across the mode guides (`pass`, `issue`, `question`,
+  `pending`, `n/a`).
+
 ## 0.3.0 — 2026-10-29
 
 - **One command, any tool.** Zero Clutter is now a single `zero-clutter` skill

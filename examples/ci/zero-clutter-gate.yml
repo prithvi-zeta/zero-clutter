@@ -1,0 +1,48 @@
+# Zero Clutter gate for a project repo. Copy to .github/workflows/zero-clutter.yml.
+#
+# The review itself runs in your agent (zero-clutter in pr mode), which writes
+# .zero-clutter/reports/<date>-<name>.sarif. This workflow fails the PR when a
+# report has a blocking finding, or when UI files changed without a report,
+# and shows the findings as annotations on the PR.
+name: Zero Clutter
+
+on:
+  pull_request:
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write   # only needed for the optional upload step
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Reports for this PR
+        id: reports
+        run: |
+          base="${{ github.event.pull_request.base.sha }}"
+          changed=$(git diff --name-only "$base"...HEAD)
+          reports=$(echo "$changed" | grep -E '^\.zero-clutter/reports/.*\.sarif$' || true)
+          # Edit this pattern to match your UI code.
+          ui=$(echo "$changed" | grep -E '\.(dart|swift|kt|tsx|jsx|css)$' || true)
+          if [ -n "$ui" ] && [ -z "$reports" ]; then
+            echo "UI changed but no Zero Clutter report. Run zero-clutter in pr mode and commit .zero-clutter/reports/."
+            exit 1
+          fi
+          echo "files=$(echo $reports)" >> "$GITHUB_OUTPUT"
+
+      - name: Gate
+        if: steps.reports.outputs.files != ''
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/prithvi-zeta/zero-clutter/main/skills/zero-clutter/scripts/gate.py -o /tmp/gate.py
+          python3 /tmp/gate.py ${{ steps.reports.outputs.files }} --github
+
+      # Optional: show findings in the Security tab (needs code scanning on the repo).
+      # - uses: github/codeql-action/upload-sarif@v3
+      #   if: always() && steps.reports.outputs.files != ''
+      #   with:
+      #     sarif_file: .zero-clutter/reports/
+      #     category: zero-clutter

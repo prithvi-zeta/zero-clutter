@@ -9,16 +9,16 @@ GitHub Copilot, Gemini CLI, or plain chat. Works in any repo: it reads the
 project's own context and rules first.
 
 ```text
-Zero Clutter · design (G2) · Onboarding plans screen
-FAIL · 1 blocker · 2 majors · 0 minors
+Zero Clutter · design (G2) · Onboarding plans screen · FAIL
+1 blocking · 2 major · 0 minor · 1 pending · 38/42 passed · 6 n/a
 
-✗ HIER-04 Plans shown as 3 columns to scan across → one plan per card, Base | Plus | Premium switcher
-✗ CLUT-01 "Benefits apply until end of next month" repeated under each plan → once, under the list
-✗ WORD-05 "$250 in monthly card spends" and "$250 card spend / month" both used → one term
-? HR-03 Which number leads: 4% APY or the plan name? → propose 4% at headline size
+issue (blocking) HIER-04 Hierarchy · 3 plans side by side to scan across at plans › table → one plan per card, Base | Plus | Premium switcher
+issue (major) CLUT-01 Clutter · "Benefits apply until end of next month" repeated under each plan → once, under the list
+question (major) WORD-05 Words · "$250 in monthly card spends" and "$250 card spend / month" → pick one? (recommend: the first)
+pending FB-01 Feedback · press states can't be judged from a still → check on a device
+keep: APY is the biggest thing on screen · one Continue · no tooltips
 
-✓ 38 checks passed
-Next: send the HR-03 question to the approver, then fix the 3 ✗
+Next: fix the blocking issue, then send the WORD-05 question to the approver.
 ```
 
 ## What to expect
@@ -26,9 +26,10 @@ Next: send the HR-03 question to the approver, then fix the 3 ✗
 - **You type one thing.** `/zero-clutter`, or just "zero clutter this", "gate
   this", "is this ready?". It works out what you gave it (a spec, a design, a
   change, a PR, feedback) and runs the right gate.
-- **You get a short answer.** One line per problem: the rule it breaks, what's
-  wrong and where, and the fix. Questions only the approver can answer are
-  marked `?`. Passes are a count. Say "details" for the full report.
+- **You get a short answer.** One line per finding: a label (`issue`,
+  `question`, `suggestion`, `pending`), how much it matters (`blocking`,
+  `major`, `minor`), the rule and principle, what's wrong and where, and the
+  fix. One `keep:` line says what works. Say "details" for the full report.
 - **It judges, it doesn't redesign.** It won't silently change what the spec
   asks for; a principle the spec breaks comes back as a question for the
   approver.
@@ -99,6 +100,34 @@ Or run `python3 zero-clutter/scripts/install.py --project path/to/repo`. Commit 
 | A new flow is ready | `zero-clutter first-use` | **first-use** (G5): a step-by-step test for someone who hasn't seen it |
 | Feedback comes in | `zero-clutter` + the feedback | **feedback**: logs it, finds the gate that missed it, adds a rule |
 
+## Reading the answer
+
+| Label | Means | Who acts |
+| --- | --- | --- |
+| `issue (blocking)` | Can't ship until fixed | The team |
+| `issue (major)` / `(minor)` | Fix before review / fix or note | The team |
+| `question` | A spec conflict, a taste call or a missing fact | The approver decides |
+| `suggestion` | An improvement nobody asked for | Optional |
+| `pending` | Needs a device, a person or a capture | Whoever it names |
+| `keep` | What works; don't lose it | Everyone |
+
+Line 2 counts everything, with `passed/checked` and `n/a` so you know the scope.
+The format follows [Conventional Comments](https://conventionalcomments.org/)
+(label words people and parsers both read) and [SARIF](https://docs.oasis-open.org/sarif/sarif/v2.1.0/sarif-v2.1.0.html)
+(rule, level, location, fix). Full rules: [report format](skills/zero-clutter/references/report-format.md).
+
+## CI gate
+
+`pr` mode also writes the findings as SARIF to `.zero-clutter/reports/`. Copy
+[examples/ci/zero-clutter-gate.yml](examples/ci/zero-clutter-gate.yml) into a
+repo's `.github/workflows/` and every PR:
+
+- fails if UI files changed without a Zero Clutter report,
+- fails on any blocking finding, with annotations on the PR,
+- can show the findings in GitHub's Security tab (optional step).
+
+Locally: `python3 skills/zero-clutter/scripts/gate.py .zero-clutter/reports/`.
+
 ## The gates
 
 | Gate | When | Passes when |
@@ -129,12 +158,12 @@ Details: [gates](skills/zero-clutter/references/gates.md).
 
 | Path | What |
 | --- | --- |
-| `skills/zero-clutter/` | The skill: `SKILL.md` plus `references/` (principles, checklist, gates, house rules, mode guides, templates) |
+| `skills/zero-clutter/` | The skill: `SKILL.md`, `references/` (principles, checklist, gates, house rules, report format, mode guides, templates) and `scripts/gate.py` |
 | `skills/delight-police/` | Screen and Figma review, used by design mode |
 | `agents/zero-clutter-reviewer.md` | Reviewer that runs the full PR review in its own context |
 | `cursor/` | Cursor command and rule |
 | `.claude-plugin/`, `.cursor-plugin/`, `gemini-extension.json` | Plugin manifests |
-| `examples/ryzedesign/` | A worked example: a real project's feedback log |
+| `examples/` | A real project's feedback log, a sample SARIF report, the CI workflow |
 | `scripts/` | `install.py`, and `check.py`, which CI runs |
 
 ## Change Zero Clutter

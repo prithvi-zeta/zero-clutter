@@ -25,7 +25,7 @@ negative feedback later.
    spec vs a frozen screen. Each conflict is a question.
 5. **Run the principles over the spec.** For each requirement, check the
    checklist items it touches. Anything the spec asks for that a principle
-   forbids is a **SPEC-CONFLICT**: name the item, quote the principle, and
+   forbids is a **spec conflict** (a `question`): name the item, quote the principle, and
    propose an option that meets both. Common ones:
    - multi-column layouts (HIER-04)
    - more than one statement per screen (CLUT-01)

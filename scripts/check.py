@@ -145,6 +145,27 @@ for path in sorted(ROOT.rglob("*.md")):
         if not (path.parent / target).exists():
             errors.append(f"{rel}: link to {target} doesn't resolve")
 
+# 7. The sample SARIF report uses real IDs and principle names, and the gate
+#    reads it (it has blocking findings, so the gate must fail).
+import subprocess
+
+names = dict(re.findall(r"^\| ([A-Z]+) \| ([^|]+?) \|$", read(f"{REF}/report-format.md"), re.M))
+sample = ROOT / "examples" / "reports" / "onboarding-option-3.sarif"
+data = json.loads(sample.read_text(encoding="utf-8"))
+for run in data["runs"]:
+    for rule in run["tool"]["driver"]["rules"]:
+        if rule["id"] not in known_ids:
+            errors.append(f"sample SARIF: rule {rule['id']} is not in the checklist items")
+        prefix = rule["id"].split("-")[0]
+        if names.get(prefix) != rule.get("name"):
+            errors.append(f"sample SARIF: {rule['id']} is named {rule.get('name')!r}, report-format says {names.get(prefix)!r}")
+gate = subprocess.run(
+    [sys.executable, str(ROOT / "skills/zero-clutter/scripts/gate.py"), str(sample)],
+    capture_output=True, text=True,
+)
+if gate.returncode != 1 or "Gate: FAIL · 2 blocking" not in gate.stdout:
+    errors.append(f"gate.py on the sample report: expected FAIL with 2 blocking, got exit {gate.returncode}")
+
 if errors:
     print("Zero Clutter check failed:\n  " + "\n  ".join(errors))
     sys.exit(1)
