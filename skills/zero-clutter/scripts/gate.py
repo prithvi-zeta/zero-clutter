@@ -17,7 +17,8 @@ import pathlib
 import re
 import sys
 
-SEVERITY = {"error": "blocking", "warning": "major", "note": "minor"}
+DOT = {"error": "🔴", "warning": "🟠", "note": "🟡"}
+RULE = "─" * 48
 
 
 def reports(paths: list[str]) -> list[pathlib.Path]:
@@ -84,44 +85,49 @@ def main(argv=None) -> int:
             # Everything that was judged, i.e. all but n/a and suggestions.
             checked = len(results) - count("notApplicable") - count("informational")
             verdict = props.get("verdict", "?")
-            print(f"Zero Clutter · {props.get('mode', '?')} ({props.get('gate', '?')}) · {props.get('subject', path.name)}")
-            print(f"{verdict} · {sev('error')} blocking · {sev('warning')} major · {sev('note')} minor · "
-                  f"{count('open')} pending · {count('pass')}/{checked} passed · {count('notApplicable')} n/a")
+            badge = {"PASS": "✅ PASS", "FAIL": "❌ FAIL", "READY": "🟢 READY", "OPEN": "🟡 OPEN"}.get(verdict, verdict)
+            print(f"🧹 Zero Clutter · {props.get('subject', path.name)}")
+            print(f"{props.get('mode', '?')} ({props.get('gate', '?')})")
+            print()
+            print(f"{badge} · 🔴 {sev('error')} blocking · 🟠 {sev('warning')} major · 🟡 {sev('note')} minor · "
+                  f"⏳ {count('open')} to check · ✅ {count('pass')}/{checked} passed")
+            print()
             order = {"error": 0, "warning": 1, "note": 2, "none": 3}
             ranked = sorted(results, key=lambda r: order.get(r.get("level", "none"), 3))
-            number = 0
-            for heading, kind in (("Fix", "fail"), ("Decide (the approver)", "review"), ("Suggest", "informational")):
+            sections = (("🔧 Fix", "fail", "F", "✏️"), ("🤔 Decide", "review", "D", "💬"), ("💡 Suggest", "informational", "S", "💡"))
+            for heading, kind, prefix, mark in sections:
                 group = [r for r in ranked if r.get("kind") == kind]
                 if not group:
                     continue
-                print(f"\n{heading}")
-                for r in group:
-                    number += 1
+                print(f"{RULE}\n{heading}\n")
+                for n, r in enumerate(group, 1):
                     rule = rules.get(r.get("ruleId"), {})
                     what, fix = split(r.get("message", {}).get("text", ""))
-                    print(f"{number}. {r.get('ruleId', '')} {rule.get('name', '')} · {SEVERITY.get(r.get('level'), 'minor')}")
-                    print(f"   {what}{where(r)}")
+                    print(f"{DOT.get(r.get('level'), '🟡')} {prefix}{n} · {r.get('ruleId', '')} {rule.get('name', '')}")
+                    print(f"   📍 {what}{where(r)}")
                     if fix:
-                        print(f"   → {fix}")
+                        print(f"   {mark} {fix}")
+                    print()
                     annotate(r, args.github)
             pending = [r for r in ranked if r.get("kind") == "open"]
             if pending:
-                print("\nCheck")
+                print(f"{RULE}\n⏳ Check\n")
                 for r in pending:
                     rule = rules.get(r.get("ruleId"), {})
                     what, fix = split(r.get("message", {}).get("text", ""))
-                    print(f"- {r.get('ruleId', '')} {rule.get('name', '')} · {what}" + (f" → {fix}" if fix else ""))
-            print()
+                    print(f"   • {r.get('ruleId', '')} {rule.get('name', '')} · {what}" + (f" → {fix}" if fix else ""))
+                print()
+            print(RULE)
             blocking += sev("error")
             major += sev("warning")
 
     if blocking:
-        print(f"Gate: FAIL · {blocking} blocking")
+        print(f"Gate: ❌ FAIL · {blocking} blocking")
         return 1
     if args.max_major is not None and major > args.max_major:
-        print(f"Gate: FAIL · {major} major (max {args.max_major})")
+        print(f"Gate: ❌ FAIL · {major} major (max {args.max_major})")
         return 1
-    print("Gate: PASS")
+    print("Gate: ✅ PASS")
     return 0
 
 

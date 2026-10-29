@@ -12,51 +12,79 @@ findings as a file machines parse. It borrows from two standards:
 
 ## The chat answer
 
-Grouped under plain headings so it scans in a few seconds, in Markdown so it
-renders cleanly in Claude Code, Cursor and chat:
-
 ```markdown
-**Zero Clutter** · design (G2) · Onboarding Option 3
-**FAIL** · 2 blocking · 1 major · 1 minor · 2 pending · 7/13 passed · 2 n/a
+### 🧹 Zero Clutter · App Onboarding Option 3
+design (G2) · Flutter · 5 stories
 
-**Fix**
-1. **CONS-07 Consistency** · blocking
-   "3%" hard-coded in 6 places · `pitch_v3.dart:46` +5
-   → One APY constant, used everywhere
-2. **HIER-05 Hierarchy** · major
-   White text 2.6:1 on amber, needs 3:1 · story 3 › statement
-   → Darker base behind the text
+**❌ FAIL** · 🔴 2 blocking · 🟠 1 major · 🟡 1 minor · ⏳ 2 to check · ✅ 7/13 passed
 
-**Decide** (the approver)
-3. **PROC-07 Process** · blocking
-   Frames have 8 screens; we show 5
-   → Keep 5? (recommend: yes)
-4. **WORD-05 Words** · minor
-   "upto" in the frames' copy
-   → Change to "up to"? (recommend: yes)
+---
 
-**Check**
+### 🔧 Fix
+
+**🔴 F1 · CONS-07 Consistency**
+- 📍 "3%" hard-coded in 6 places · `pitch_v3.dart`, `onboarding_pitch_screen.dart:56` +4
+- ✏️ One APY constant, used everywhere
+
+**🟠 F2 · HIER-05 Hierarchy**
+- 📍 White text 2.6:1 on amber, needs 3:1 · story 3 › statement
+- ✏️ Darker stripes base behind the text
+
+---
+
+### 🤔 Decide · Bhavin
+
+**🔴 D1 · PROC-07 Process**
+- 📍 The frames have 8 screens; Option 3 shows 5
+- 💬 Keep 5? · recommend: yes
+
+**🟡 D2 · WORD-05 Words**
+- 📍 "upto" in the frames' copy
+- 💬 Change to "up to"? · recommend: yes
+
+---
+
+### ⏳ Check
+
 - **SENSE-02 Senses** · haptics and feel → on a device
 - **ZCL-01 Zero Cognitive Load** · first-run screens → first-use test with a person (G5)
 
-**Keep** one statement per screen · sharp vector glyphs · a colour per guarantee
+---
 
-**Next** One APY constant and a darker text base, then send 3 and 4 to the approver.
+### ✅ Keep
+
+One statement per screen · sharp vector glyphs · a colour per guarantee
+
+### 👉 Next
+
+Fix F1 and F2, then send D1 and D2 to Bhavin.
 ```
 
-### Headings
+### Key
 
-| Heading | Holds | Label (SARIF `properties.label`) |
-| --- | --- | --- |
-| **Fix** | Problems the team fixes | `issue` |
-| **Decide** | Spec conflicts, taste calls, missing facts: the approver decides | `question` |
-| **Suggest** | Optional improvements nobody asked for | `suggestion` |
-| **Check** | Still pending: a device, a person, a capture | `pending` |
-| **Keep** | What works (1 to 3 things) | `keep` |
+| Symbol | Means |
+| --- | --- |
+| ✅ PASS · ❌ FAIL | Verdict for design, build, pr, first-use |
+| 🟢 READY · 🟡 OPEN | Verdict for spec |
+| 🔴 · 🟠 · 🟡 | blocking · major · minor |
+| 🔧 Fix | The team fixes it (SARIF `issue`) |
+| 🤔 Decide | The approver decides (`question`) |
+| 💡 Suggest | Optional, nobody asked (`suggestion`) |
+| ⏳ Check | Pending: a device, a person, a capture (`pending`) |
+| ✅ Keep | What works (`keep`) |
+| 👉 Next | The one thing to do now |
+| 📍 · ✏️ · 💬 | what and where · the fix · the question |
 
-Findings in Fix, Decide and Suggest are numbered across headings. Each is
-three lines: **ID Principle** · severity, then what and where, then `→` the
-fix. Where is `file:line`, `screen › element` or `R#` for a spec row.
+### Why it's built this way
+
+- **Dividers and headings** give each section its own block, so the eye jumps
+  straight to Fix or Decide.
+- **Per-section numbers (F1, D1)**, not Markdown numbered lists: those break
+  in some renderers when a list starts past 1.
+- **A bold title, then two bullets** renders identically in Claude Code,
+  Cursor, chat and GitHub; bare line breaks don't.
+- **One emoji per role**, used the same way every time, so they work as icons,
+  not decoration.
 
 ### Principle names
 
@@ -120,14 +148,14 @@ asked. One run, one tool, one result per finding and per pass. Minimal shape:
 
 ### Mapping
 
-| Chat heading · severity | SARIF `kind` | SARIF `level` |
+| Chat section · dot | SARIF `kind` | SARIF `level` |
 | --- | --- | --- |
-| Fix · blocking | `fail` | `error` |
-| Fix · major | `fail` | `warning` |
-| Fix · minor | `fail` | `note` |
-| Decide | `review` | from severity, as above |
-| Suggest | `informational` | `note` |
-| Check | `open` | `none` |
+| 🔧 Fix · 🔴 | `fail` | `error` |
+| 🔧 Fix · 🟠 | `fail` | `warning` |
+| 🔧 Fix · 🟡 | `fail` | `note` |
+| 🤔 Decide | `review` | from the dot, as above |
+| 💡 Suggest | `informational` | `note` |
+| ⏳ Check | `open` | `none` |
 | a passed check | `pass` | `none` |
 | n/a | `notApplicable` | `none` |
 

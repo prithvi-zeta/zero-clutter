@@ -163,7 +163,7 @@ gate = subprocess.run(
     [sys.executable, str(ROOT / "skills/zero-clutter/scripts/gate.py"), str(sample)],
     capture_output=True, text=True,
 )
-if gate.returncode != 1 or "Gate: FAIL · 2 blocking" not in gate.stdout:
+if gate.returncode != 1 or "Gate: ❌ FAIL · 2 blocking" not in gate.stdout:
     errors.append(f"gate.py on the sample report: expected FAIL with 2 blocking, got exit {gate.returncode}")
 
 if errors:

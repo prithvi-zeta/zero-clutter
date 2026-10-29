@@ -10,38 +10,57 @@ Figma frame. Works for designers, PMs and engineers, in Claude Code, Cursor,
 Codex, GitHub Copilot, Gemini CLI, or plain chat, and in any repo: it reads
 the project's own context and rules first.
 
-> **Zero Clutter** · design (G2) · Onboarding plans screen
-> **FAIL** · 1 blocking · 2 major · 0 minor · 1 pending · 38/42 passed · 6 n/a
+> ### 🧹 Zero Clutter · Onboarding plans screen
+> design (G2) · iOS
 >
-> **Fix**
-> 1. **HIER-04 Hierarchy** · blocking
->    3 plans side by side to scan across · plans › table
->    → One plan per card, with a Base | Plus | Premium switcher
-> 2. **CLUT-01 Clutter** · major
->    "Benefits apply until end of next month" repeated under each plan
->    → Say it once, under the list
+> **❌ FAIL** · 🔴 1 blocking · 🟠 2 major · 🟡 0 minor · ⏳ 1 to check · ✅ 38/42 passed
 >
-> **Decide** (the approver)
-> 3. **WORD-05 Words** · major
->    "$250 in monthly card spends" and "$250 card spend / month" both used
->    → Keep one? (recommend: the first)
+> ---
 >
-> **Check**
+> ### 🔧 Fix
+>
+> **🔴 F1 · HIER-04 Hierarchy**
+> - 📍 3 plans side by side to scan across · plans › table
+> - ✏️ One plan per card, with a Base | Plus | Premium switcher
+>
+> **🟠 F2 · CLUT-01 Clutter**
+> - 📍 "Benefits apply until end of next month" repeated under each plan
+> - ✏️ Say it once, under the list
+>
+> ---
+>
+> ### 🤔 Decide · Bhavin
+>
+> **🟠 D1 · WORD-05 Words**
+> - 📍 "$250 in monthly card spends" and "$250 card spend / month" both used
+> - 💬 Keep one? · recommend: the first
+>
+> ---
+>
+> ### ⏳ Check
+>
 > - **FB-01 Feedback** · press states → on a device
 >
-> **Keep** APY is the biggest thing on screen · one Continue · no tooltips
+> ---
 >
-> **Next** Fix 1, then send 3 to the approver.
+> ### ✅ Keep
+>
+> APY is the biggest thing on screen · one Continue · no tooltips
+>
+> ### 👉 Next
+>
+> Fix F1, then send D1 to Bhavin.
 
 ## What to expect
 
 - **You type one thing.** `/zero-clutter`, or just "zero clutter this", "gate
   this", "is this ready?". It works out what you gave it (a spec, a design, a
   change, a PR, feedback) and runs the right gate.
-- **You get a short, clean answer.** A verdict line, then findings grouped
-  under **Fix**, **Decide**, **Check** and **Keep**, each in three short
-  lines: the rule and how much it matters, what's wrong and where, the fix.
-  Say "details" for the full report.
+- **You get a short, clean answer.** A verdict line, then sections split by
+  dividers: 🔧 **Fix**, 🤔 **Decide**, ⏳ **Check**, ✅ **Keep**, 👉 **Next**. A dot
+  shows how much each finding matters (🔴 blocking, 🟠 major, 🟡 minor), and
+  each finding is a title plus two bullets: 📍 what's wrong and where, ✏️ the
+  fix. Say "details" for the full report.
 - **It judges, it doesn't redesign.** It won't silently change what the spec
   asks for; a principle the spec breaks comes back as a question for the
   approver.
@@ -114,16 +133,18 @@ Or run `python3 zero-clutter/scripts/install.py --project path/to/repo`. Commit 
 
 ## Reading the answer
 
-| Heading | Means | Who acts |
+| Section | Means | Who acts |
 | --- | --- | --- |
-| **Fix** | Problems to fix; `blocking` means it can't ship | The team |
-| **Decide** | A spec conflict, a taste call or a missing fact | The approver |
-| **Suggest** | An improvement nobody asked for | Optional |
-| **Check** | Needs a device, a person or a capture | Whoever it names |
-| **Keep** | What works; don't lose it | Everyone |
+| 🔧 **Fix** | Problems to fix | The team |
+| 🤔 **Decide** | A spec conflict, a taste call or a missing fact | The approver |
+| 💡 **Suggest** | An improvement nobody asked for | Optional |
+| ⏳ **Check** | Needs a device, a person or a capture | Whoever it names |
+| ✅ **Keep** | What works; don't lose it | Everyone |
 
-Findings are numbered so you can say "fix 1, decide 3". Line 2 shows the
-scope: `passed/checked` and `n/a`. The layout follows
+🔴 blocking (can't ship) · 🟠 major (fix before review) · 🟡 minor (fix or note).
+
+Findings are numbered per section (F1, D1, S1) so you can say "fix F1, send
+D1". The verdict line shows the scope as `passed/checked`. The layout follows
 [Conventional Comments](https://conventionalcomments.org/) (kind and
 severity on every finding) and the same findings are written as
 [SARIF](https://docs.oasis-open.org/sarif/sarif/v2.1.0/sarif-v2.1.0.html) for
