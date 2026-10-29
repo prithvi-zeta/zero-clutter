@@ -4,31 +4,44 @@ One command that checks anything you design or build against Bhavin's
 **Design for Delight** principles and tells you, in a few lines, what passed,
 what failed and how to fix it.
 
-Works for designers, PMs and engineers, in Claude Code, Cursor, Codex,
-GitHub Copilot, Gemini CLI, or plain chat. Works in any repo: it reads the
-project's own context and rules first.
+Works on anything with a UI: **native iOS and Android apps, Flutter apps, web
+apps and websites**, from code, a running build, a URL, a screenshot or a
+Figma frame. Works for designers, PMs and engineers, in Claude Code, Cursor,
+Codex, GitHub Copilot, Gemini CLI, or plain chat, and in any repo: it reads
+the project's own context and rules first.
 
-```text
-Zero Clutter · design (G2) · Onboarding plans screen
-FAIL · 1 blocker · 2 majors · 0 minors
-
-✗ HIER-04 Plans shown as 3 columns to scan across → one plan per card, Base | Plus | Premium switcher
-✗ CLUT-01 "Benefits apply until end of next month" repeated under each plan → once, under the list
-✗ WORD-05 "$250 in monthly card spends" and "$250 card spend / month" both used → one term
-? HR-03 Which number leads: 4% APY or the plan name? → propose 4% at headline size
-
-✓ 38 checks passed
-Next: send the HR-03 question to the approver, then fix the 3 ✗
-```
+> **Zero Clutter** · design (G2) · Onboarding plans screen
+> **FAIL** · 1 blocking · 2 major · 0 minor · 1 pending · 38/42 passed · 6 n/a
+>
+> **Fix**
+> 1. **HIER-04 Hierarchy** · blocking
+>    3 plans side by side to scan across · plans › table
+>    → One plan per card, with a Base | Plus | Premium switcher
+> 2. **CLUT-01 Clutter** · major
+>    "Benefits apply until end of next month" repeated under each plan
+>    → Say it once, under the list
+>
+> **Decide** (the approver)
+> 3. **WORD-05 Words** · major
+>    "$250 in monthly card spends" and "$250 card spend / month" both used
+>    → Keep one? (recommend: the first)
+>
+> **Check**
+> - **FB-01 Feedback** · press states → on a device
+>
+> **Keep** APY is the biggest thing on screen · one Continue · no tooltips
+>
+> **Next** Fix 1, then send 3 to the approver.
 
 ## What to expect
 
 - **You type one thing.** `/zero-clutter`, or just "zero clutter this", "gate
   this", "is this ready?". It works out what you gave it (a spec, a design, a
   change, a PR, feedback) and runs the right gate.
-- **You get a short answer.** One line per problem: the rule it breaks, what's
-  wrong and where, and the fix. Questions only the approver can answer are
-  marked `?`. Passes are a count. Say "details" for the full report.
+- **You get a short, clean answer.** A verdict line, then findings grouped
+  under **Fix**, **Decide**, **Check** and **Keep**, each in three short
+  lines: the rule and how much it matters, what's wrong and where, the fix.
+  Say "details" for the full report.
 - **It judges, it doesn't redesign.** It won't silently change what the spec
   asks for; a principle the spec breaks comes back as a question for the
   approver.
@@ -99,6 +112,36 @@ Or run `python3 zero-clutter/scripts/install.py --project path/to/repo`. Commit 
 | A new flow is ready | `zero-clutter first-use` | **first-use** (G5): a step-by-step test for someone who hasn't seen it |
 | Feedback comes in | `zero-clutter` + the feedback | **feedback**: logs it, finds the gate that missed it, adds a rule |
 
+## Reading the answer
+
+| Heading | Means | Who acts |
+| --- | --- | --- |
+| **Fix** | Problems to fix; `blocking` means it can't ship | The team |
+| **Decide** | A spec conflict, a taste call or a missing fact | The approver |
+| **Suggest** | An improvement nobody asked for | Optional |
+| **Check** | Needs a device, a person or a capture | Whoever it names |
+| **Keep** | What works; don't lose it | Everyone |
+
+Findings are numbered so you can say "fix 1, decide 3". Line 2 shows the
+scope: `passed/checked` and `n/a`. The layout follows
+[Conventional Comments](https://conventionalcomments.org/) (kind and
+severity on every finding) and the same findings are written as
+[SARIF](https://docs.oasis-open.org/sarif/sarif/v2.1.0/sarif-v2.1.0.html) for
+CI. Full rules: [report format](skills/zero-clutter/references/report-format.md).
+How evidence is collected on each platform: [platforms](skills/zero-clutter/references/platforms.md).
+
+## CI gate
+
+`pr` mode also writes the findings as SARIF to `.zero-clutter/reports/`. Copy
+[examples/ci/zero-clutter-gate.yml](examples/ci/zero-clutter-gate.yml) into a
+repo's `.github/workflows/` and every PR:
+
+- fails if UI files changed without a Zero Clutter report,
+- fails on any blocking finding, with annotations on the PR,
+- can show the findings in GitHub's Security tab (optional step).
+
+Locally: `python3 skills/zero-clutter/scripts/gate.py .zero-clutter/reports/`.
+
 ## The gates
 
 | Gate | When | Passes when |
@@ -129,12 +172,12 @@ Details: [gates](skills/zero-clutter/references/gates.md).
 
 | Path | What |
 | --- | --- |
-| `skills/zero-clutter/` | The skill: `SKILL.md` plus `references/` (principles, checklist, gates, house rules, mode guides, templates) |
+| `skills/zero-clutter/` | The skill: `SKILL.md`, `references/` (principles, checklist, gates, house rules, report format, mode guides, templates) and `scripts/gate.py` |
 | `skills/delight-police/` | Screen and Figma review, used by design mode |
 | `agents/zero-clutter-reviewer.md` | Reviewer that runs the full PR review in its own context |
 | `cursor/` | Cursor command and rule |
 | `.claude-plugin/`, `.cursor-plugin/`, `gemini-extension.json` | Plugin manifests |
-| `examples/ryzedesign/` | A worked example: a real project's feedback log |
+| `examples/` | A real project's feedback log, a sample SARIF report, the CI workflow |
 | `scripts/` | `install.py`, and `check.py`, which CI runs |
 
 ## Change Zero Clutter

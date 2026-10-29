@@ -1,0 +1,275 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "zero-clutter",
+          "version": "0.4.0",
+          "informationUri": "https://github.com/prithvi-zeta/zero-clutter",
+          "rules": [
+            {
+              "id": "CONS-07",
+              "name": "Consistency",
+              "shortDescription": {
+                "text": "Every fact has one value and one wording on every surface, from one constant"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              }
+            },
+            {
+              "id": "HIER-05",
+              "name": "Hierarchy",
+              "shortDescription": {
+                "text": "Every text run meets measured contrast against its worst real background"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              }
+            },
+            {
+              "id": "PROC-07",
+              "name": "Process",
+              "shortDescription": {
+                "text": "Principle violations in the spec are raised as spec conflicts, not changed silently"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              }
+            },
+            {
+              "id": "WORD-05",
+              "name": "Words",
+              "shortDescription": {
+                "text": "Everyday words, one term per concept"
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              }
+            },
+            {
+              "id": "SENSE-02",
+              "name": "Senses",
+              "shortDescription": {
+                "text": "Every completion gets the payoff its tier requires"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              }
+            },
+            {
+              "id": "ZCL-01",
+              "name": "Zero Cognitive Load",
+              "shortDescription": {
+                "text": "A first-time user finishes with no instructions"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              }
+            },
+            {
+              "id": "CLUT-01",
+              "name": "Clutter",
+              "shortDescription": {
+                "text": "Every element passes the removal test"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              }
+            },
+            {
+              "id": "UNIQ-01",
+              "name": "Unique design",
+              "shortDescription": {
+                "text": "Purpose-built design only for high-frequency features"
+              }
+            },
+            {
+              "id": "DEF-01",
+              "name": "Defaults",
+              "shortDescription": {
+                "text": "Never ask for what the system knows"
+              }
+            }
+          ]
+        }
+      },
+      "properties": {
+        "mode": "design",
+        "gate": "G2",
+        "verdict": "FAIL",
+        "subject": "Onboarding Option 3"
+      },
+      "results": [
+        {
+          "ruleId": "CONS-07",
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "\"3%\" hard-coded in 6 places. Fix: one APY constant."
+          },
+          "properties": {
+            "label": "issue",
+            "severity": "blocking"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "lib/features/onboarding_app/widgets/pitch_v3.dart"
+                },
+                "region": {
+                  "startLine": 46
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "HIER-05",
+          "kind": "fail",
+          "level": "warning",
+          "message": {
+            "text": "White text 2.6:1 on amber (needs 3:1). Fix: darker base behind text."
+          },
+          "properties": {
+            "label": "issue",
+            "severity": "major"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "name": "story 3 \u203a statement"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "PROC-07",
+          "kind": "review",
+          "level": "error",
+          "message": {
+            "text": "Frames have 8 screens, we show 5. Ask: keep 5? (recommend: yes)"
+          },
+          "properties": {
+            "label": "question",
+            "severity": "blocking"
+          }
+        },
+        {
+          "ruleId": "WORD-05",
+          "kind": "review",
+          "level": "note",
+          "message": {
+            "text": "\"upto\" vs \"up to\" in the frames' copy. Ask: fix the spelling? (recommend: yes)"
+          },
+          "properties": {
+            "label": "question",
+            "severity": "minor"
+          }
+        },
+        {
+          "ruleId": "SENSE-02",
+          "kind": "open",
+          "level": "none",
+          "message": {
+            "text": "Haptics and feel can't be judged from stills. Next: check on a device"
+          },
+          "properties": {
+            "label": "pending"
+          }
+        },
+        {
+          "ruleId": "ZCL-01",
+          "kind": "open",
+          "level": "none",
+          "message": {
+            "text": "First-run screens need a person. Next: run first-use (G5)"
+          },
+          "properties": {
+            "label": "pending"
+          }
+        },
+        {
+          "ruleId": "CLUT-01",
+          "kind": "pass",
+          "level": "none",
+          "message": {
+            "text": "One statement per screen."
+          },
+          "properties": {
+            "label": "pass"
+          }
+        },
+        {
+          "ruleId": "CLUT-01",
+          "kind": "pass",
+          "level": "none",
+          "message": {
+            "text": "Passed."
+          }
+        },
+        {
+          "ruleId": "CLUT-01",
+          "kind": "pass",
+          "level": "none",
+          "message": {
+            "text": "Passed."
+          }
+        },
+        {
+          "ruleId": "CLUT-01",
+          "kind": "pass",
+          "level": "none",
+          "message": {
+            "text": "Passed."
+          }
+        },
+        {
+          "ruleId": "CLUT-01",
+          "kind": "pass",
+          "level": "none",
+          "message": {
+            "text": "Passed."
+          }
+        },
+        {
+          "ruleId": "CLUT-01",
+          "kind": "pass",
+          "level": "none",
+          "message": {
+            "text": "Passed."
+          }
+        },
+        {
+          "ruleId": "CLUT-01",
+          "kind": "pass",
+          "level": "none",
+          "message": {
+            "text": "Passed."
+          }
+        },
+        {
+          "ruleId": "UNIQ-01",
+          "kind": "notApplicable",
+          "level": "none",
+          "message": {
+            "text": "Not a high-frequency feature."
+          }
+        },
+        {
+          "ruleId": "DEF-01",
+          "kind": "notApplicable",
+          "level": "none",
+          "message": {
+            "text": "No inputs on these screens."
+          }
+        }
+      ]
+    }
+  ]
+}

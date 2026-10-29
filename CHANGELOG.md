@@ -2,6 +2,27 @@
 
 Versions of the Zero Clutter system. Each skill also keeps its own changelog.
 
+## 0.4.0 — 2026-10-29
+
+- **Runs on anything with a UI.** New `references/platforms.md`: how to find
+  the platform (native iOS, native Android, Flutter, web app, website) and
+  collect evidence on each (screenshots, smallest size, large text, motion,
+  contrast, speed), plus the checks that change by platform (safe areas and
+  haptics on phones, keyboard and focus on the web, Web Vitals on websites).
+- **Clean, grouped answer.** A verdict line, then **Fix**, **Decide**,
+  **Suggest**, **Check**, **Keep** and **Next**. Findings are numbered and
+  take three short lines each: ID, principle and severity; what and where;
+  the fix. Markdown, so it renders well in Claude Code, Cursor and chat.
+  Follows Conventional Comments; see `references/report-format.md`.
+- **SARIF reports.** pr mode writes `.zero-clutter/reports/<date>-<name>.sarif`
+  next to the Markdown report; other modes on request.
+- **CI gate.** `skills/zero-clutter/scripts/gate.py` reads the reports,
+  prints the same grouped summary, annotates the PR and fails on blocking
+  findings. Example workflow: `examples/ci/zero-clutter-gate.yml`. Sample
+  report: `examples/reports/onboarding-option-3.sarif`.
+- Result words unified across the mode guides (`pass`, `issue`, `question`,
+  `pending`, `n/a`).
+
 ## 0.3.0 — 2026-10-29
 
 - **One command, any tool.** Zero Clutter is now a single `zero-clutter` skill

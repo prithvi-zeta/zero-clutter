@@ -7,7 +7,7 @@ The only test of "doesn't need instructions" is someone who has never seen it.
 A person who hasn't worked on it or seen it. An agent that hasn't seen the
 build's reasoning can do a first pass from screenshots, but for first-run
 screens and custom gestures a person must also do it: an agent pass alone is
-PENDING-HUMAN.
+`pending` (a person is still needed).
 
 ## Steps
 

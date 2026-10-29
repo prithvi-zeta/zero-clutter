@@ -1,15 +1,16 @@
 ---
 name: zero-clutter
 description: >-
-  Quality gate for anything a team designs or builds: checks a spec, design,
-  screen, change or PR against Bhavin's Design for Delight principles (Zero
-  Cognitive Load, Engage the Senses, Purpose-built Unique Design, The Science
-  behind Delight), the 134-item checklist and the house rules, and returns a
-  short pass/fail list with what to fix. Use when someone says zero clutter,
-  gate this, check this, review this screen or spec, is this ready, before
-  saying done, before a PR merges, or when they share review feedback.
+  Quality gate for anything with a UI (native iOS and Android, Flutter, web
+  apps, websites): checks a spec, design, screen, change or PR against Bhavin's
+  Design for Delight principles (Zero Cognitive Load, Engage the Senses,
+  Purpose-built Unique Design, The Science behind Delight), the 134-item
+  checklist and the house rules, and returns a short, neatly grouped list of
+  what to fix, decide and keep. Use when someone says zero clutter, gate this,
+  check this, review this screen or spec, is this ready, before saying done,
+  before a PR merges, or when they share review feedback.
 metadata:
-  version: "0.3.0"
+  version: "0.4.0"
 ---
 
 # Zero Clutter
@@ -18,6 +19,10 @@ One command for the whole gate. Find out what's in front of you, take the
 project's context, run the right gate, and answer with a short verdict.
 
 ## 1. Take the project's context (every run)
+
+Zero Clutter works on anything with a UI: native iOS and Android, Flutter, web
+apps and websites, from code, a build, a URL, a screenshot or a Figma frame.
+Find the platform and how to collect evidence in [platforms](references/platforms.md).
 
 Read what exists, quickly; don't ask for what you can find:
 
@@ -74,37 +79,58 @@ the tool has agents, so the main thread stays short.
 
 ## 4. Answer (short, every time)
 
-```text
-Zero Clutter · <mode> (G<n>) · <what was checked>
-<verdict> · <n> blockers · <n> majors · <n> minors · <n> questions
+Clean and scannable: a header, then findings grouped under four plain
+headings, each finding as three short lines. Markdown, so it renders well in
+Claude Code, Cursor and chat. Full rules: [report-format](references/report-format.md).
 
-✗ <ID> <what's wrong, where> → <the fix>
-? <ID> <spec conflict or taste call> → <question for the approver, with a proposal>
-… <pending: device, person, capture, or a file you couldn't write>
+```markdown
+**Zero Clutter** · <mode> (G<n>) · <what was checked>
+**<VERDICT>** · <n> blocking · <n> major · <n> minor · <n> pending · <passed>/<checked> passed · <n> n/a
 
-✓ <n> checks passed
-Next: <the one thing to do now>
+**Fix**
+1. **<ID> <Principle>** · <blocking|major|minor>
+   <what's wrong> · `<where>`
+   → <the fix>
+
+**Decide** (the approver)
+2. **<ID> <Principle>** · <severity>
+   <the decision to make>
+   → <proposal> (recommend: <x>)
+
+**Check**
+- **<ID> <Principle>** · <what can't be judged yet> → <who or what resolves it>
+
+**Keep** <what works, 1 to 3 things, separated by ·>
+
+**Next** <the one thing to do now>
 ```
 
-- **Symbols:** `✗` a problem the team fixes itself. `?` anything only the
-  approver can decide (a spec conflict, a taste call, a missing fact). `…`
-  something still pending. Counts of blockers, majors and minors use the
-  item's severity, for `✗` and `?` alike.
+- **Headings, in this order, only when they have something:** **Fix** (the
+  team fixes it: issues), **Decide** (only the approver can: spec conflicts,
+  taste calls, missing facts), **Suggest** (optional improvements nobody asked
+  for), **Check** (pending: a device, a person, a capture), **Keep**, **Next**.
+- **Numbered findings** in Fix, Decide and Suggest, numbered across the
+  headings (1, 2, 3…), so people can say "fix 1, decide 2".
+- **Three lines each:** the ID, principle name and severity in bold on the
+  first; what's wrong and where on the second (`file:line`, `screen › element`
+  or `R#`; first two places, then `+n`); the fix after `→` on the third.
+  Keep each line short; no sentence longer than it needs to be.
+- **Check** items are one line each, as bullets.
+- **Order:** blocking, then major, then minor; within each, principle order.
+  At most 10 findings, then `+<n> more — say "details"`.
 - **Verdict:** `PASS` or `FAIL` for design, build, pr and first-use (`PASS`
-  only with 0 blockers and nothing pending on a blocker). For spec: `READY`
-  (no blocker `?` left) or `OPEN`. Feedback mode answers with its own
-  five-line entry instead.
-- **One line per finding,** under about 140 characters: the ID, what's wrong
-  and where (screen, file:line, element), an arrow, the fix. Blockers first,
-  then by principle order.
-- **At most 10 lines of findings in chat,** then `+<n> more: say "details"`.
-  The full report lists everything.
-- No praise, no preamble, no recap of the principles, no tables unless asked.
-  Omit the `✓` line in spec mode.
-- **Where the full version goes:** the spec plan and the PR report are files.
-  Save them where the adapter says, else in `.zero-clutter/plans/` or
-  `.zero-clutter/reports/`. If you can't write files, end with
-  `… full plan: say "details"` and show it when asked.
+  only with 0 blocking and nothing pending on a blocker). For spec: `READY` or
+  `OPEN`, and no passed count. Feedback mode answers with its five-line entry.
+- **Nothing else:** no preamble, no praise beyond Keep, no recap of the
+  principles, no tables unless asked. A clean pass is just the two header
+  lines, Keep and Next.
+- **Plain-text tools:** where Markdown doesn't render, use the same layout
+  without the `**`.
+- **Files:** pr mode always writes the full report (Markdown) and a SARIF file
+  to `.zero-clutter/reports/<date>-<name>.md` and `.sarif`; other modes when
+  asked ("details", "sarif"). The spec plan goes where the adapter says, else
+  `.zero-clutter/plans/`. If you can't write files, add under Check:
+  `full report → say "details"`.
 
 ## 5. Setup (`zero-clutter setup`)
 

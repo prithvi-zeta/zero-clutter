@@ -45,8 +45,8 @@ copy or features. If something seems missing, ask.
 ### HR-06 · One thing per screen
 **Rule:** A story, pitch or onboarding screen says one thing: one statement
 under one visual. Supporting lines move to their own screen or go.
-**Check:** count statements per screen in the screenshot; more than one is a
-FAIL unless the spec asks for it (then SPEC-CONFLICT to the approver).
+**Check:** count statements per screen in the screenshot; more than one is
+an `issue` unless the spec asks for it (then a `question` for the approver).
 **Gate:** G2. **Items:** CLUT-01, PROG-01, WORD-01. **From:** D-003.
 
 ### HR-07 · Spacing and patterns come from existing screens

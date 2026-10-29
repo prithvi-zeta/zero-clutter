@@ -36,13 +36,15 @@ full items in [items.md](checklist-items.md); agents check those.
 
 ## Results
 
-Each item ends with one of:
+Each item ends as one of these (the labels in the answer, see
+[report-format](report-format.md)):
 
-- **PASS**, with evidence (screenshot, measurement, test)
-- **FAIL**, with where and why
-- **N-A**, with a one-line reason
-- **SPEC-CONFLICT**: the spec asks for something a principle forbids. Don't change it; send it to the approver as a question with a proposal (see G1).
-- **PENDING**: needs a capture, a device or a person still to come
+- **pass**, with evidence (screenshot, measurement, test)
+- **issue**, with its severity (blocking, major, minor), where and the fix
+- **question**: the spec asks for something a principle forbids, or only the
+  approver can decide. Don't change it; send it with a proposal (see G1).
+- **pending**: needs a capture, a device or a person still to come
+- **n/a**, with a one-line reason
 
-"Looks good" is a FAIL. Done means 0 blocker FAILs, nothing PENDING on a blocker,
-and every SPEC-CONFLICT answered.
+"Looks good" is not a pass. Done means 0 blocking issues, nothing pending on a
+blocker, and every blocking question answered.
