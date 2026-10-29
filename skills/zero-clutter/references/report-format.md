@@ -25,22 +25,22 @@ One framed block in a `text` code block:
 │  🔴 F1  CONS-07 Consistency
 │         📍 "3%" hard-coded in 6 places
 │            pitch_v3.dart, onboarding_pitch_screen.dart:56 +4
-│         ✏️  One APY constant, used everywhere
+│         🎯 One APY constant, used everywhere
 │
 │  🟠 F2  HIER-05 Hierarchy
 │         📍 White text 2.6:1 on amber, 1.9:1 where trails cross "APY" (needs 3:1)
 │            stories 1 and 3 › statement
-│         ✏️  Darker stripes base behind the text
+│         🎯 Darker stripes base behind the text
 │
 ├─ 🤔 Decide · Bhavin ───────────────────────────────────────────────────
 │
 │  🔴 D1  PROC-07 Process
 │         📍 The frames have 8 screens; Option 3 shows 5
-│         💬 Keep 5? · recommend: yes
+│         ❓ Keep 5? · recommend: yes
 │
 │  🟡 D2  WORD-05 Words
 │         📍 "upto" in the frames' copy
-│         💬 Change to "up to"? · recommend: yes
+│         ❓ Change to "up to"? · recommend: yes
 │
 ├─ ⏳ Check ─────────────────────────────────────────────────────────────
 │
@@ -70,7 +70,7 @@ One framed block in a `text` code block:
 | ⏳ Check | Pending: a device, a person, a capture (`pending`) |
 | ✅ Keep | What works (`keep`) |
 | 👉 Next | The one thing to do now |
-| 📍 · ✏️ · 💬 | what and where · the fix · the question |
+| 📍 · 🎯 · ❓ | what and where · the fix · the question |
 
 ### Why it's built this way
 

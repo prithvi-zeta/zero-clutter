@@ -166,6 +166,14 @@ gate = subprocess.run(
 if gate.returncode != 1 or "Gate: ❌ FAIL · 2 blocking" not in gate.stdout:
     errors.append(f"gate.py on the sample report: expected FAIL with 2 blocking, got exit {gate.returncode}")
 
+# 8. Symbols in the answer must be emoji that always show in colour. Ones that
+#    need a variation selector (U+FE0F, like a pencil) turn into small black
+#    glyphs in code blocks on GitHub.
+for path in [ROOT / "README.md", *sorted((ROOT / "skills" / "zero-clutter").rglob("*.md")),
+             *sorted((ROOT / "skills" / "zero-clutter").rglob("*.py"))]:
+    if "\ufe0f" in path.read_text(encoding="utf-8"):
+        errors.append(f"{path.relative_to(ROOT)}: uses an emoji that needs U+FE0F; pick one that's colour by default")
+
 if errors:
     print("Zero Clutter check failed:\n  " + "\n  ".join(errors))
     sys.exit(1)

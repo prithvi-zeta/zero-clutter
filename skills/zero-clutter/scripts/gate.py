@@ -114,7 +114,7 @@ def main(argv=None) -> int:
             out.blank()
             order = {"error": 0, "warning": 1, "note": 2, "none": 3}
             ranked = sorted(results, key=lambda r: order.get(r.get("level", "none"), 3))
-            sections = (("🔧 Fix", "fail", "F", "✏️ "), ("🤔 Decide", "review", "D", "💬"), ("💡 Suggest", "informational", "S", "💡"))
+            sections = (("🔧 Fix", "fail", "F", "🎯"), ("🤔 Decide", "review", "D", "❓"), ("💡 Suggest", "informational", "S", "💡"))
             for heading, kind, prefix, mark in sections:
                 group = [r for r in ranked if r.get("kind") == kind]
                 if not group:
