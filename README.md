@@ -21,17 +21,17 @@ the project's own context and rules first.
 │  🔴 F1  HIER-04 Hierarchy
 │         📍 3 plans side by side to scan across
 │            plans › table
-│         ✏️  One plan per card, with a Base | Plus | Premium switcher
+│         🎯 One plan per card, with a Base | Plus | Premium switcher
 │
 │  🟠 F2  CLUT-01 Clutter
 │         📍 "Benefits apply until end of next month" repeated under each plan
-│         ✏️  Say it once, under the list
+│         🎯 Say it once, under the list
 │
 ├─ 🤔 Decide · Bhavin ──────────────────────────────────────────
 │
 │  🟠 D1  WORD-05 Words
 │         📍 "$250 in monthly card spends" and "$250 card spend / month"
-│         💬 Keep one? · recommend: the first
+│         ❓ Keep one? · recommend: the first
 │
 ├─ ⏳ Check ────────────────────────────────────────────────────
 │
@@ -56,7 +56,7 @@ the project's own context and rules first.
   sections split by labelled dividers: 🔧 **Fix**, 🤔 **Decide**, ⏳ **Check**,
   ✅ **Keep**, 👉 **Next**. A dot
   shows how much each finding matters (🔴 blocking, 🟠 major, 🟡 minor), and
-  each finding is a title plus two bullets: 📍 what's wrong and where, ✏️ the
+  each finding is a title plus two bullets: 📍 what's wrong and where, 🎯 the
   fix. Say "details" for the full report.
 - **It judges, it doesn't redesign.** It won't silently change what the spec
   asks for; a principle the spec breaks comes back as a question for the

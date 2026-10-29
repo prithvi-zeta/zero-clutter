@@ -2,6 +2,13 @@
 
 Versions of the Zero Clutter system. Each skill also keeps its own changelog.
 
+## 0.4.2 — 2026-10-29
+
+- **Every symbol renders as colour emoji.** The fix line now uses 🎯 (was a
+  pencil) and the question line ❓ (was a speech bubble). Both old symbols showed
+  as small black glyphs in GitHub's code blocks. `scripts/check.py` now fails on
+  any emoji that needs a variation selector to show in colour.
+
 ## 0.4.1 — 2026-10-29
 
 - **One framed block.** The answer is a `text` code block with a left border
@@ -12,7 +19,7 @@ Versions of the Zero Clutter system. Each skill also keeps its own changelog.
   (🔴 blocking, 🟠 major, 🟡 minor), and a verdict badge (✅ PASS, ❌ FAIL,
   🟢 READY, 🟡 OPEN).
 - **Findings numbered per section** (F1, D1, S1): 📍 what's wrong, the where
-  under it, ✏️ the fix (💬 the question in Decide). Lines wrap at about 90
+  under it, 🎯 the fix (❓ the question in Decide). Lines wrap at about 90
   characters.
 - `gate.py` prints the same frame.
 

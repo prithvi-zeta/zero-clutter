@@ -10,7 +10,7 @@ description: >-
   check this, review this screen or spec, is this ready, before saying done,
   before a PR merges, or when they share review feedback.
 metadata:
-  version: "0.4.1"
+  version: "0.4.2"
 ---
 
 # Zero Clutter
@@ -95,13 +95,13 @@ and an example: [report-format](references/report-format.md).
 │  🔴 F1  <ID> <Principle>
 │         📍 <what's wrong>
 │            <where: file:line or screen › element, first two, then +n>
-│         ✏️  <the fix>
+│         🎯 <the fix>
 │
 ├─ 🤔 Decide · <approver> ──────────────────────────────────────
 │
 │  🔴 D1  <ID> <Principle>
 │         📍 <the decision and why it's needed>
-│         💬 <the question> · recommend: <x>
+│         ❓ <the question> · recommend: <x>
 │
 ├─ ⏳ Check ────────────────────────────────────────────────────
 │
@@ -130,7 +130,7 @@ and an example: [report-format](references/report-format.md).
   🟡 minor. Numbering per section: F1, F2 · D1 · S1.
 - **Each finding:** dot, number and `ID Principle` on the first line; then,
   indented, 📍 what's wrong (and the where on its own line under it, also
-  indented), and ✏️ the fix (💬 the question in Decide, 💡 the idea in Suggest).
+  indented), and 🎯 the fix (❓ the question in Decide, 💡 the idea in Suggest).
 - **Line length:** wrap at about 90 characters; continue under the text it
   belongs to, never past the left border. A blank `│` line between findings
   and after each divider.
