@@ -10,7 +10,7 @@ full items in [items.md](checklist-items.md); agents check those.
 2. **Fewer words.** Could any label be one word? Is anything said twice? Can it be scanned without reading? [WORD-01–06]
 3. **Smart defaults.** Are we asking for anything the product already knows or could fill in? [DEF-01–09]
 4. **One page, one context.** Is the screen about one thing, with extra detail revealed only when needed? [PROG-01–07]
-5. **Hierarchy.** Does the eye land on the most important thing first? Is it one column, with nothing to scan across columns? [HIER-01–10]
+5. **Hierarchy.** Does the eye land on the most important thing first? Is it one column, with nothing to scan across columns? Is every text run at or above the small-type floor, except the terms and conditions? [HIER-01–11]
 6. **Instant feedback.** Does every tap answer at once (under 100ms) with a press state and a haptic, and never get silently ignored? [FB-01–08]
 7. **Consistency.** Does it reuse the same parts and patterns as the rest of the product? Is every rate, fee, limit and time the same value everywhere? [CONS-01–08]
 8. **Familiar.** Does it work the way people already expect from their phone and other apps? [MENT-01–07]

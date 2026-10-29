@@ -51,7 +51,8 @@ When you can't run anything (only a picture), mark the capture-based checks
   as hard as in the app (WORD items). Senses items apply to motion and
   completion moments only (sign-up done, form sent).
 - **Everything:** contrast against the worst real background, in light and
-  dark themes (HIER-05); one value per fact everywhere (CONS-07); copy word
+  dark themes (HIER-05); no small type except the terms and conditions
+  (HIER-11, HR-15); one value per fact everywhere (CONS-07); copy word
   for word from the source (HR-04).
 
 When an item doesn't apply to the platform, it's `n/a` with the reason

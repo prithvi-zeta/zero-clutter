@@ -23,3 +23,4 @@ Newest at the bottom. Seeded from RyzeDesign, October 2026.
 | D-012 | 2026-10-25 | Design review | RyzeDesign / Walkthrough videos | "dont say 'bhavins feedback' in the voice over… or anything in future", "silent and too slow", "voice to visual is still late", "screen keeps flashing" | G6 | Demo videos weren't checked before sending | HR-13 |
 | D-013 | 2026-10-25 | Design review | RyzeDesign / Send confirm | "this is already handed off to engg dont want to change this screen unless theres a feedback from stakeholders" | G3 | A handed-off screen was redesigned unasked | HR-14 |
 | D-014 | 2026-10-27 | Design review | RyzeDesign / Walkthroughs | "dont create the walkthrough yet… only when im happy with it" | G6 | A demo was made before sign-off | HR-13 |
+| D-015 | 2026-10-29 | Design review | Shared / Type size | "its should never be small unless its terms and conditions" | G2, G3 | No item set a floor on type size, so captions and fine print could pass | HR-15 |

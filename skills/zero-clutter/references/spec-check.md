@@ -28,6 +28,7 @@ negative feedback later.
    forbids is a **spec conflict** (a `question`): name the item, quote the principle, and
    propose an option that meets both. Common ones:
    - multi-column layouts (HIER-04)
+   - small type on anything except the terms and conditions (HIER-11)
    - more than one statement per screen (CLUT-01)
    - asking for something the product could fill in (DEF-*)
    - a choice the user has to calculate or compare (CHOICE-*)

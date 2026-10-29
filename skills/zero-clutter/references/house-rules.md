@@ -102,3 +102,14 @@ sending. **Gate:** G6. **Items:** PROC-*. **From:** D-012, D-014.
 the source owner asks. Improvements become proposals.
 **Check:** the PR touches no frozen screen, or links the request.
 **Gate:** G3, G4. **Items:** PROC-07. **From:** D-013.
+
+### HR-15 · No small type except the terms
+**Rule:** Text is never small. The only exception is the terms and
+conditions. Labels, helper text, errors, timestamps, badges, captions,
+footnotes, disclaimers, rates and fees sit at or above the small-type floor.
+**Check:** at the default text size, measure every text run in the code
+(font size, text style, token) and on the screenshot against the body.
+Flag each run that is small type. A run passes only when it is the terms
+and conditions. The fix is to raise it to the floor or larger; if it no
+longer fits, cut words rather than shrink the type.
+**Gate:** G2, G3, G4. **Items:** HIER-11, CLUT-04. **From:** D-015.

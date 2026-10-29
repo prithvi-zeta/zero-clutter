@@ -17,7 +17,7 @@
 - [ ] 2 Fewer words: nothing repeated, scannable
 - [ ] 3 Smart defaults: nothing asked that we already know
 - [ ] 4 One page, one context
-- [ ] 5 Hierarchy: the important thing first; one column
+- [ ] 5 Hierarchy: the important thing first; one column; no small type except the terms
 - [ ] 6 Instant feedback: every tap answers at once, with a haptic
 - [ ] 7 Consistency: same parts, same values everywhere
 - [ ] 8 Familiar: works the way people expect

@@ -2,6 +2,13 @@
 
 Versions of the Zero Clutter system. Each skill also keeps its own changelog.
 
+## 0.4.4 — 2026-10-29
+
+- **No small type except the terms.** Text under the floor (14pt on iOS,
+  14sp on Android, 14px on web and Flutter), and any caption, footnote or
+  extra-small style, is flagged. The only exception is the terms and
+  conditions. See HIER-11 and HR-15.
+
 ## 0.4.3 — 2026-10-29
 
 - **Answers are tables.** The chat verdict, every finding, Keep and Next, and

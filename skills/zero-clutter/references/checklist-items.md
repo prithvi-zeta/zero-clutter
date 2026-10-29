@@ -131,6 +131,8 @@ Severity: **blocker** (cannot ship), **major** (fix before review), **minor**
   - Enforces: Zero Cognitive Load > 5. Visual Hierarchy through indentation (levels and one reading edge). Source: "a. Use font weight, contrast, indentation as required to creating a logical visual hierarchy."
 - **HIER-10** · minor · Does text contrast follow importance: hero and titles highest, secondary lower, tertiary lowest, with no supporting text at higher contrast than what it supports?
   - Enforces: Zero Cognitive Load > 5. Visual Hierarchy through contrast (rank). Source: "a. Use font weight, contrast, indentation as required to creating a logical visual hierarchy." + "Let the eye naturally find what's important"
+- **HIER-11** · major · Is every text run at or above the small-type floor, with the terms and conditions as the only text allowed to be small?
+  - Enforces: Zero Cognitive Load > 5. Visual Hierarchy (no fine print except the terms). Source: "a. Use font weight, contrast, indentation as required to creating a logical visual hierarchy." + "Let the eye naturally find what's important"
 
 ## ZCL principle 6: Instant Feedback
 

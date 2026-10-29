@@ -150,7 +150,7 @@ Details: [gates](skills/zero-clutter/references/gates.md).
 ## What it checks against
 
 1. **[Bhavin's principles](skills/zero-clutter/references/principles/design-for-delight-principles.md)**, word for word, in their priority order: Zero Cognitive Load (zero clutter first), Engage the Senses, Purpose-built Unique Design, and [The Science behind Delight](skills/zero-clutter/references/principles/the-science-behind-delight.md).
-2. **[The checklist](skills/zero-clutter/references/checklist.md)**: 15 questions, backed by [134 items](skills/zero-clutter/references/checklist-items.md) with stable IDs.
+2. **[The checklist](skills/zero-clutter/references/checklist.md)**: 15 questions, backed by [135 items](skills/zero-clutter/references/checklist-items.md) with stable IDs.
 3. **[Shared house rules](skills/zero-clutter/references/house-rules.md)**: lessons from past reviews that apply everywhere.
 4. **The project's own context and rules**: `AGENTS.md`, the adapter, and `.zero-clutter/house-rules.md`.
 

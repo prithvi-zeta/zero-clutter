@@ -4,13 +4,13 @@ description: >-
   Quality gate for anything with a UI (native iOS and Android, Flutter, web
   apps, websites): checks a spec, design, screen, change or PR against Bhavin's
   Design for Delight principles (Zero Cognitive Load, Engage the Senses,
-  Purpose-built Unique Design, The Science behind Delight), the 134-item
+  Purpose-built Unique Design, The Science behind Delight), the 135-item
   checklist and the house rules, and returns short tables of what to fix,
   decide and keep. Use when someone says zero clutter, gate this,
   check this, review this screen or spec, is this ready, before saying done,
   before a PR merges, or when they share review feedback.
 metadata:
-  version: "0.4.3"
+  version: "0.4.4"
 ---
 
 # Zero Clutter
@@ -62,12 +62,14 @@ Always read these; the mode guide adds what else to read.
 - The principles, word for word: [design-for-delight-principles](references/principles/design-for-delight-principles.md),
   [the-science-behind-delight](references/principles/the-science-behind-delight.md). Their order is the priority.
 - The checks: [checklist](references/checklist.md) (15 questions) and
-  [checklist-items](references/checklist-items.md) (134 items with IDs);
+  [checklist-items](references/checklist-items.md) (135 items with IDs);
   terms in [glossary](references/glossary.md).
 - The rules: [house-rules](references/house-rules.md), plus the project's.
 - Judge only what is on screen, in the code or stated. Never invent UI.
 - Measure what can be measured (padding, size, contrast, timing, asset
   resolution). From a still, say haptics, sound and speed can't be judged.
+- Flag small type. Text under the small-type floor is a fix (HIER-11,
+  HR-15). The only text allowed to be small is the terms and conditions.
 - Something the spec asks for that a principle forbids is a **spec conflict**:
   don't change it; it goes to the approver as a question with a proposal.
 - Changes to existing UI that nobody asked for are suggestions, not fixes.
