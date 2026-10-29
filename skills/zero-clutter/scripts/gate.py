@@ -18,7 +18,6 @@ import re
 import sys
 
 SEVERITY = {"error": "blocking", "warning": "major", "note": "minor"}
-LABEL = {"fail": "issue", "review": "question", "informational": "suggestion", "open": "pending"}
 
 
 def reports(paths: list[str]) -> list[pathlib.Path]:
@@ -41,7 +40,24 @@ def where(result: dict) -> str:
     if not places:
         return ""
     more = f" +{len(places) - 2}" if len(places) > 2 else ""
-    return " at " + ", ".join(places[:2]) + more
+    return " · " + ", ".join(places[:2]) + more
+
+
+def split(text: str) -> tuple[str, str]:
+    """ "<what>. Fix: <fix>" (or Ask: / Next:) -> (what, fix). """
+    parts = re.split(r" (?:Fix|Ask|Next): ", text, maxsplit=1)
+    return parts[0].rstrip("."), (parts[1].rstrip(".") if len(parts) > 1 else "")
+
+
+def annotate(result: dict, github: bool) -> None:
+    if not github or result.get("level") not in ("error", "warning"):
+        return
+    loc = (result.get("locations") or [{}])[0].get("physicalLocation", {})
+    file = loc.get("artifactLocation", {}).get("uri")
+    line = loc.get("region", {}).get("startLine")
+    anchor = (f" file={file}" + (f",line={line}" if line else "")) if file else ""
+    level = "error" if result.get("level") == "error" else "warning"
+    print(f"::{level}{anchor}::{result.get('ruleId', '')} {result.get('message', {}).get('text', '')}")
 
 
 def main(argv=None) -> int:
@@ -67,31 +83,34 @@ def main(argv=None) -> int:
             sev = lambda s: sum(1 for r in results if r.get("kind") in ("fail", "review") and r.get("level") == s)
             # Everything that was judged, i.e. all but n/a and suggestions.
             checked = len(results) - count("notApplicable") - count("informational")
-            print(f"Zero Clutter · {props.get('mode', '?')} ({props.get('gate', '?')}) · "
-                  f"{props.get('subject', path.name)} · {props.get('verdict', '?')}")
-            print(f"{sev('error')} blocking · {sev('warning')} major · {sev('note')} minor · "
-                  f"{count('open')} pending · {count('pass')}/{checked} passed · {count('notApplicable')} n/a\n")
+            verdict = props.get("verdict", "?")
+            print(f"Zero Clutter · {props.get('mode', '?')} ({props.get('gate', '?')}) · {props.get('subject', path.name)}")
+            print(f"{verdict} · {sev('error')} blocking · {sev('warning')} major · {sev('note')} minor · "
+                  f"{count('open')} pending · {count('pass')}/{checked} passed · {count('notApplicable')} n/a")
             order = {"error": 0, "warning": 1, "note": 2, "none": 3}
-            for r in sorted(results, key=lambda r: order.get(r.get("level", "none"), 3)):
-                kind = r.get("kind", "fail")
-                if kind not in LABEL:
+            ranked = sorted(results, key=lambda r: order.get(r.get("level", "none"), 3))
+            number = 0
+            for heading, kind in (("Fix", "fail"), ("Decide (the approver)", "review"), ("Suggest", "informational")):
+                group = [r for r in ranked if r.get("kind") == kind]
+                if not group:
                     continue
-                rule = rules.get(r.get("ruleId"), {})
-                label = r.get("properties", {}).get("label") or LABEL[kind]
-                severity = "" if kind == "open" else f" ({SEVERITY.get(r.get('level'), 'minor')})"
-                text = r.get("message", {}).get("text", "")
-                # "<what>. Fix: <fix>" (or "Ask:" for questions, "Next:" for pending)
-                parts = re.split(r" (?:Fix|Ask|Next): ", text, maxsplit=1)
-                what = parts[0].rstrip(".")
-                tail = f" → {parts[1].rstrip('.')}" if len(parts) > 1 else ""
-                print(f"{label}{severity} {r.get('ruleId', '')} {rule.get('name', '')} · {what}{where(r)}{tail}".replace("  ", " "))
-                if args.github and kind in ("fail", "review") and r.get("level") in ("error", "warning"):
-                    loc = (r.get("locations") or [{}])[0].get("physicalLocation", {})
-                    file = loc.get("artifactLocation", {}).get("uri")
-                    line = loc.get("region", {}).get("startLine")
-                    anchor = f" file={file}" + (f",line={line}" if line else "") if file else ""
-                    level = "error" if r.get("level") == "error" else "warning"
-                    print(f"::{level}{anchor}::{r.get('ruleId', '')} {text}")
+                print(f"\n{heading}")
+                for r in group:
+                    number += 1
+                    rule = rules.get(r.get("ruleId"), {})
+                    what, fix = split(r.get("message", {}).get("text", ""))
+                    print(f"{number}. {r.get('ruleId', '')} {rule.get('name', '')} · {SEVERITY.get(r.get('level'), 'minor')}")
+                    print(f"   {what}{where(r)}")
+                    if fix:
+                        print(f"   → {fix}")
+                    annotate(r, args.github)
+            pending = [r for r in ranked if r.get("kind") == "open"]
+            if pending:
+                print("\nCheck")
+                for r in pending:
+                    rule = rules.get(r.get("ruleId"), {})
+                    what, fix = split(r.get("message", {}).get("text", ""))
+                    print(f"- {r.get('ruleId', '')} {rule.get('name', '')} · {what}" + (f" → {fix}" if fix else ""))
             print()
             blocking += sev("error")
             major += sev("warning")

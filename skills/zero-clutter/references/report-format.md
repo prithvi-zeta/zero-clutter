@@ -1,45 +1,62 @@
 # Report format
 
-Zero Clutter answers in a shape that people scan and machines parse. It
-borrows from two standards:
+Zero Clutter answers in a shape people scan in seconds, and writes the same
+findings as a file machines parse. It borrows from two standards:
 
 - **[Conventional Comments](https://conventionalcomments.org/):** every
-  finding starts with a label word (`issue`, `question`, `suggestion`) and a
-  decoration for how much it matters.
+  finding has a kind (issue, question, suggestion) and how much it matters
+  (blocking, major, minor).
 - **[SARIF 2.1.0](https://docs.oasis-open.org/sarif/sarif/v2.1.0/sarif-v2.1.0.html):**
   every finding has a rule ID, a level, a location and a fix, so CI and code
   hosts can read it.
 
 ## The chat answer
 
-```text
-Zero Clutter · design (G2) · Onboarding Option 3 · FAIL
-2 blocking · 1 major · 1 minor · 2 pending · 7/13 passed · 2 n/a
+Grouped under plain headings so it scans in a few seconds, in Markdown so it
+renders cleanly in Claude Code, Cursor and chat:
 
-issue (blocking) CONS-07 Consistency · "3%" hard-coded at pitch_v3.dart:46, pitch_screen.dart:56 +4 → one APY constant
-issue (major) HIER-05 Hierarchy · white text 2.6:1 on amber at story 3 › statement (needs 3:1) → darker base behind text
-question (blocking) PROC-07 Process · frames have 8 screens, we show 5 → keep 5? (recommend: yes)
-question (minor) WORD-05 Words · "upto" vs "up to" in the frames' copy → fix the spelling? (recommend: yes)
-pending SENSE-02 Senses · haptics and feel can't be judged from stills → check on a device
-pending ZCL-01 Zero Cognitive Load · first-run screens need a person → run first-use (G5)
-keep: one statement per screen · sharp vector glyphs · a colour per guarantee
+```markdown
+**Zero Clutter** · design (G2) · Onboarding Option 3
+**FAIL** · 2 blocking · 1 major · 1 minor · 2 pending · 7/13 passed · 2 n/a
 
-Next: one APY constant and a darker text base, then send the 2 questions to the approver.
+**Fix**
+1. **CONS-07 Consistency** · blocking
+   "3%" hard-coded in 6 places · `pitch_v3.dart:46` +5
+   → One APY constant, used everywhere
+2. **HIER-05 Hierarchy** · major
+   White text 2.6:1 on amber, needs 3:1 · story 3 › statement
+   → Darker base behind the text
+
+**Decide** (the approver)
+3. **PROC-07 Process** · blocking
+   Frames have 8 screens; we show 5
+   → Keep 5? (recommend: yes)
+4. **WORD-05 Words** · minor
+   "upto" in the frames' copy
+   → Change to "up to"? (recommend: yes)
+
+**Check**
+- **SENSE-02 Senses** · haptics and feel → on a device
+- **ZCL-01 Zero Cognitive Load** · first-run screens → first-use test with a person (G5)
+
+**Keep** one statement per screen · sharp vector glyphs · a colour per guarantee
+
+**Next** One APY constant and a darker text base, then send 3 and 4 to the approver.
 ```
 
-### Line grammar
+### Headings
 
-```
-<label> [(<severity>)] <ID> <Principle> · <what> [at <where>] → <fix or next step>
-```
+| Heading | Holds | Label (SARIF `properties.label`) |
+| --- | --- | --- |
+| **Fix** | Problems the team fixes | `issue` |
+| **Decide** | Spec conflicts, taste calls, missing facts: the approver decides | `question` |
+| **Suggest** | Optional improvements nobody asked for | `suggestion` |
+| **Check** | Still pending: a device, a person, a capture | `pending` |
+| **Keep** | What works (1 to 3 things) | `keep` |
 
-| Part | Values |
-| --- | --- |
-| label | `issue`, `question`, `suggestion`, `pending`, `keep` |
-| severity | `blocking`, `major`, `minor` (from the item); omitted on `pending` and `keep` |
-| ID | a checklist ID (`HIER-05`), a shared house rule (`HR-03`) or a project rule (`P-02`) |
-| Principle | from the table below |
-| where | `file:line`, `screen › element`, or `R#` for a spec row; first two, then `+n` |
+Findings in Fix, Decide and Suggest are numbered across headings. Each is
+three lines: **ID Principle** · severity, then what and where, then `→` the
+fix. Where is `file:line`, `screen › element` or `R#` for a spec row.
 
 ### Principle names
 
@@ -103,21 +120,22 @@ asked. One run, one tool, one result per finding and per pass. Minimal shape:
 
 ### Mapping
 
-| Chat | SARIF `kind` | SARIF `level` |
+| Chat heading · severity | SARIF `kind` | SARIF `level` |
 | --- | --- | --- |
-| `issue (blocking)` | `fail` | `error` |
-| `issue (major)` | `fail` | `warning` |
-| `issue (minor)` | `fail` | `note` |
-| `question` | `review` | from severity, as above |
-| `suggestion` | `informational` | `note` |
-| `pending` | `open` | `none` |
+| Fix · blocking | `fail` | `error` |
+| Fix · major | `fail` | `warning` |
+| Fix · minor | `fail` | `note` |
+| Decide | `review` | from severity, as above |
+| Suggest | `informational` | `note` |
+| Check | `open` | `none` |
 | a passed check | `pass` | `none` |
 | n/a | `notApplicable` | `none` |
 
-- `properties.label` and `properties.severity` keep the chat words.
+- `properties.label` (`issue`, `question`, `suggestion`, `pending`) and
+  `properties.severity` keep the chat meaning.
 - `message.text` is `<what>. Fix: <fix>` for issues and suggestions,
   `<what>. Ask: <question> (recommend: <x>)` for questions, and
   `<what>. Next: <step>` for pending. Add SARIF `fixes` only for an exact text change.
 - A UI finding without a file uses `logicalLocations` only.
 - The CI gate (`scripts/gate.py`) fails the build on any `error` with kind
-  `fail` or `review`, and prints the chat summary.
+  `fail` or `review`, and prints the same grouped layout as plain text.

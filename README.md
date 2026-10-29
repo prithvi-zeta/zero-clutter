@@ -4,32 +4,44 @@ One command that checks anything you design or build against Bhavin's
 **Design for Delight** principles and tells you, in a few lines, what passed,
 what failed and how to fix it.
 
-Works for designers, PMs and engineers, in Claude Code, Cursor, Codex,
-GitHub Copilot, Gemini CLI, or plain chat. Works in any repo: it reads the
-project's own context and rules first.
+Works on anything with a UI: **native iOS and Android apps, Flutter apps, web
+apps and websites**, from code, a running build, a URL, a screenshot or a
+Figma frame. Works for designers, PMs and engineers, in Claude Code, Cursor,
+Codex, GitHub Copilot, Gemini CLI, or plain chat, and in any repo: it reads
+the project's own context and rules first.
 
-```text
-Zero Clutter · design (G2) · Onboarding plans screen · FAIL
-1 blocking · 2 major · 0 minor · 1 pending · 38/42 passed · 6 n/a
-
-issue (blocking) HIER-04 Hierarchy · 3 plans side by side to scan across at plans › table → one plan per card, Base | Plus | Premium switcher
-issue (major) CLUT-01 Clutter · "Benefits apply until end of next month" repeated under each plan → once, under the list
-question (major) WORD-05 Words · "$250 in monthly card spends" and "$250 card spend / month" → pick one? (recommend: the first)
-pending FB-01 Feedback · press states can't be judged from a still → check on a device
-keep: APY is the biggest thing on screen · one Continue · no tooltips
-
-Next: fix the blocking issue, then send the WORD-05 question to the approver.
-```
+> **Zero Clutter** · design (G2) · Onboarding plans screen
+> **FAIL** · 1 blocking · 2 major · 0 minor · 1 pending · 38/42 passed · 6 n/a
+>
+> **Fix**
+> 1. **HIER-04 Hierarchy** · blocking
+>    3 plans side by side to scan across · plans › table
+>    → One plan per card, with a Base | Plus | Premium switcher
+> 2. **CLUT-01 Clutter** · major
+>    "Benefits apply until end of next month" repeated under each plan
+>    → Say it once, under the list
+>
+> **Decide** (the approver)
+> 3. **WORD-05 Words** · major
+>    "$250 in monthly card spends" and "$250 card spend / month" both used
+>    → Keep one? (recommend: the first)
+>
+> **Check**
+> - **FB-01 Feedback** · press states → on a device
+>
+> **Keep** APY is the biggest thing on screen · one Continue · no tooltips
+>
+> **Next** Fix 1, then send 3 to the approver.
 
 ## What to expect
 
 - **You type one thing.** `/zero-clutter`, or just "zero clutter this", "gate
   this", "is this ready?". It works out what you gave it (a spec, a design, a
   change, a PR, feedback) and runs the right gate.
-- **You get a short answer.** One line per finding: a label (`issue`,
-  `question`, `suggestion`, `pending`), how much it matters (`blocking`,
-  `major`, `minor`), the rule and principle, what's wrong and where, and the
-  fix. One `keep:` line says what works. Say "details" for the full report.
+- **You get a short, clean answer.** A verdict line, then findings grouped
+  under **Fix**, **Decide**, **Check** and **Keep**, each in three short
+  lines: the rule and how much it matters, what's wrong and where, the fix.
+  Say "details" for the full report.
 - **It judges, it doesn't redesign.** It won't silently change what the spec
   asks for; a principle the spec breaks comes back as a question for the
   approver.
@@ -102,19 +114,21 @@ Or run `python3 zero-clutter/scripts/install.py --project path/to/repo`. Commit 
 
 ## Reading the answer
 
-| Label | Means | Who acts |
+| Heading | Means | Who acts |
 | --- | --- | --- |
-| `issue (blocking)` | Can't ship until fixed | The team |
-| `issue (major)` / `(minor)` | Fix before review / fix or note | The team |
-| `question` | A spec conflict, a taste call or a missing fact | The approver decides |
-| `suggestion` | An improvement nobody asked for | Optional |
-| `pending` | Needs a device, a person or a capture | Whoever it names |
-| `keep` | What works; don't lose it | Everyone |
+| **Fix** | Problems to fix; `blocking` means it can't ship | The team |
+| **Decide** | A spec conflict, a taste call or a missing fact | The approver |
+| **Suggest** | An improvement nobody asked for | Optional |
+| **Check** | Needs a device, a person or a capture | Whoever it names |
+| **Keep** | What works; don't lose it | Everyone |
 
-Line 2 counts everything, with `passed/checked` and `n/a` so you know the scope.
-The format follows [Conventional Comments](https://conventionalcomments.org/)
-(label words people and parsers both read) and [SARIF](https://docs.oasis-open.org/sarif/sarif/v2.1.0/sarif-v2.1.0.html)
-(rule, level, location, fix). Full rules: [report format](skills/zero-clutter/references/report-format.md).
+Findings are numbered so you can say "fix 1, decide 3". Line 2 shows the
+scope: `passed/checked` and `n/a`. The layout follows
+[Conventional Comments](https://conventionalcomments.org/) (kind and
+severity on every finding) and the same findings are written as
+[SARIF](https://docs.oasis-open.org/sarif/sarif/v2.1.0/sarif-v2.1.0.html) for
+CI. Full rules: [report format](skills/zero-clutter/references/report-format.md).
+How evidence is collected on each platform: [platforms](skills/zero-clutter/references/platforms.md).
 
 ## CI gate
 

@@ -7,8 +7,9 @@ which tool produces each kind of evidence on its stack.
 
 - **SHOT**: a screenshot of one screen in one state, at the project's usual
   phone size.
-- **COMPACT**: the same screen at the smallest supported size (default
-  375×667pt) with the longest real values. Nothing may overflow, clip or push
+- **COMPACT**: the same screen at the smallest supported size (phones
+  375×667pt, Android 360×640dp, web 320px wide and 200% zoom; see
+  [platforms](platforms.md)) with the longest real values. Nothing may overflow, clip or push
   the primary action off screen.
 - **FRAMES**: a recording of a motion, cut into frames (about every 33 to
   100ms) and laid out as a sheet, so timing and flashes can be seen.
