@@ -8,6 +8,12 @@
 
 <Would a new user act without instructions? One or two lines.>
 
+## Copy read (HR-16)
+
+| 📖 Copy | 👀 User reads it as | ✅ Clear | ❓ Left open | Options (new, needs approval) |
+| --- | --- | --- | --- | --- |
+| "<line, quoted>" | | | | A: "…" · B: "…" (recommend: <x>) |
+
 ## Requirements
 
 | R | Requirement (quoted) | Proof | Result |

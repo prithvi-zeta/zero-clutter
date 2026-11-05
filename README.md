@@ -103,6 +103,7 @@ Or run `python3 zero-clutter/scripts/install.py --project path/to/repo`. Commit 
 | You changed something | `zero-clutter` | **build** (G3): the 15 checks on what changed |
 | Before merging | `zero-clutter pr` | **pr** (G4): every checklist item with evidence, in its own reviewer agent |
 | A new flow is ready | `zero-clutter first-use` | **first-use** (G5): a step-by-step test for someone who hasn't seen it |
+| You want a read on the words | `zero-clutter` + "what will the user understand from this copy" | **copy** (G2): how a first-time user reads each line, what's left open, and copy options to pick from. Every other mode adds this read whenever copy is on screen |
 | Feedback comes in | `zero-clutter` + the feedback | **feedback**: logs it, finds the gate that missed it, adds a rule |
 
 ## Reading the answer

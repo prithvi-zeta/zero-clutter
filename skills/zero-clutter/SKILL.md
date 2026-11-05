@@ -6,12 +6,14 @@ description: >-
   Design for Delight principles (Zero Cognitive Load, Engage the Senses,
   Purpose-built Unique Design, The Science behind Delight), the 133-item
   checklist and the house rules, and returns short tables of what to fix,
-  decide and keep. Use when someone says zero clutter, gate this,
-  check this, review this screen or spec, is this ready, before saying done,
-  before a PR merges, or when they share review feedback. Chat tables always
-  use the scan emoji from report-format.
+  decide and keep. Whenever copy is on screen, it also says what a user will
+  understand from reading it and gives options where the copy confuses. Use
+  when someone says zero clutter, gate this, check this, review this screen
+  or spec, is this ready, what will the user understand, read this copy,
+  before saying done, before a PR merges, or when they share review feedback.
+  Chat tables always use the scan emoji from report-format.
 metadata:
-  version: "0.4.7"
+  version: "0.4.8"
 ---
 
 # Zero Clutter
@@ -48,6 +50,7 @@ Pick from what the person gave you. Name the mode in the first table of the answ
 | Code changes, a running build, "is this done" | `build` | G3 | [build-gate](references/build-gate.md), quick |
 | A PR, "ready to merge", "full review" | `pr` | G4 | [build-gate](references/build-gate.md), full |
 | A new flow to test on a person | `first-use` | G5 | [first-use](references/first-use.md) |
+| Only copy, or "what will the user understand from this" | `copy` | G2 | HR-16 in [house-rules](references/house-rules.md) |
 | Review feedback ("Bhavin said…") | `feedback` | loop | [feedback-intake](references/feedback-intake.md) |
 | "Set up zero clutter here" | `setup` | — | step 5 below |
 
@@ -75,6 +78,22 @@ Always read these; the mode guide adds what else to read.
   text on that screen and flag every smaller step. Do not mark it pending
   for lack of a font token. The only text allowed to be small is the terms
   and conditions.
+- **Read the copy as the user (HR-16), every time copy is on screen**, in
+  any mode, even when nobody asked. For each headline, helper line, CTA and
+  field label that carries the screen's meaning, say how a first-time user
+  will read it, not how the team means it. Read it with only what is on
+  that screen: no knowledge of other flows, internal names or the plan.
+  List what it says clearly and what it leaves open: is money a fee or a
+  deposit, where it goes, is it one-time, why this amount or step, what
+  happens next, can it be undone. Flag words that fight each other (for
+  example "free" next to a charge).
+- **Every confusion gets options**, as a `🤔 Decide` row: two options at
+  most, each a full line of copy marked `(new, needs approval)`, plus your
+  pick and why. Prefer options that keep the spec's words (title, CTA) and
+  add or move one line. Never change the copy in the work itself.
+- **A promise in an option is a fact to confirm.** If an option claims
+  something the screen can't prove ("withdraw it anytime", "no fee"), add a
+  `⏳ Check` row naming who confirms it (product, the approver) before it ships.
 - Something the spec asks for that a principle forbids is a **spec conflict**:
   don't change it; it goes to the approver as a question with a proposal.
 - Changes to existing UI that nobody asked for are suggestions, not fixes.
@@ -94,6 +113,10 @@ findings. Full rules: [report-format](references/report-format.md).
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | <mode> (G<n>) | <what was checked> | <emoji VERDICT> | 🔴 <n> | 🟠 <n> | 🟡 <n> | ⏳ <n> | ✅ <passed>/<checked> | ➖ <n> |
 
+| 📖 Copy | 👀 User reads it as | ✅ Clear | ❓ Left open |
+| --- | --- | --- | --- |
+| "<the line, quoted>" | <how a first-time user reads it> | <what it says clearly> | <questions it leaves, separated by ·> |
+
 | # | Kind | ID | Principle | Severity | What's wrong | Where | Fix |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | 🔧 Fix | <ID> | <Principle> | 🔴 blocking | <what's wrong> | <where> | <the fix> |
@@ -106,10 +129,16 @@ findings. Full rules: [report-format](references/report-format.md).
 | 👉 Next | <the one thing to do now> |
 ```
 
-- **Three tables, in this order.** The verdict table is always first. The
-  findings table only when there is a Fix, Decide, Suggest or Check row. The
-  Keep / Next table is always last. Nothing before or after them except, at
-  most, one line offering setup.
+- **Tables, in this order.** The verdict table is always first. The copy
+  read table next, whenever copy is on screen: one row per line that
+  carries meaning (headline, helper, CTA, key label), quoted exactly. The
+  findings table only when there is a Fix, Decide, Suggest or Check row;
+  each `❓ Left open` that matters becomes a `🤔 Decide` row with its options
+  in Fix, as `A: "<copy>" · B: "<copy>" (new, needs approval) (recommend: A,
+  <why in a few words>)`. The Keep / Next table is always last. Nothing
+  before or after them except, at most, one line offering setup.
+- **`copy` mode** keeps the same tables; the verdict is `🟢 READY` (nothing
+  left open that matters) or `🟡 OPEN`, and Passed and N/A are `➖ —`.
 - **Emoji on every label.** Chat and `gate.py` always prefix Kind, Severity,
   Verdict, Keep and Next, and the count cells, with the scan emoji in
   [report-format](references/report-format.md). SARIF stays plain (no emoji).
@@ -130,7 +159,8 @@ findings. Full rules: [report-format](references/report-format.md).
   `🟢 READY` or `🟡 OPEN`, and Passed and N/A are `➖ —`. Feedback mode
   answers with the table in [feedback-intake](references/feedback-intake.md).
 - **Nothing else:** no preamble, no praise beyond the Keep row, no recap of
-  the principles. A clean pass is the verdict table and the Keep / Next table.
+  the principles. A clean pass is the verdict table, the copy read table
+  if there is copy, and the Keep / Next table.
 - **Plain-text tools:** still emit these Markdown tables.
 - **Files:** pr mode always writes the full report (Markdown) and a SARIF file
   to `.zero-clutter/reports/<date>-<name>.md` and `.sarif`; other modes when

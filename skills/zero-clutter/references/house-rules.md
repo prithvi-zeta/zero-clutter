@@ -118,3 +118,18 @@ rule is the font size, text style or token. A run passes only when it is
 the terms and conditions. The fix is to raise it to the floor or larger;
 if it no longer fits, cut words rather than shrink the type.
 **Gate:** G2, G3, G4. **Items:** HIER-11, CLUT-04. **From:** D-015.
+
+### HR-16 · Read the copy as the user, and give options
+**Rule:** Whenever copy is on screen (a screenshot, Figma frame, build or
+string in a diff), say what a first-time user will understand from it, using
+only what is on that screen. Name what it says clearly and what it leaves
+open: fee or deposit, where money goes, one-time or recurring, why this
+amount or step, what happens next. Flag words that fight each other ("free"
+next to a charge). Every open question that matters gets at most two options
+of full copy, marked `(new, needs approval)`, with a pick and why; prefer
+options that keep the spec's title and CTA. A promise an option makes
+("withdraw anytime") is a fact for product to confirm. The work's copy is
+not changed until the approver picks.
+**Check:** the answer has a copy read table quoting every line that carries
+meaning, and a Decide row with options for each open question.
+**Gate:** G1, G2, G3, G4. **Items:** WORD-02, WORD-03, ZCL-05. **From:** D-016.

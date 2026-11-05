@@ -2,6 +2,16 @@
 
 Versions of the Zero Clutter system. Each skill also keeps its own changelog.
 
+## 0.4.8 — 2026-11-05
+
+- **Read the copy as the user (HR-16).** Whenever copy is on screen, in any
+  mode, the answer adds a copy read table: each line that carries meaning,
+  how a first-time user reads it, what's clear and what's left open. Each
+  open question becomes a Decide row with at most two copy options marked
+  `(new, needs approval)` and a pick. Promises in an option become Check
+  rows for product. New `copy` mode for "what will the user understand from
+  this". Log entry D-016.
+
 ## 0.4.7 — 2026-10-29
 
 - **Contrast is not checked.** Removed the measured-contrast item and the

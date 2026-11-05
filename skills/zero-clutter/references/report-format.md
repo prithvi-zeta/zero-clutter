@@ -12,8 +12,9 @@ findings as a file machines parse. It borrows from two standards:
 
 ## The chat answer
 
-Always three Markdown tables, in this order: the verdict, the findings (omit
-when empty), then Keep and Next. No framed block and no bulleted findings.
+Always Markdown tables, in this order: the verdict, the copy read (whenever
+copy is on screen), the findings (omit when empty), then Keep and Next. No
+framed block and no bulleted findings.
 Every Kind, Severity, Verdict, Keep, Next and count cell carries its scan
 emoji (below). SARIF and machine fields stay plain text with no emoji.
 
@@ -35,6 +36,33 @@ emoji (below). SARIF and machine fields stay plain text with no emoji.
 | ✅ Keep | one statement per screen · sharp vector glyphs · a colour per guarantee |
 | 👉 Next | One APY constant and body-size type on story 3, then send 3 and 4 to the approver |
 
+### Copy read (HR-16)
+
+Whenever copy is on screen, the second table says how a first-time user reads
+it. Quote each line that carries meaning exactly. Read it with only what's on
+that screen. Each open question that matters becomes a numbered `🤔 Decide`
+row with at most two options, both full lines marked `(new, needs approval)`.
+A promise an option makes becomes a `⏳ Check` row. Example (`copy` mode):
+
+| Gate | Subject | Verdict | Blocking | Major | Minor | Pending | Passed | N/A |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| copy (G2) | Physical card › add money | 🟡 OPEN | 🔴 0 | 🟠 1 | 🟡 0 | ⏳ 1 | ➖ — | ➖ — |
+
+| 📖 Copy | 👀 User reads it as | ✅ Clear | ❓ Left open |
+| --- | --- | --- | --- |
+| "Add $100 to get your free physical card" | "Pay $100 and get a card", which fights "free" | $100 gets a physical card · the card costs nothing | Fee or deposit? · where does the $100 go? · one-time? · why $100? |
+| "From" · "Debit card number" | The $100 is charged to my debit card | The money comes from a debit card | Same as above: a charge or a top-up? |
+
+| # | Kind | ID | Principle | Severity | What's wrong | Where | Fix |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | 🤔 Decide | WORD-02 | Words | 🟠 major | A new user can read the $100 as the card's price | card › title | A: keep the title, add "It goes into your Ryze balance. Spend or withdraw it anytime." · B: "Get your free physical card" over "Add $100 to your balance to unlock it. The money stays yours." (new, needs approval) (recommend: A, keeps the Figma title) |
+| | ⏳ Check | HR-16 | House rule | ⏳ pending | "Withdraw it anytime" is only true if the $100 isn't locked until the card arrives | 1A | product confirms before it ships |
+
+| | |
+| --- | --- |
+| ✅ Keep | "Add $100" names the action · one field, one job |
+| 👉 Next | Pick A or B; product confirms the $100 isn't locked |
+
 ### Scan emoji
 
 Use these exact symbols (colour by default; never ones that need U+FE0F).
@@ -46,6 +74,7 @@ Use these exact symbols (colour by default; never ones that need U+FE0F).
 | Kind | 🔧 🤔 💡 ⏳ | `🔧 Fix` · `🤔 Decide` · `💡 Suggest` · `⏳ Check` |
 | Severity | 🔴 🟠 🟡 ⏳ | `🔴 blocking` · `🟠 major` · `🟡 minor` · `⏳ pending` |
 | Keep / Next | ✅ 👉 | `✅ Keep` · `👉 Next` |
+| Copy read headers | 📖 👀 ✅ ❓ | `📖 Copy` · `👀 User reads it as` · `✅ Clear` · `❓ Left open` |
 
 ### Kinds
 
@@ -96,7 +125,7 @@ asked. One run, one tool, one result per finding and per pass. Minimal shape:
   "runs": [{
     "tool": { "driver": {
       "name": "zero-clutter",
-      "version": "0.4.7",
+      "version": "0.4.8",
       "informationUri": "https://github.com/prithvi-zeta/zero-clutter",
       "rules": [{
         "id": "HIER-11",
