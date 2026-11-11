@@ -10,9 +10,9 @@
 
 ## Copy read (HR-16)
 
-| 📖 Copy | 👀 User reads it as | ✅ Clear | ❓ Left open | Options (new, needs approval) |
-| --- | --- | --- | --- | --- |
-| "<line, quoted>" | | | | A: "…" · B: "…" (recommend: <x>) |
+| 📖 Copy | 🎯 Verdict | 👀 User reads it as | ✅ Clear | ❓ Left open | Options (new, needs approval) |
+| --- | --- | --- | --- | --- | --- |
+| "<line, quoted>" | 😕 Confusing / 🙂 Clear | | | | A: "…" · B: "…" (recommend: <x>) |
 
 ## Requirements
 

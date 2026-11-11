@@ -40,7 +40,11 @@ emoji (below). SARIF and machine fields stay plain text with no emoji.
 
 Whenever copy is on screen, the second table says how a first-time user reads
 it. Quote each line that carries meaning exactly. Read it with only what's on
-that screen. Each open question that matters becomes a numbered `🤔 Decide`
+that screen. Tag each line `😕 Confusing` (it leaves open something that
+matters to the user) or `🙂 Clear` (nothing that matters left open; `❓ Left
+open` is `—`). Read each line with the rest of the screen: a line that
+answers another line's question is Clear; whether a promise holds is a
+`⏳ Check`, not a confusion. Each Confusing line's open question becomes a numbered `🤔 Decide`
 row with at most two options, both full lines marked `(new, needs approval)`.
 A promise an option makes becomes a `⏳ Check` row. Example (`copy` mode):
 
@@ -48,10 +52,11 @@ A promise an option makes becomes a `⏳ Check` row. Example (`copy` mode):
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | copy (G2) | Physical card › add money | 🟡 OPEN | 🔴 0 | 🟠 1 | 🟡 0 | ⏳ 1 | ➖ — | ➖ — |
 
-| 📖 Copy | 👀 User reads it as | ✅ Clear | ❓ Left open |
-| --- | --- | --- | --- |
-| "Add $100 to get your free physical card" | "Pay $100 and get a card", which fights "free" | $100 gets a physical card · the card costs nothing | Fee or deposit? · where does the $100 go? · one-time? · why $100? |
-| "From" · "Debit card number" | The $100 is charged to my debit card | The money comes from a debit card | Same as above: a charge or a top-up? |
+| 📖 Copy | 🎯 Verdict | 👀 User reads it as | ✅ Clear | ❓ Left open |
+| --- | --- | --- | --- | --- |
+| "Add $100 to get your free physical card" | 😕 Confusing | "Pay $100 and get a card", which fights "free" | $100 gets a physical card · the card costs nothing | Fee or deposit? · where does the $100 go? · one-time? · why $100? |
+| "From" · "Debit card number" | 😕 Confusing | The $100 is charged to my debit card | The money comes from a debit card | Same as above: a charge or a top-up? |
+| "Add $100" | 🙂 Clear | Tapping this moves $100 | The action and the amount | — |
 
 | # | Kind | ID | Principle | Severity | What's wrong | Where | Fix |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -74,7 +79,8 @@ Use these exact symbols (colour by default; never ones that need U+FE0F).
 | Kind | 🔧 🤔 💡 ⏳ | `🔧 Fix` · `🤔 Decide` · `💡 Suggest` · `⏳ Check` |
 | Severity | 🔴 🟠 🟡 ⏳ | `🔴 blocking` · `🟠 major` · `🟡 minor` · `⏳ pending` |
 | Keep / Next | ✅ 👉 | `✅ Keep` · `👉 Next` |
-| Copy read headers | 📖 👀 ✅ ❓ | `📖 Copy` · `👀 User reads it as` · `✅ Clear` · `❓ Left open` |
+| Copy read headers | 📖 🎯 👀 ✅ ❓ | `📖 Copy` · `🎯 Verdict` · `👀 User reads it as` · `✅ Clear` · `❓ Left open` |
+| Copy verdict | 😕 🙂 | `😕 Confusing` · `🙂 Clear` |
 
 ### Kinds
 
@@ -125,7 +131,7 @@ asked. One run, one tool, one result per finding and per pass. Minimal shape:
   "runs": [{
     "tool": { "driver": {
       "name": "zero-clutter",
-      "version": "0.4.8",
+      "version": "0.4.9",
       "informationUri": "https://github.com/prithvi-zeta/zero-clutter",
       "rules": [{
         "id": "HIER-11",

@@ -13,7 +13,7 @@ description: >-
   before saying done, before a PR merges, or when they share review feedback.
   Chat tables always use the scan emoji from report-format.
 metadata:
-  version: "0.4.8"
+  version: "0.4.9"
 ---
 
 # Zero Clutter
@@ -87,6 +87,16 @@ Always read these; the mode guide adds what else to read.
   deposit, where it goes, is it one-time, why this amount or step, what
   happens next, can it be undone. Flag words that fight each other (for
   example "free" next to a charge).
+- **Tag every line with a verdict**: `😕 Confusing` when it leaves open
+  anything that matters to the user (a fee or a deposit, where money goes,
+  a word that fights another), else `🙂 Clear`. Judge the line on what the
+  user reads, not on whether the copy matches the spec. Read each line
+  with the rest of the screen: a line whose subject the screen already
+  gives (the $100 in the title) is not missing it, and a line that answers
+  another line's question ("Spend or withdraw anytime" under a $100 ask)
+  is Clear. Whether a promise is true is a `⏳ Check` row, not a
+  confusion, and neither is where the line sits. Every Confusing
+  line gets a `🤔 Decide` row; a Clear line's `❓ Left open` is `—`.
 - **Every confusion gets options**, as a `🤔 Decide` row: two options at
   most, each a full line of copy marked `(new, needs approval)`, plus your
   pick and why. Prefer options that keep the spec's words (title, CTA) and
@@ -113,9 +123,9 @@ findings. Full rules: [report-format](references/report-format.md).
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | <mode> (G<n>) | <what was checked> | <emoji VERDICT> | 🔴 <n> | 🟠 <n> | 🟡 <n> | ⏳ <n> | ✅ <passed>/<checked> | ➖ <n> |
 
-| 📖 Copy | 👀 User reads it as | ✅ Clear | ❓ Left open |
-| --- | --- | --- | --- |
-| "<the line, quoted>" | <how a first-time user reads it> | <what it says clearly> | <questions it leaves, separated by ·> |
+| 📖 Copy | 🎯 Verdict | 👀 User reads it as | ✅ Clear | ❓ Left open |
+| --- | --- | --- | --- | --- |
+| "<the line, quoted>" | <😕 Confusing or 🙂 Clear> | <how a first-time user reads it> | <what it says clearly> | <questions it leaves, separated by ·, or —> |
 
 | # | Kind | ID | Principle | Severity | What's wrong | Where | Fix |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -131,9 +141,10 @@ findings. Full rules: [report-format](references/report-format.md).
 
 - **Tables, in this order.** The verdict table is always first. The copy
   read table next, whenever copy is on screen: one row per line that
-  carries meaning (headline, helper, CTA, key label), quoted exactly. The
+  carries meaning (headline, helper, CTA, key label), quoted exactly, with
+  its `😕 Confusing` or `🙂 Clear` verdict. The
   findings table only when there is a Fix, Decide, Suggest or Check row;
-  each `❓ Left open` that matters becomes a `🤔 Decide` row with its options
+  each `😕 Confusing` line's open question becomes a `🤔 Decide` row with its options
   in Fix, as `A: "<copy>" · B: "<copy>" (new, needs approval) (recommend: A,
   <why in a few words>)`. The Keep / Next table is always last. Nothing
   before or after them except, at most, one line offering setup.

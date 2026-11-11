@@ -2,6 +2,15 @@
 
 Versions of the Zero Clutter system. Each skill also keeps its own changelog.
 
+## 0.4.9 — 2026-11-11
+
+- **Copy read verdict.** Every line in the copy read table now carries a
+  `🎯 Verdict`: `😕 Confusing` when it leaves open something that matters
+  to the user, or `🙂 Clear` when it doesn't. Every Confusing line gets a
+  Decide row; a Clear line's Left open is `—`. Each line is read with the
+  rest of the screen: a line that answers another line's question is Clear,
+  and whether a promise is true is a Check, not a confusion. HR-16 updated.
+
 ## 0.4.8 — 2026-11-05
 
 - **Read the copy as the user (HR-16).** Whenever copy is on screen, in any

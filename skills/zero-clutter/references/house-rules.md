@@ -125,11 +125,15 @@ string in a diff), say what a first-time user will understand from it, using
 only what is on that screen. Name what it says clearly and what it leaves
 open: fee or deposit, where money goes, one-time or recurring, why this
 amount or step, what happens next. Flag words that fight each other ("free"
-next to a charge). Every open question that matters gets at most two options
+next to a charge). Tag each line `😕 Confusing` (it leaves open something
+that matters) or `🙂 Clear`, reading each line with the rest of the screen: a
+line that answers another line's question is Clear, and whether a promise
+is true is a Check, not a confusion. Every open question that matters gets at most two options
 of full copy, marked `(new, needs approval)`, with a pick and why; prefer
 options that keep the spec's title and CTA. A promise an option makes
 ("withdraw anytime") is a fact for product to confirm. The work's copy is
 not changed until the approver picks.
 **Check:** the answer has a copy read table quoting every line that carries
-meaning, and a Decide row with options for each open question.
+meaning with a Confusing or Clear verdict, and a Decide row with options for
+each Confusing line.
 **Gate:** G1, G2, G3, G4. **Items:** WORD-02, WORD-03, ZCL-05. **From:** D-016.
