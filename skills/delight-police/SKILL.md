@@ -8,7 +8,7 @@ description: >-
   screenshot, or mentions delight police, cognitive load, zero clutter, or
   design for delight.
 metadata:
-  version: "0.1.2"
+  version: "0.1.3"
 ---
 
 # Delight Police
@@ -49,7 +49,7 @@ order below. Be direct: if it fails Zero Cognitive Load, say so.
 ### 1. Zero Cognitive Load (priority order)
 
 1. **Zero Clutter** — only what is necessary and sufficient for the outcome
-2. **Use fewer words** — one word where one word works; scan, don't read; no repeats
+2. **Use fewer words** — one word where one word works; scan, don't read; no repeats. A phrase or value shown twice is a repeat whether it sits in text, a display, a chip or a button, tappable or not, and even if the screen was approved before (a big amount over a selected amount chip). Only the commit button may restate the amount.
 3. **Smart Defaults and Auto completes** — do not ask for what the product can do
 4. **Progressive Disclosure / One page, One context** — reveal complexity only as needed
 5. **Strong and Logical Visual Hierarchy** — eye finds what matters; avoid multi-column scan traps. On the screenshot, compare every text run to the body text on that screen (the main sentence, row title or button label). Flag a run whose letters are a distinct smaller step. The only exception is the terms and conditions. Do not skip this because a still has no font token. A lighter weight at the same size is not small type.

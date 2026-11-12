@@ -7,7 +7,7 @@ full items in [items.md](checklist-items.md); agents check those.
 ## Zero Cognitive Load (in Bhavin's priority order)
 
 1. **Zero clutter.** Is every word, image and element needed to finish the task? Anything that isn't, goes. [CLUT-01–06]
-2. **Fewer words.** Could any label be one word? Is anything said twice? Can it be scanned without reading? [WORD-01–06]
+2. **Fewer words.** Could any label be one word? Is anything said or shown twice, in text or in a control, tappable or not? Can it be scanned without reading? [WORD-01–06]
 3. **Smart defaults.** Are we asking for anything the product already knows or could fill in? [DEF-01–09]
 4. **One page, one context.** Is the screen about one thing, with extra detail revealed only when needed? [PROG-01–07]
 5. **Hierarchy.** Does the eye land on the most important thing first? Is it one column, with nothing to scan across columns? Is every text run at or above the small-type floor, except the terms and conditions? [HIER-01–11]
