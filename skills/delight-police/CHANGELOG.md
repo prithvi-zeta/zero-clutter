@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3 — 2026-11-12
+
+- A phrase or value shown twice is a repeat whether it is text or a
+  control, tappable or not, and even on an approved screen. Only the commit
+  button may restate the amount.
+
 ## 0.1.2 — 2026-10-29
 
 - On a screenshot, flag text that is a distinct step smaller than the body.

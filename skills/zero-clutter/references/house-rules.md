@@ -137,3 +137,18 @@ not changed until the approver picks.
 meaning with a Confusing or Clear verdict, and a Decide row with options for
 each Confusing line.
 **Gate:** G1, G2, G3, G4. **Items:** WORD-02, WORD-03, ZCL-05. **From:** D-016.
+
+### HR-17 · Any repeat is a finding, tappable or not, approved or not
+**Rule:** A phrase or value shown twice on one screen state is a repeat,
+wherever it sits: text, display, chip, pill, button or field. Whether the
+element can be tapped doesn't matter, and neither does whether the screen
+or pattern was approved before. Every repeat is looked at again; the one
+allowed is the commit button restating the amount it commits (SCI-02).
+An element goes in the Keep row only after it passes the removal test.
+**Check:** list every value and phrase on the screen with each place it
+appears (a big amount and a selected amount chip are two places). Any value
+in two places is an `issue` under CLUT-01 / WORD-04, or CLUT-05 when both
+places are controls for one outcome. Fix by keeping the one that does the
+job and removing the other; if the repeat is in the spec or a signed-off
+screen, it's a `question` for the approver with that proposal.
+**Gate:** G2, G3, G4. **Items:** CLUT-01, CLUT-05, WORD-04. **From:** D-017.

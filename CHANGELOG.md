@@ -2,6 +2,16 @@
 
 Versions of the Zero Clutter system. Each skill also keeps its own changelog.
 
+## 0.4.10 — 2026-11-12
+
+- **Any repeat is a finding (HR-17).** A phrase or value shown twice on one
+  screen is flagged wherever it sits, text or control, tappable or not, and
+  whether or not the screen was approved before. WORD-04 now covers values
+  and controls, CLUT-01 runs the removal test on every element, CLUT-05
+  names the two-controls case, and every run sweeps for repeats before the
+  Keep row. Only the commit button may restate the amount it commits. Log
+  entry D-017.
+
 ## 0.4.9 — 2026-11-11
 
 - **Copy read verdict.** Every line in the copy read table now carries a

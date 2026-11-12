@@ -131,7 +131,7 @@ asked. One run, one tool, one result per finding and per pass. Minimal shape:
   "runs": [{
     "tool": { "driver": {
       "name": "zero-clutter",
-      "version": "0.4.9",
+      "version": "0.4.10",
       "informationUri": "https://github.com/prithvi-zeta/zero-clutter",
       "rules": [{
         "id": "HIER-11",

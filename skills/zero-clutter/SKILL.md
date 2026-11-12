@@ -13,7 +13,7 @@ description: >-
   before saying done, before a PR merges, or when they share review feedback.
   Chat tables always use the scan emoji from report-format.
 metadata:
-  version: "0.4.9"
+  version: "0.4.10"
 ---
 
 # Zero Clutter
@@ -78,6 +78,12 @@ Always read these; the mode guide adds what else to read.
   text on that screen and flag every smaller step. Do not mark it pending
   for lack of a font token. The only text allowed to be small is the terms
   and conditions.
+- **Sweep for repeats (HR-17), every run.** List every value and phrase
+  on screen with each place it shows: text, display, chip, pill, button,
+  field. Anything in two places is a finding, tappable or not, approved or
+  inherited or not (a big "$100" over a selected "$100" chip is a repeat).
+  Only the commit button may restate the amount it commits. Run the removal
+  test on each element before anything goes in the Keep row.
 - **Read the copy as the user (HR-16), every time copy is on screen**, in
   any mode, even when nobody asked. For each headline, helper line, CTA and
   field label that carries the screen's meaning, say how a first-time user

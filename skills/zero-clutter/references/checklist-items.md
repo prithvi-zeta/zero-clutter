@@ -43,7 +43,7 @@ Severity: **blocker** (cannot ship), **major** (fix before review), **minor**
 
 ## ZCL principle 1: Zero Clutter
 
-- **CLUT-01** · major · Does every element on the screen, including below the fold, inside scrolled or collapsed regions and in every PROC-04 state (text run, icon, image, badge, divider, control, footnote), pass the removal test?
+- **CLUT-01** · major · Does every element on the screen, including below the fold, inside scrolled or collapsed regions and in every PROC-04 state (text run, icon, image, badge, divider, control, footnote), pass the removal test? Run it on every element one by one, approved or inherited patterns included: if removing it loses nothing because another element already shows the same thing, it fails (HR-17).
   - Enforces: Zero Cognitive Load > 1. Zero Clutter (necessary: no more). Source: "a. Each screen contains exactly and only the elements (words, images, assets) that are both necessary and sufficient to achieve the outcome. No more, no less"
 - **CLUT-02** · blocker · Is every fact the user needs for this screen's decision on this screen, so they never guess, go back or remember?
   - Enforces: Zero Cognitive Load > 1. Zero Clutter (sufficient: no less). Source: "...that are both necessary and sufficient to achieve the outcome. No more, no less"
@@ -51,7 +51,7 @@ Severity: **blocker** (cannot ship), **major** (fix before review), **minor**
   - Enforces: Zero Cognitive Load > 1. Zero Clutter + 2b. Design for Scanning (row and pill budget). Source: "exactly and only the elements ... necessary and sufficient" + "b. Design for Scanning, Not Reading."
 - **CLUT-04** · major · After 'cramped', 'busy' or 'cluttered' feedback, does the next version remove or move content rather than shrink type, padding or line height?
   - Enforces: Zero Cognitive Load > 1. Zero Clutter (fix discipline). Source: "No more, no less"
-- **CLUT-05** · major · Does each outcome on the screen have exactly one visible control?
+- **CLUT-05** · major · Does each outcome on the screen have exactly one visible control (for example, not a tappable amount and a Custom pick that both open typing)?
   - Enforces: Zero Cognitive Load > 1. Zero Clutter + 2c. Don't repeat (controls). Source: "exactly and only the elements" + "c. Don't repeat"
 - **CLUT-06** · minor · Does every navigation aid and every asset have one of the allowed reasons?
   - Enforces: Zero Cognitive Load > 1. Zero Clutter (chrome, navigation aids, assets). Source: "...exactly and only the elements (words, images, assets)..."
@@ -64,7 +64,7 @@ Severity: **blocker** (cannot ship), **major** (fix before review), **minor**
   - Enforces: Zero Cognitive Load > 2. Use fewer words > a., bounded by clarity (read-alone test). Source: "a. If you can communicate something in one word, don't use two."
 - **WORD-03** · major · Reading only the scan layer (large or bold text, numbers, icons, the CTA), can a reviewer say what the screen is for, the key value and what to do, and does every line lead with its key word?
   - Enforces: Zero Cognitive Load > 2. Use fewer words > b. Design for Scanning, Not Reading. Source: "b. Design for Scanning, Not Reading."
-- **WORD-04** · major · Within each screen state, is every non-interactive phrase said once, with no content word echoed between a title and its subtitle, a row title and its secondary line, or a claim and its demo?
+- **WORD-04** · major · Within each screen state, is every phrase and every value (amount, rate, name, date) said once, whether it sits in text, a chip, a button, a field or a display, and whether or not it can be tapped, with no content word echoed between a title and its subtitle, a row title and its secondary line, or a claim and its demo? The commit button may restate the amount it commits (SCI-02); nothing else may (HR-17).
   - Enforces: Zero Cognitive Load > 2. Use fewer words > c. Don't repeat (within a screen). Source: "c. Don't repeat"
 - **WORD-05** · minor · Is every term the everyday word your users use, with no internal terms or abbreviations to decode, and one term per concept across every platform (app, native, web)?
   - Enforces: Zero Cognitive Load > 2. Use fewer words + 8. Familiar Mental Models (the user's vocabulary). Source: "Every extra word competes for attention." + "a. Map interactions to patterns users already know."
