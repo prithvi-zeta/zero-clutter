@@ -1,6 +1,6 @@
 # Design mode fixtures
 
-Run a change to design mode against these two screens before you release it.
+Run a change to design mode against these fixtures before you release it.
 Each fixture lists what a correct review must find. Wording can differ; the
 principles and the changes must match.
 
@@ -85,3 +85,43 @@ principles and the changes must match.
 
 - Praise the unique swipe as delight while it still needs instructions.
 - Flag clutter that is not described on the screen.
+
+---
+
+## Fixture 3 · Receive money flow (three stills)
+
+**Input to the agent**
+
+> Review this flow. Audience: someone who was sent $50 and tapped the link in
+> their text message. Job: claim the money. The spec says the button on
+> screen 2 is "Verify account via Plaid".
+>
+> Screen 1: Title "Dustin, you've got $50" "Link a bank account belonging to
+> Dustin Set to claim". Button "Proceed". Below it a Plaid logo and
+> "Secured by Plaid".
+>
+> Screen 2: "$50 initiated". Two options: "Withdraw now" with "Download Ryze
+> app", and "Send to Chase ••4567" with "Arrives in 3 business days".
+>
+> Screen 3 (after tapping Download Ryze app): a web form, "Sign up", with
+> fields First name, Last name, Date of birth. Button "Continue".
+
+**Must find**
+
+| Rule | What is wrong | Required change |
+| --- | --- | --- |
+| HR-18 (blocking) | "Download Ryze app" leads to a web form, not to the download | The button opens the download; anything still needed happens in the app |
+| HR-30 | "Proceed" doesn't say it links a bank through Plaid | A: "Link Dustin's bank account" with "Secured by Plaid" as a second line (new, needs approval) |
+| HR-04 | The spec's "Verify account via Plaid" was replaced with "Proceed" | Use the spec's words, or send the change to the approver as a question (HR-30 and HR-04 can be one Decide row) |
+| HR-26 | "…belonging to Dustin Set to claim" runs two statements together | Full stop between them |
+| HR-31 | Screen 3 is a generic sign-up and no longer mentions the $50 | Keep the story: "Verify details to start using your $50" (new, needs approval) |
+
+**Must also say**
+
+- The copy read table marks the screen 1 helper `😕 Confusing`.
+- First-use read: a recipient doesn't know why a form appears after tapping Download.
+
+**Must not**
+
+- Put any screen in Keep before the flow walk is done.
+- Change the spec's button copy in the work itself.

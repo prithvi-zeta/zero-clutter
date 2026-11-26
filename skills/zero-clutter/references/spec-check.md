@@ -13,7 +13,8 @@ negative feedback later.
 ## Steps
 
 1. **Collect every source.** Ticket text, every linked doc, transcript or
-   subtitle file, screenshots. If a PDF is image-only, render the pages and
+   subtitle file, screenshots, and the docs, videos and comments linked from
+   the mock file itself (HR-01). If a PDF is image-only, render the pages and
    read them. If a link can't be opened, say so and ask for it.
 2. **Number every sentence.** One row per requirement: `R1`, `R2`, … Quote
    copy word for word, including typos (flag typos as questions, don't fix

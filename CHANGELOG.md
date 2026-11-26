@@ -2,6 +2,27 @@
 
 Versions of the Zero Clutter system. Each skill also keeps its own changelog.
 
+## 0.6.0 — 2026-11-26
+
+- **Design feedback from the 23 Nov run-through.** Every run asks four
+  questions of each element: can it go, can it be better, what's
+  unintuitive, how will the user read it. Flows with more than one screen
+  are now walked as the user: each CTA leads to what it promised (HR-18),
+  and the flow keeps its story (HR-31). Six new house rules: copy is
+  punctuated (HR-26), one theme and one art style (HR-27), a pick sits in
+  its own labelled, card-like section (HR-28), every server wait is
+  designed (HR-29), the button says what happens next (HR-30), and a flow
+  keeps its story (HR-31).
+- **Sharpened:** HR-01 (linked docs and comments in the mock file are
+  sources), HR-04 (a better wording goes to the approver as a question),
+  HR-07 (gaps look even by eye, not only by measurement), HR-09 (text is
+  there from the first frame, one thing moves), HR-17 and HR-18. ZCL-04,
+  WORD-02, FB-03 and CONS-01 now say so too. HR-28 is for a pick under
+  pitch copy; screens that are only the pick keep F-002's no-labels rule.
+- **Log entries F-025 to F-045**, including the product and engineering
+  points from the meeting, which carry no design rule.
+- New design fixture: the receive money flow.
+
 ## 0.5.0 — 2026-11-26
 
 - **Design feedback from the 12 Nov run-through.** Every run now goes

@@ -9,10 +9,13 @@ zero-clutter repo. A project's own rules live in its
 
 ### HR-01 · Every source sentence is a numbered requirement with proof
 **Rule:** Before design, turn every sentence of the ticket, Loom transcript,
-doc or comment into a numbered row (R1, R2, …). Before done, attach a
+doc or comment into a numbered row (R1, R2, …). Docs, videos and comments
+linked from the mock file or ticket are sources too. Before done, attach a
 screenshot per row and re-read the source line by line against them.
-**Check:** the plan has an R-row for every source sentence; the PR has a
-screenshot per R-row. **Gate:** G1, G4. **Items:** PROC-01. **From:** F-001, F-002.
+**Check:** the plan has an R-row for every source sentence, linked ones
+included; the PR has a screenshot per R-row. A design review of a flow that
+has a spec but no R-rows is a `⏳ Check` asking for them.
+**Gate:** G1, G2, G4. **Items:** PROC-01. **From:** F-001, F-002, F-037.
 
 ### HR-02 · Start from a pattern that's already approved
 **Rule:** A new surface starts from the nearest design the approver has already
@@ -34,9 +37,12 @@ HIER-02, CLUT-01. **From:** F-004, F-005, F-021.
 ### HR-04 · Spec copy is word for word
 **Rule:** Copy from a ticket, doc, Loom or Figma is used exactly, including
 capitals and spelling, unless the source owner changes it. Typos go to them as
-a question, not a silent fix.
-**Check:** diff every visible string against the source quote in the plan.
-**Gate:** G3, G4. **Items:** PROC-07, PROC-08. **From:** D-001.
+a question, not a silent fix. A better wording is welcome, but it goes to the
+approver as a question with the reason, and the spec's words stay until they
+agree.
+**Check:** diff every visible string against the source quote in the plan,
+buttons included; a changed string with no approved question is an `issue`.
+**Gate:** G1, G3, G4. **Items:** PROC-07, PROC-08. **From:** D-001, F-036.
 
 ### HR-05 · Nothing invented
 **Rule:** No invented footnotes, asterisks, disclaimers, labels, placeholder
@@ -60,8 +66,11 @@ flow. Icons and chevrons sit on the middle of their line of text.
 **Check:** measure edges in the screenshot (left = right, top and bottom as
 the reference screen); measure each repeated gap on the screens before and
 after this one; check each chevron and icon is centred on its text line;
-compare transitions side by side with the reference.
-**Gate:** G2, G3. **Items:** CONS-01, CONS-02, HIER-08. **From:** D-004, D-005, D-006, F-019, F-020.
+compare transitions side by side with the reference. Then look at the gaps
+by eye: where a heavy icon next to a light one, or a number next to an icon,
+makes equal gaps look unequal (a tab bar), it's a minor `issue`; fix it
+optically, not by the numbers.
+**Gate:** G2, G3. **Items:** CONS-01, CONS-02, HIER-08. **From:** D-004, D-005, D-006, F-019, F-020, F-032.
 
 ### HR-08 · Sharp at every size
 **Rule:** Icons and illustrations are vectors, or raster art at least the
@@ -73,9 +82,14 @@ screenshot on edges. **Gate:** G3. **Items:** CONS-02. **From:** D-007.
 ### HR-09 · Motion you can read
 **Rule:** Every state stays on screen long enough to read (about 250ms per
 word, never under 500ms) before the next move, and every move is slow enough
-to follow (a merge or morph you can see happen, about 1s or more).
+to follow (a merge or morph you can see happen, about 1s or more). Text the
+user has to read is on screen from the first frame and never animates in;
+one thing moves (the hero art), not everything.
 **Check:** a frame sheet at 100ms steps shows each state held and each move
-visible over several frames. **Gate:** G3. **Items:** SENSE-*, FB-*. **From:** D-008.
+visible over several frames. Text that types, fades or slides in, or more
+than one element animating at once on a pitch screen, is an `issue`. From a
+mock, say which elements are meant to move and flag the same.
+**Gate:** G2, G3. **Items:** SENSE-*, FB-*. **From:** D-008, F-030.
 
 ### HR-10 · No flashes, no hard cuts
 **Rule:** Transitions are continuous: no frame where something pops, flashes,
@@ -152,7 +166,8 @@ wherever it sits: text, display, chip, pill, button or field. Whether the
 element can be tapped doesn't matter, and neither does whether the screen
 or pattern was approved before. Every repeat is looked at again; the one
 allowed is the commit button restating the amount it commits (SCI-02).
-An element goes in the Keep row only after it passes the removal test.
+An element goes in the Keep row only after it passes the removal test, and
+after asking what about it is unintuitive and how the user will read it.
 Art of an object (a card, a bank) only shows that the object exists: a card
 number, an eye, a copy button or any other control on it fails the removal
 test.
@@ -163,7 +178,7 @@ places are controls for one outcome. Each control or data run on
 illustrative art is an `issue` under CLUT-01. Fix by keeping the one that does the
 job and removing the other; if the repeat is in the spec or a signed-off
 screen, it's a `question` for the approver with that proposal.
-**Gate:** G2, G3, G4. **Items:** CLUT-01, CLUT-05, WORD-04. **From:** D-017, F-018.
+**Gate:** G2, G3, G4. **Items:** CLUT-01, CLUT-05, WORD-04. **From:** D-017, F-018, F-038.
 
 ### HR-18 · Icons and arrows mean what they say
 **Rule:** An icon means what its label says: a shield is security, so it
@@ -171,8 +186,12 @@ never sits next to earning interest. A row, arrow, chevron or status opens
 the thing it names (tapping "Card frozen" goes to freeze card; an arrow on
 the balance goes to something about the balance).
 **Check:** for each icon, write its usual meaning next to its label; for each
-tappable, write where it goes. A mismatch is an `issue`.
-**Gate:** G2, G3. **Items:** ZCL-04, MENT-04. **From:** F-006, F-007.
+tappable, write where it goes. A mismatch is an `issue`. Across a flow, the
+next screen is what the button promised: a button that says "Download Ryze"
+leads to the download, not to a form. Walk every CTA to the screen after it.
+**Check:** for each CTA in a flow, write what its label promises next to the
+screen that follows. A screen that does something else is a blocking `issue`.
+**Gate:** G2, G3. **Items:** ZCL-04, MENT-04. **From:** F-006, F-007, F-034.
 
 ### HR-19 · The main action is the bright one
 **Rule:** A screen with only one action shows it as a bright primary button,
@@ -231,3 +250,63 @@ group moved to the bottom. A one-off action ends where the user sees its
 result (home, with the new entry), not on "do another".
 **Check:** a list in any other order, or a one-off flow that ends on a
 repeat prompt, is an `issue`. **Gate:** G2, G3. **Items:** DEF-03, ZCL-11. **From:** F-016, F-017.
+
+### HR-26 · Copy is punctuated
+**Rule:** Two statements are never run together. Each sentence ends with a
+full stop, and two short statements in one line take a comma or a full
+stop between them ("Account created, card ready").
+**Check:** read every line on screen; two statements with no full stop or
+comma between them is a minor `issue`, flagged in the copy read too.
+**Gate:** G2, G3. **Items:** WORD-02. **From:** F-025, F-026.
+
+### HR-27 · One theme and one art style
+**Rule:** Every screen in a flow, and across the app, uses the same theme
+(background and brand colour) and the same art style (for example rich 3D,
+never cartoon next to it). Something that looks good on its own still fails
+if it doesn't match the screens around it.
+**Check:** list each screen's background colour and art style in the flow.
+A screen that differs from its neighbours with no reason in the spec is a
+major `issue`; a theme change waiting on a brand decision is a `⏳ Check`
+naming who decides. **Gate:** G2. **Items:** CONS-01, CONS-02, SENSE-13.
+**From:** F-027, F-028.
+
+### HR-28 · A pick looks like a field
+**Rule:** Something the user has to pick (amount chips, a source account)
+sits in a card-like section of its own with a short label ("Amount",
+"From"), set apart from the copy above, so it reads as a form and not as
+more text. This is for a pick under pitch or explainer copy; a screen that
+is only the pick (Withdraw, F-002) keeps no labels.
+**Check:** a group of chips or options under pitch copy with no label, or
+outside a card-like section, is a major `issue`.
+**Gate:** G2. **Items:** HIER-06, MENT-04. **From:** F-029.
+
+### HR-29 · Every wait is designed
+**Rule:** A screen that waits on the server (account set-up, a check, a
+match, a payment) has a wait state: a looping animation that holds for the
+longest wait (up to about 10s), with the CTA shown the moment the check is
+done. The wait is never a frozen screen or a disabled button with no
+reason.
+**Check:** for each step that calls the server, find its wait state. A
+still mock with no wait state is a `⏳ Check`; a build that freezes or shows
+the CTA before it's ready is a major `issue`.
+**Gate:** G1, G2, G3. **Items:** FB-03, SCI-03. **From:** F-031.
+
+### HR-30 · The button says what happens next
+**Rule:** A CTA names what happens when it's tapped, with the place and the
+person when they are known: "Link Dustin's bank account", not "Proceed".
+Use the first name only. A trust line ("Secured by Plaid") doesn't replace
+this; it can be the button's second line or sit just above it.
+**Check:** a CTA reading "Proceed", "Continue", "Next" or "Submit" when the
+next step is known is a major `issue`; a full name where the first name
+fits is minor. **Gate:** G2, G3. **Items:** ZCL-04, WORD-02.
+**From:** F-033.
+
+### HR-31 · A flow keeps its story
+**Rule:** A flow that starts from a promise ("$50 is waiting for you") names
+it on every screen until it's kept ("Verify details to start using your
+$50"). It never breaks into a generic screen (a sign-up form) that the user
+can't link to why they came.
+**Check:** walk the flow and write, for each screen, why the user is there
+in their words. A screen that drops the promise is a `💡 Suggest`; a
+generic form or step that doesn't follow from the last screen is a major
+`issue`. **Gate:** G1, G2. **Items:** SCI-06, PROG-01. **From:** F-035.

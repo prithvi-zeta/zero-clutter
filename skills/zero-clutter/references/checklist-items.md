@@ -20,7 +20,7 @@ Severity: **blocker** (cannot ship), **major** (fix before review), **minor**
   - Enforces: Zero Cognitive Load > What it feels like > b. performs the right first action instinctively. Source: "b. performs the right first action instinctively,"
 - **ZCL-03** · major · Does the screen's first action produce the screen's own outcome (the keypad's outcome is the amount shown; a contact row's outcome is the next step opening) within 100ms, with no sheet, dialog, upsell or extra route in between?
   - Enforces: Zero Cognitive Load > What it feels like > c. gets an immediate, rewarding response. Source: "c. gets an immediate, rewarding response,"
-- **ZCL-04** · major · For every tappable, does what happens match what a first-time user predicts from its label and look, with every row, arrow and status opening the thing it names and every icon meaning what its label says (HR-18)?
+- **ZCL-04** · major · For every tappable, does what happens match what a first-time user predicts from its label and look, with every row, arrow and status opening the thing it names and every icon meaning what its label says, and does every CTA in a flow lead to the screen its label promises (HR-18, HR-30)?
   - Enforces: Zero Cognitive Load > What it feels like > d. feels "this makes sense". Source: "d. feels \"this makes sense,\" and"
 - **ZCL-05** · blocker · Is the screen free of all nine System 2 triggers: (1) mental arithmetic, (2) recalling a value from an earlier screen, (3) comparing more than 2 attributes across options, (4) decoding a term on the WORD-05 list or one a FRESH-5S Q3 answer asked about, (5) more than 1 sentence or more than 2 rendered lines of body text above the decision control, (6) a negation or double negative in a label, toggle or option, (7) not being able to tell whether the last action worked or what state something is in, (8) hunting for a target in an unordered or dense area, (9) fetching information from outside the app that the app could supply?
   - Enforces: Zero Cognitive Load > What it feels like > e. never switches into analytic mode (System 2 triggers). Source: "e. never switches into analytic mode." + "Zero Cognitive means a user interface that does not require System 2"
@@ -60,7 +60,7 @@ Severity: **blocker** (cannot ship), **major** (fix before review), **minor**
 
 - **WORD-01** · major · Is every new or changed string the shortest version that passes the WORD-02 read-alone test, within the word budget for its role, with no filler words?
   - Enforces: Zero Cognitive Load > 2. Use fewer words > a. one word over two (word budget). Source: "a. If you can communicate something in one word, don't use two. Every extra word competes for attention."
-- **WORD-02** · major · Read on its own, does every money, status and commit label say what it refers to, with money labels carrying their noun and commit labels naming the action?
+- **WORD-02** · major · Read on its own, does every money, status and commit label say what it refers to, with money labels carrying their noun, commit labels naming the action and the place or person when known (not "Proceed"), and no two statements run together without punctuation (HR-26, HR-30)?
   - Enforces: Zero Cognitive Load > 2. Use fewer words > a., bounded by clarity (read-alone test). Source: "a. If you can communicate something in one word, don't use two."
 - **WORD-03** · major · Reading only the scan layer (large or bold text, numbers, icons, the CTA), can a reviewer say what the screen is for, the key value and what to do, and does every line lead with its key word?
   - Enforces: Zero Cognitive Load > 2. Use fewer words > b. Design for Scanning, Not Reading. Source: "b. Design for Scanning, Not Reading."
@@ -136,7 +136,7 @@ Severity: **blocker** (cannot ship), **major** (fix before review), **minor**
   - Enforces: Zero Cognitive Load > 6. Instant Feedback (touch-down press state on every tappable). Source: "a. Every user interaction must give an immediate and intuitive feedback within under 100ms"
 - **FB-02** · major · Does the first visible change after every interaction happen within 100ms, with nothing awaited before it and no commit cue fired before auth?
   - Enforces: Zero Cognitive Load > 6. Instant Feedback within 100ms (nothing awaited first). Source: "a. Every user interaction must give an immediate and intuitive feedback within under 100ms"
-- **FB-03** · major · Does every action that waits acknowledge within 100ms, block a second submit, show a loader only for waits that need one, label long waits, and never wait just to look busy?
+- **FB-03** · major · Does every action that waits acknowledge within 100ms, block a second submit, show a loader only for waits that need one, label long waits, give any server wait of seconds a looping wait state with the CTA shown the moment it's ready, and never wait just to look busy (HR-29)?
   - Enforces: Zero Cognitive Load > 6. Instant Feedback for async work (honest waits). Source: "a. Every user interaction must give an immediate and intuitive feedback within under 100ms"
 - **FB-04** · major · Is every invalid input rejected at the field at the right moment (when the user leaves the field or submits, never mid-typing, HR-22), with a caption, a shake and the error haptic, never silently?
   - Enforces: Zero Cognitive Load > 6. Instant, intuitive feedback on errors. Source: "a. Every user interaction must give an immediate and intuitive feedback within under 100ms"
@@ -151,7 +151,7 @@ Severity: **blocker** (cannot ship), **major** (fix before review), **minor**
 
 ## ZCL principle 7: Consistency
 
-- **CONS-01** · major · Does an element that already exists in the app, in the design system, or as a native or web twin reuse that component (or a documented mirror whose rendered size matches) instead of a new look-alike?
+- **CONS-01** · major · Does an element that already exists in the app, in the design system, or as a native or web twin reuse that component (or a documented mirror whose rendered size matches) instead of a new look-alike, with every screen in the same theme and art style as the screens around it (HR-27)?
   - Enforces: Zero Cognitive Load > 7. Consistency (reuse and twins). Source: "a. Repeat design elements and patterns"
 - **CONS-02** · major · Do sibling elements share one pattern: every row in a card uses one row component and one alignment rule, and sibling display titles break the same way, set on purpose?
   - Enforces: Zero Cognitive Load > 7. Consistency (siblings share one pattern). Source: "a. Repeat design elements and patterns"

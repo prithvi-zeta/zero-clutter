@@ -13,7 +13,7 @@ description: >-
   before saying done, before a PR merges, or when they share review feedback.
   Chat tables always use the scan emoji from report-format.
 metadata:
-  version: "0.5.0"
+  version: "0.6.0"
 ---
 
 # Zero Clutter
@@ -85,18 +85,32 @@ Always read these; the mode guide adds what else to read.
   Only the commit button may restate the amount it commits. Run the removal
   test on each element before anything goes in the Keep row.
 - **Go element by element, every run.** For each element ask: can it go,
-  can it be better? Art of an object (a card) carries no number, eye or
-  copy (HR-17). Then check, from what's on screen:
+  can it be better, what about it is unintuitive, and how will the user
+  read it? Art of an object (a card) carries no number, eye or copy
+  (HR-17). Then check, from what's on screen:
   - each icon means its label, and each tap goes where its label says (HR-18);
   - a lone action is a bright primary, and the primary never looks like Cancel (HR-19);
   - phone and account numbers are formatted, and long details are in sections (HR-20);
   - each gap matches the same gap on the screens next to it, and chevrons
     sit on the middle of their text (HR-07);
   - errors wait until the user leaves the field, and fields fill what they can (HR-22, HR-23);
-  - lists are in the order people expect, and one-off flows end on their result (HR-25).
+  - lists are in the order people expect, and one-off flows end on their result (HR-25);
+  - copy is punctuated: no two statements run together (HR-26);
+  - each screen's theme and art style match the screens next to it (HR-27);
+  - a pick (amount chips, a source) sits in its own labelled, card-like section (HR-28);
+  - a CTA says what happens next, not "Proceed" (HR-30);
+  - text is there from the first frame, and one thing moves (HR-09);
+  - every step that waits on the server has a looping wait state (HR-29).
   Gestures (HR-24) only when the screen has one, else `n/a`. For a feature
   that depends on what the user has (debit card, bank, both), list every
   combination; each with no screen is a `⏳ Check` (HR-21).
+- **Walk the flow as the user, whenever there is more than one screen.**
+  Read it in order as someone who only knows what each screen shows. For
+  each CTA, is the next screen what it promised (a "Download" button never
+  leads to a form) (HR-18)? Does every screen still name why the user came,
+  such as the $50 waiting for them (HR-31)? If the flow has a spec, are
+  there R-rows for it, linked docs and comments included (HR-01), and is
+  every button word for word (HR-04)?
 - **Read the copy as the user (HR-16), every time copy is on screen**, in
   any mode, even when nobody asked. For each headline, helper line, CTA and
   field label that carries the screen's meaning, say how a first-time user

@@ -99,7 +99,7 @@ Or run `python3 zero-clutter/scripts/install.py --project path/to/repo`. Commit 
 | When | Say | It runs |
 | --- | --- | --- |
 | A ticket, doc or Loom arrives | `zero-clutter` + the link or file | **spec** (G1): every requirement numbered, conflicts with the principles, questions for the approver |
-| You have a design or screenshot | `zero-clutter` + the frame | **design** (G2): every element checked (can it go, can it be better?); icons, taps, the main action, number formatting and feature combinations; plus the house rules |
+| You have a design or screenshot | `zero-clutter` + the frame | **design** (G2): every element checked (can it go, can it be better?); icons, taps, the main action, number formatting and feature combinations; the flow walked as the user; plus the house rules |
 | You changed something | `zero-clutter` | **build** (G3): the 15 checks on what changed |
 | Before merging | `zero-clutter pr` | **pr** (G4): every checklist item with evidence, in its own reviewer agent |
 | A new flow is ready | `zero-clutter first-use` | **first-use** (G5): a step-by-step test for someone who hasn't seen it |
@@ -153,7 +153,7 @@ Details: [gates](skills/zero-clutter/references/gates.md).
 
 1. **[Bhavin's principles](skills/zero-clutter/references/principles/design-for-delight-principles.md)**, word for word, in their priority order: Zero Cognitive Load (zero clutter first), Engage the Senses, Purpose-built Unique Design, and [The Science behind Delight](skills/zero-clutter/references/principles/the-science-behind-delight.md).
 2. **[The checklist](skills/zero-clutter/references/checklist.md)**: 15 questions, backed by [133 items](skills/zero-clutter/references/checklist-items.md) with stable IDs.
-3. **[Shared house rules](skills/zero-clutter/references/house-rules.md)**: lessons from past reviews that apply everywhere: 25 rules, each traced to the feedback it came from.
+3. **[Shared house rules](skills/zero-clutter/references/house-rules.md)**: lessons from past reviews that apply everywhere: 31 rules, each traced to the feedback it came from.
 4. **The project's own context and rules**: `AGENTS.md`, the adapter, and `.zero-clutter/house-rules.md`.
 
 ## What it can't do
