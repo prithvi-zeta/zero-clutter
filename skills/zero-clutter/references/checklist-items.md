@@ -20,7 +20,7 @@ Severity: **blocker** (cannot ship), **major** (fix before review), **minor**
   - Enforces: Zero Cognitive Load > What it feels like > b. performs the right first action instinctively. Source: "b. performs the right first action instinctively,"
 - **ZCL-03** · major · Does the screen's first action produce the screen's own outcome (the keypad's outcome is the amount shown; a contact row's outcome is the next step opening) within 100ms, with no sheet, dialog, upsell or extra route in between?
   - Enforces: Zero Cognitive Load > What it feels like > c. gets an immediate, rewarding response. Source: "c. gets an immediate, rewarding response,"
-- **ZCL-04** · major · For every tappable, does what happens match what a first-time user predicts from its label and look?
+- **ZCL-04** · major · For every tappable, does what happens match what a first-time user predicts from its label and look, with every row, arrow and status opening the thing it names and every icon meaning what its label says (HR-18)?
   - Enforces: Zero Cognitive Load > What it feels like > d. feels "this makes sense". Source: "d. feels \"this makes sense,\" and"
 - **ZCL-05** · blocker · Is the screen free of all nine System 2 triggers: (1) mental arithmetic, (2) recalling a value from an earlier screen, (3) comparing more than 2 attributes across options, (4) decoding a term on the WORD-05 list or one a FRESH-5S Q3 answer asked about, (5) more than 1 sentence or more than 2 rendered lines of body text above the decision control, (6) a negation or double negative in a label, toggle or option, (7) not being able to tell whether the last action worked or what state something is in, (8) hunting for a target in an unordered or dense area, (9) fetching information from outside the app that the app could supply?
   - Enforces: Zero Cognitive Load > What it feels like > e. never switches into analytic mode (System 2 triggers). Source: "e. never switches into analytic mode." + "Zero Cognitive means a user interface that does not require System 2"
@@ -43,7 +43,7 @@ Severity: **blocker** (cannot ship), **major** (fix before review), **minor**
 
 ## ZCL principle 1: Zero Clutter
 
-- **CLUT-01** · major · Does every element on the screen, including below the fold, inside scrolled or collapsed regions and in every PROC-04 state (text run, icon, image, badge, divider, control, footnote), pass the removal test? Run it on every element one by one, approved or inherited patterns included: if removing it loses nothing because another element already shows the same thing, it fails (HR-17).
+- **CLUT-01** · major · Does every element on the screen, including below the fold, inside scrolled or collapsed regions and in every PROC-04 state (text run, icon, image, badge, divider, control, footnote), pass the removal test? Run it on every element one by one, approved or inherited patterns included: if removing it loses nothing because another element already shows the same thing, it fails (HR-17). Art of an object (a card) only shows that it exists, so a number, eye or copy control on it fails.
   - Enforces: Zero Cognitive Load > 1. Zero Clutter (necessary: no more). Source: "a. Each screen contains exactly and only the elements (words, images, assets) that are both necessary and sufficient to achieve the outcome. No more, no less"
 - **CLUT-02** · blocker · Is every fact the user needs for this screen's decision on this screen, so they never guess, go back or remember?
   - Enforces: Zero Cognitive Load > 1. Zero Clutter (sufficient: no less). Source: "...that are both necessary and sufficient to achieve the outcome. No more, no less"
@@ -75,7 +75,7 @@ Severity: **blocker** (cannot ship), **major** (fix before review), **minor**
 
 - **DEF-01** · major · For every input and manual step, has the system first used what it already knows (profile, bank link, contacts, device, last use, previous step, location lookup), so it never asks for something it could fill itself?
   - Enforces: Zero Cognitive Load > 3. Smart Defaults and Auto completes (input inventory). Source: "a. Do not ask users to input information or perform actions that you can perform automatically"
-- **DEF-02** · major · Does every choice open with the most likely safe option selected, so the happy path finishes without opening a picker and never defaults the user into a fee?
+- **DEF-02** · major · Does every choice open with the most likely safe option selected, so the happy path finishes without opening a picker and never defaults the user into a fee, and does choosing 'Custom' clear the preset (HR-23)?
   - Enforces: Zero Cognitive Load > 3. Smart Defaults (preselection). Source: "a. Do not ask users to input information or perform actions that you can perform automatically"
 - **DEF-03** · minor · Is every pick-list ordered with the most likely choice first (recent or frequent, then A-Z), in one flat list with search?
   - Enforces: Zero Cognitive Load > 3. Smart Defaults (order by predicted intent). Source: "a. Do not ask users to input information or perform actions that you can perform automatically"
@@ -138,7 +138,7 @@ Severity: **blocker** (cannot ship), **major** (fix before review), **minor**
   - Enforces: Zero Cognitive Load > 6. Instant Feedback within 100ms (nothing awaited first). Source: "a. Every user interaction must give an immediate and intuitive feedback within under 100ms"
 - **FB-03** · major · Does every action that waits acknowledge within 100ms, block a second submit, show a loader only for waits that need one, label long waits, and never wait just to look busy?
   - Enforces: Zero Cognitive Load > 6. Instant Feedback for async work (honest waits). Source: "a. Every user interaction must give an immediate and intuitive feedback within under 100ms"
-- **FB-04** · major · Is every invalid input rejected at the field at the right moment, with a caption, a shake and the error haptic, never silently?
+- **FB-04** · major · Is every invalid input rejected at the field at the right moment (when the user leaves the field or submits, never mid-typing, HR-22), with a caption, a shake and the error haptic, never silently?
   - Enforces: Zero Cognitive Load > 6. Instant, intuitive feedback on errors. Source: "a. Every user interaction must give an immediate and intuitive feedback within under 100ms"
 - **FB-05** · major · Do drags track the finger on every frame, do holds react on touch-down, and does a blocked tap still answer?
   - Enforces: Zero Cognitive Load > 6. Instant Feedback for drags and holds. Source: "a. Every user interaction must give an immediate and intuitive feedback within under 100ms"
@@ -303,7 +303,7 @@ Severity: **blocker** (cannot ship), **major** (fix before review), **minor**
   - Enforces: Process gate: plan-time Design for Delight brief. Source: "For a high frequency feature understand what the user is trying to achieve" + "does not require System 2 even when being used for the first time"
 - **PROC-03** · blocker · Was this checklist run in full before 'done', with every in-scope item given a result per its tier, each backed by evidence, with no cap on findings in the full report?
   - Enforces: Process gate: the full checklist, nothing skipped. Source: "Design interfaces that dont just minimize cognitive load but rather represent Zero Cognitive load" + "Principles in order of priority"
-- **PROC-04** · major · Was each screen captured and checked in every state its code can produce, not just the default one?
+- **PROC-04** · major · Was each screen captured and checked in every state its code can produce, not just the default one, including every combination of what the user has (no debit card, bank only, both, more than one) (HR-21)?
   - Enforces: Process gate: every state, first-run and returning. Source: "3. What it feels like to a new or returning user" + "even when being used for the first time"
 - **PROC-05** · major · Were the first-use items judged by independent reviewers against a pre-written answer key, graded by someone other than the builder, with a human check on first-run screens and custom interactions?
   - Enforces: Process gate: the curse of knowledge (fresh eyes). Source: "Zero Cognitive means a user interface that does not require System 2 even when being used for the first time" + "Further Reading: ChatGPT - System 1 vs System 2"

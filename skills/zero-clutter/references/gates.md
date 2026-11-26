@@ -33,14 +33,14 @@ decisions, not feedback: they can't come back as negatives later.
 ## G2 Design
 
 **When:** before building, on every new or changed screen.
-**Owner:** the designer. **Run:** `zero-clutter` (design mode: Delight Police plus the
+**Owner:** the designer. **Run:** `zero-clutter` (design mode: [design-check](design-check.md) plus the
 [house rules](house-rules.md)).
 
 **In:** Figma frames or mocks for every state (empty, loading, error,
 success, small screen, long text), and the G1 plan.
 
-**Out:** a Delight Police review per screen (first-use read, findings,
-designer changes, product calls), and 3 to 5 cited references (Mobbin or real
+**Out:** a design review per screen (first-use read, findings, Fix rows
+for the designer, Decide rows for the approver), and 3 to 5 cited references (Mobbin or real
 apps) for any new pattern.
 
 **Passes when:** no open Zero Cognitive Load findings, every product call

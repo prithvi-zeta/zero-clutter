@@ -13,7 +13,7 @@ description: >-
   before saying done, before a PR merges, or when they share review feedback.
   Chat tables always use the scan emoji from report-format.
 metadata:
-  version: "0.4.10"
+  version: "0.5.0"
 ---
 
 # Zero Clutter
@@ -46,7 +46,7 @@ Pick from what the person gave you. Name the mode in the first table of the answ
 | They gave you | Mode | Gate | Read |
 | --- | --- | --- | --- |
 | Words saying what to build: a ticket, doc, PDF, Loom transcript, request | `spec` | G1 | [spec-check](references/spec-check.md) |
-| A picture of what's designed or built: Figma frame, mock, screenshot | `design` | G2 | [delight-police](../delight-police/SKILL.md) + house rules |
+| A picture of what's designed or built: Figma frame, mock, screenshot | `design` | G2 | [design-check](references/design-check.md) + house rules |
 | Code changes, a running build, "is this done" | `build` | G3 | [build-gate](references/build-gate.md), quick |
 | A PR, "ready to merge", "full review" | `pr` | G4 | [build-gate](references/build-gate.md), full |
 | A new flow to test on a person | `first-use` | G5 | [first-use](references/first-use.md) |
@@ -84,6 +84,19 @@ Always read these; the mode guide adds what else to read.
   inherited or not (a big "$100" over a selected "$100" chip is a repeat).
   Only the commit button may restate the amount it commits. Run the removal
   test on each element before anything goes in the Keep row.
+- **Go element by element, every run.** For each element ask: can it go,
+  can it be better? Art of an object (a card) carries no number, eye or
+  copy (HR-17). Then check, from what's on screen:
+  - each icon means its label, and each tap goes where its label says (HR-18);
+  - a lone action is a bright primary, and the primary never looks like Cancel (HR-19);
+  - phone and account numbers are formatted, and long details are in sections (HR-20);
+  - each gap matches the same gap on the screens next to it, and chevrons
+    sit on the middle of their text (HR-07);
+  - errors wait until the user leaves the field, and fields fill what they can (HR-22, HR-23);
+  - lists are in the order people expect, and one-off flows end on their result (HR-25).
+  Gestures (HR-24) only when the screen has one, else `n/a`. For a feature
+  that depends on what the user has (debit card, bank, both), list every
+  combination; each with no screen is a `⏳ Check` (HR-21).
 - **Read the copy as the user (HR-16), every time copy is on screen**, in
   any mode, even when nobody asked. For each headline, helper line, CTA and
   field label that carries the screen's meaning, say how a first-time user

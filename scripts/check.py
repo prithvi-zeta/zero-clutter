@@ -4,8 +4,6 @@
   python3 scripts/check.py
 
 Fails (exit 1) when:
-  - Delight Police's copy of the principles no longer matches the one in the
-    zero-clutter skill,
   - a checklist item has no "Enforces" line, or an ID appears twice,
   - any file points at a checklist ID, house rule or log entry that doesn't
     exist,
@@ -30,40 +28,7 @@ def read(rel: str) -> str:
     return (ROOT / rel).read_text(encoding="utf-8")
 
 
-def words(text: str) -> list[str]:
-    """The principles' words only: no markup, list markers or quote styles."""
-    head = re.search(r"^#+\s*Zero Cognitive Load\s*$", text, re.M)
-    text = text[head.start():] if head else text
-    text = re.sub(r"<https?://[^>]+>|https?://\S+", " ", text)
-    text = re.sub(r"[’‘]", "'", text)
-    text = re.sub(r"[“”]", '"', text)
-    text = re.sub(r"^\s*(?:(?:[-*]|\d+\.|[a-z]\.|[ivx]+\.)\s+)+", " ", text, flags=re.M)
-    text = re.sub(r"[#*_`>]", " ", text)
-    return re.findall(r"[A-Za-z0-9$%'\"]+", text)
-
-
-# 1. Principles copies match the source of truth.
-def principles(rel: str) -> list[str]:
-    """The principles' words, without the "Further Reading" pointer (a link,
-    worded differently in each copy)."""
-    got = words(read(rel))
-    if "Further" in got:
-        i = got.index("Further")
-        got = got[:i] + got[got.index("Engage", i):]
-    return got
-
-
-source = principles(f"{REF}/principles/design-for-delight-principles.md")
-for copy in ["skills/delight-police/principles.md"]:
-    got = principles(copy)
-    if got != source:
-        at = next((i for i, (a, b) in enumerate(zip(got, source)) if a != b), min(len(got), len(source)))
-        errors.append(
-            f"{copy} differs from principles/ near word {at}: "
-            f"{' '.join(got[at:at + 8])!r} vs {' '.join(source[at:at + 8])!r}"
-        )
-
-# 2. Checklist items.
+# 1. Checklist items.
 items_text = read(f"{REF}/checklist-items.md")
 ids = re.findall(r"^- \*\*([A-Z]+-\d+)\*\*", items_text, re.M)
 if len(ids) != len(set(ids)):
@@ -76,7 +41,7 @@ for block in re.split(r"(?=^- \*\*[A-Z]+-\d+\*\*)", items_text, flags=re.M)[1:]:
 known_ids = set(ids)
 prefixes = {i.split("-")[0] for i in ids}
 
-# 3. House rules and log entries.
+# 2. House rules and log entries.
 rules_text = read(f"{REF}/house-rules.md")
 log_text = read("examples/ryzedesign/feedback-log.md")
 rules = set(re.findall(r"^### (HR-\d+)", rules_text, re.M))
@@ -92,7 +57,7 @@ for block in re.split(r"(?=^### HR-\d+)", rules_text, flags=re.M)[1:]:
     if not cited:
         errors.append(f"house rules: {rule} cites no log entry")
 
-# 4. Every reference in every doc resolves.
+# 3. Every reference in every doc resolves.
 id_pattern = re.compile(r"\b(" + "|".join(sorted(prefixes)) + r")-(\d{2})\b")
 for path in sorted(ROOT.rglob("*.md")):
     rel = path.relative_to(ROOT).as_posix()
@@ -110,7 +75,7 @@ for path in sorted(ROOT.rglob("*.md")):
         if ref not in entries:
             errors.append(f"{rel}: {ref} is not in the example log")
 
-# 5. Skills, and one name and version everywhere.
+# 4. Skills, and one name and version everywhere.
 import json
 
 versions = {}
@@ -134,7 +99,7 @@ for manifest in [".claude-plugin/plugin.json", ".cursor-plugin/plugin.json", "ge
 if len(set(versions.values())) != 1:
     errors.append(f"versions differ: {versions}")
 
-# 6. Every relative link in a Markdown file points at a file that exists.
+# 5. Every relative link in a Markdown file points at a file that exists.
 for path in sorted(ROOT.rglob("*.md")):
     rel = path.relative_to(ROOT).as_posix()
     if rel.startswith(".git/"):
@@ -145,7 +110,7 @@ for path in sorted(ROOT.rglob("*.md")):
         if not (path.parent / target).exists():
             errors.append(f"{rel}: link to {target} doesn't resolve")
 
-# 7. The sample SARIF report uses real IDs and principle names, and the gate
+# 6. The sample SARIF report uses real IDs and principle names, and the gate
 #    reads it (it has blocking findings, so the gate must fail).
 import subprocess
 
@@ -166,7 +131,7 @@ gate = subprocess.run(
 if gate.returncode != 1 or "Gate: ❌ FAIL · 2 blocking" not in gate.stdout:
     errors.append(f"gate.py on the sample report: expected FAIL with 2 blocking, got exit {gate.returncode}")
 
-# 8. Symbols in the answer must be emoji that always show in colour. Ones that
+# 7. Symbols in the answer must be emoji that always show in colour. Ones that
 #    need a variation selector (U+FE0F, like a pencil) turn into small black
 #    glyphs in code blocks on GitHub.
 for path in [ROOT / "README.md", *sorted((ROOT / "skills" / "zero-clutter").rglob("*.md")),
@@ -179,5 +144,5 @@ if errors:
     sys.exit(1)
 print(
     f"Zero Clutter check passed: {len(known_ids)} checklist items, {len(rules)} house rules, "
-    f"{len(entries)} example log entries, principles in sync, version {versions['.claude-plugin/plugin.json']}."
+    f"{len(entries)} example log entries, version {versions['.claude-plugin/plugin.json']}."
 )

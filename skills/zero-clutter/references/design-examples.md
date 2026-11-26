@@ -1,6 +1,6 @@
-# Review fixtures
+# Design mode fixtures
 
-Run a change to the skill against these two screens before you release it.
+Run a change to design mode against these two screens before you release it.
 Each fixture lists what a correct review must find. Wording can differ; the
 principles and the changes must match.
 
@@ -39,8 +39,8 @@ principles and the changes must match.
 - First-use read: a new user does not act instinctively; too much copy and a competing column.
 - Cannot judge from a still: haptics, sound, under-100ms feedback.
 - Not assessed (not marked high frequency) for Purpose-built Unique Design.
-- Designer changes include shorter copy, single column, stronger primary action.
-- Product calls include default debit account, drop marketing from this step, stop repeating the review warning.
+- Fix rows include shorter copy, single column, stronger primary action.
+- Decide rows include default debit account, drop marketing from this step, stop repeating the review warning.
 
 **Must not**
 
@@ -77,9 +77,9 @@ principles and the changes must match.
 
 - First-use read: a new user cannot act without reading instructions; fails Zero Cognitive Load.
 - Cannot judge from a still: haptics, sound, under-100ms feedback — and call out missing confirmation as Instant Feedback from what is stated.
-- Purpose-built Unique Design is assessed (marked high frequency) and currently fails the IMPORTANT rule in principles.md.
-- Designer changes: visible Freeze control or an instinctive gesture; clear Frozen state; drop the policy aside.
-- Product calls: one action to freeze; no policy detour on the critical path.
+- Purpose-built Unique Design is assessed (marked high frequency) and currently fails the IMPORTANT rule in [the principles](principles/design-for-delight-principles.md).
+- Fix rows: visible Freeze control or an instinctive gesture; clear Frozen state; drop the policy aside.
+- Decide rows: one action to freeze; no policy detour on the critical path.
 
 **Must not**
 

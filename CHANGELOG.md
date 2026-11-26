@@ -2,6 +2,26 @@
 
 Versions of the Zero Clutter system. Each skill also keeps its own changelog.
 
+## 0.5.0 — 2026-11-26
+
+- **Design feedback from the 12 Nov run-through.** Every run now goes
+  element by element: can it go, can it be better. Eight new house rules:
+  icons and taps mean what they say (HR-18), a lone action is a bright
+  primary (HR-19), phone and account numbers read at a glance (HR-20),
+  every combination of what the user has is designed (HR-21), errors wait
+  until the user leaves the field (HR-22), fields fill what they can
+  (HR-23), gestures don't fight scrolling, checked only when the screen has
+  one (HR-24), and lists and endings work as people expect (HR-25).
+- **Sharpened:** HR-17 (art of an object carries no number, eye or copy),
+  HR-07 (the same gap across screens next to each other, chevrons centred
+  on their text), HR-02 (art and animation come with options), HR-16 (rates
+  get a legal check, a list's name fits everything it will hold). CLUT-01,
+  ZCL-04, PROC-04, FB-04 and DEF-02 now say so too. Log entries F-006 to F-024.
+- **One skill.** Delight Police is folded into design mode
+  (`references/design-check.md`, with its fixtures in `design-examples.md`)
+  and removed; every check it ran still runs. The installer clears old
+  Delight Police installs. README updated.
+
 ## 0.4.10 — 2026-11-12
 
 - **Any repeat is a finding (HR-17).** A phrase or value shown twice on one

@@ -6,7 +6,7 @@
 ## Zero Clutter gates
 
 - [ ] **G1 Spec:** every source sentence is an R-row; the approver answered every blocker question and spec conflict (link)
-- [ ] **G2 Design:** Delight Police review done for each new or changed screen (link)
+- [ ] **G2 Design:** Design review (`zero-clutter` design mode) done for each new or changed screen (link)
 - [ ] **G3 Build:** the 15 checks pass for what changed
 - [ ] **G4 PR:** review report attached below; 0 blocker FAILs; every R-row has a screenshot
 - [ ] **G5 First use:** done for new flows and first-run screens, or N-A (why)

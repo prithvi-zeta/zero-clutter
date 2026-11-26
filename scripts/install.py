@@ -8,7 +8,7 @@
   python3 scripts/install.py --uninstall
 
 Claude Code and Cursor users should prefer the plugin (see README). This script
-copies the skills (zero-clutter, delight-police) and the reviewer agent into:
+copies the zero-clutter skill and the reviewer agent into:
 
   Claude Code   ~/.claude/skills, ~/.claude/agents
   Cursor        ~/.cursor/skills, ~/.cursor/agents
@@ -36,6 +36,8 @@ HOME = pathlib.Path(os.environ.get("ZC_HOME") or pathlib.Path.home())
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 MARK_FILE = ".installed-by-zero-clutter"
 OTHER_MARKS = [".installed-by-delight-police"]
+# Skills this repo used to ship; old installs of them are removed.
+RETIRED = ["delight-police"]
 MARK_LINE = "<!-- zero-clutter -->"
 SKIP = shutil.ignore_patterns("__pycache__", "*.pyc", ".DS_Store", MARK_FILE, *OTHER_MARKS)
 START, END = "<!-- zero-clutter:start -->", "<!-- zero-clutter:end -->"
@@ -101,6 +103,11 @@ def install(key: str, link: bool, force: bool, undo: bool) -> list[str]:
     targets = [(s, skill_dir / s.name) for s in skills()]
     if agent_dir:
         targets += [(a, agent_dir / a.name) for a in agents()]
+    for name in RETIRED:
+        old = skill_dir / name
+        if (old.exists() or old.is_symlink()) and ours(old):
+            remove(old)
+            notes.append(f"{label}: removed retired {name}")
     for src, dest in targets:
         if undo:
             if (dest.exists() or dest.is_symlink()) and ours(dest):
