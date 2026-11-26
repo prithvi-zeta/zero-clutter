@@ -1,0 +1,41 @@
+name: Post release to Teams
+
+# Posts release-notes/<version>.md (or the CHANGELOG.md entry) to Teams
+# whenever a push to main bumps the version in .claude-plugin/plugin.json.
+# Run it by hand to resend a version.
+on:
+  push:
+    branches: [main]
+    paths: [.claude-plugin/plugin.json, release-notes/**]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version to post (blank for the current one)
+        required: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Did the version change?
+        id: bump
+        env:
+          BEFORE: ${{ github.event.before }}
+        run: |
+          now=$(python3 -c 'import json; print(json.load(open(".claude-plugin/plugin.json"))["version"])')
+          was=$(git show "$BEFORE:.claude-plugin/plugin.json" 2>/dev/null \
+            | python3 -c 'import json, sys; print(json.load(sys.stdin)["version"])' 2>/dev/null || true)
+          echo "version $was -> $now"
+          if [ "$now" != "$was" ]; then echo "changed=true" >> "$GITHUB_OUTPUT"; fi
+      - name: Post changelog to Teams
+        if: github.event_name == 'workflow_dispatch' || steps.bump.outputs.changed == 'true'
+        env:
+          TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          VERSION: ${{ inputs.version }}
+        run: python3 scripts/teams_release.py $VERSION

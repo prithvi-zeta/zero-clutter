@@ -177,7 +177,7 @@ Details: [gates](skills/zero-clutter/references/gates.md).
 ## Change Zero Clutter
 
 1. Edit, then bump the version in `skills/zero-clutter/SKILL.md`, both plugin manifests and `gemini-extension.json` (they must match).
-2. Add a line to [CHANGELOG.md](CHANGELOG.md).
+2. Add a line to [CHANGELOG.md](CHANGELOG.md), and a short `release-notes/<version>.md` in plain words (Added, Updated, Based on). Teams gets that note when the version lands on main.
 3. Run `python3 scripts/check.py`: principles in sync, every ID, rule and link resolves, versions match.
 4. Open a PR. Never edit the principles' wording; a new version of Bhavin's docs replaces the files.
 
